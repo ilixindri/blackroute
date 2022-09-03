@@ -4,7 +4,7 @@
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Crie e altere os dados pessoais do cliente.') }}
+        {{ __('Altere os dados pessoais do cliente.') }}
     </x-slot>
 
     <x-slot name="form">

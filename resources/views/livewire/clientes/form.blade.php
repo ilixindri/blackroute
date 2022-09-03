@@ -5,13 +5,7 @@
         </h2>
     </x-slot>
 
-    <div>
-        @if (session()->has('message'))
-            {{-- <div class="alert alert-success"> --}}
-                {{ session('message') }}
-            {{-- </div> --}}
-        @endif
-    </div>
+    <livewire:flash-container />
 
     <div>
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">

@@ -29,9 +29,4 @@ class CreateInformationForm extends Component
         $cliente->sexo = $this->sexo;
         $cliente->save();
     }
-
-    public function render()
-    {
-        return view('livewire.clientes.create-information-form');
-    }
 }

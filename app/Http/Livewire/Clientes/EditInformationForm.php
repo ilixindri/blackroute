@@ -42,8 +42,11 @@ class EditInformationForm extends Component
         $cliente->data_nascimento = $this->data_nascimento;
         $cliente->sexo = $this->sexo;
         $cliente->save();
-        $this->emit('flash_edit');
-        // return view('livewire.clientes.edit-information-form');
+        // $this->emit('flash_edit'); # componente filho some
+        // $this->emitUp('flash_edit'); # componente filho some
+        // $this->emitTo('Editar', 'flash_edit'); # nao acontece nada
+        flash('Your request was successful!')->success()->livewire($this);
+        // return view('livewire.clientes.edit-information-form'); # nao resolve o erro do componente sumir
     }
 
     public function render()
