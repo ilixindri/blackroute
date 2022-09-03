@@ -23,7 +23,8 @@ class ClienteController extends Controller
 
     public function index()
     {
-        return response()->json(new BaseResponse(Cliente::all()));
+        // return response()->json(new BaseResponse(Cliente::all()));
+        return view('clientes.listar', ["clientes" => Cliente::all()]);
     }
 
 

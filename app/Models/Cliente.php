@@ -17,7 +17,6 @@ class Cliente extends Model
         'whatsapp',
         'data_nascimento',
         'sexo',
-
     ];
 
     public function enderecos() {
