@@ -3,55 +3,95 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\Endereco;
 use Illuminate\Http\Request;
 use App\Types\BaseResponse;
+use Session;
 
 class ClienteController extends Controller
 {
     private $clienteRequiredFields = [
-        'nome',
+        'name',
         'data_nascimento',
         'sexo',
+        'email',
+        'rg',
+        'cpf',
+        'phone',
+        'whatsapp',
     ];
 
     private $enderecoRequiredFields = [
-        'cep',
+        'zip',
         'logradouro',
-        'numero',
-        'UF',
+        'number',
+        'uf',
+        'complemento',
+        'bairro',
+        'type',
     ];
 
     public function index()
     {
         // return response()->json(new BaseResponse(Cliente::all()));
-        return view('clientes.listar', ["clientes" => Cliente::all()]);
+        return view('clients.list', ["clientes" => Cliente::where('disabled', False)->get()]);
     }
-
 
     public function store(Request $request)
     {
         foreach ($this->clienteRequiredFields as $key) {
             if (!$request->get($key)) {
+                // echo $key;
+                // echo '<br>';
+                // return response()->json(new BaseResponse(['field' => $key, $request->all()], false, 'Campos requeridos'));
+                Session::flash('message', "Campo $key obrigatório.");
+                Session::flash('alert-class', 'alert-error');
+                return back()->withInput();
+            }
+        }
+        $cliente = Cliente::create([
+            'nome' => $request->get('name'),
+            'data_nascimento' => $request->get('data_nascimento'),
+            'sexo' => $request->get('sexo'),
+            'email' => $request->get('email'),
+            'rg' => $request->get('rg'),
+            'cpf' => $request->get('cpf'),
+            'phone' => $request->get('phone'),
+            'whatsapp' => $request->get('whatsapp'),
+        ]);
+
+        foreach ($this->enderecoRequiredFields as $key) {
+            if (!$request->get($key)) {
                 return response()->json(new BaseResponse(['field' => $key, $request->all()], false, 'Campos requeridos'));
             }
         }
 
-        $cliente = Cliente::create([
-            'nome' => $request->get('nome'),
-            'data_nascimento' => $request->get('data_nascimento'),
-            'sexo' => $request->get('sexo'),
+        $endereco = Endereco::create([
+            'cep' => $request->get('zip'),
+            'logradouro' => $request->get('logradouro'),
+            'numero' => $request->get('number'),
+            'complemento' => $request->get('complemento'),
+            'bairro' => $request->get('bairro'),
+            'UF' => $request->get('uf'),
+            'cliente_id' => $cliente->id,
+            'tipo' => $request->get('type'),
         ]);
 
-        return response()->json(new BaseResponse(['id' => $cliente->id], true, 'Cliente criado com sucesso'));
+        // return response()->json(new BaseResponse(['id' => $cliente->id], true, 'Cliente criado com sucesso'));
+        Session::flash('message', 'Cliente Cadastrado com sucesso.');
+        Session::flash('alert-class', 'alert-success');
+        return redirect()->route('clients.edit', ['client' => $cliente->id]);
     }
 
     public function show($id)
     {
-        $cliente = Cliente::with('enderecos')->find($id);
-        if ($cliente) {
-            return response()->json(new BaseResponse($cliente));
-        }
-        return response()->json(new BaseResponse(null, false, 'Cliente nao encontrado'));
+        // echo $id;
+        // $cliente = Cliente::with('enderecos')->find($id);
+        // if ($cliente) {
+            // return response()->json(new BaseResponse($cliente));
+        // }
+        // return response()->json(new BaseResponse(null, false, 'Cliente nao encontrado'));
+        return redirect()->route('clients.edit', ['client' => $id]);
     }
 
     public function update(Request $request, $id)
@@ -65,24 +105,56 @@ class ClienteController extends Controller
             }
 
             $cliente->update([
-                'nome' => $request->get('nome'),
+                'nome' => $request->get('name'),
                 'data_nascimento' => $request->get('data_nascimento'),
                 'sexo' => $request->get('sexo'),
+                'email' => $request->get('email'),
+                'rg' => $request->get('rg'),
+                'cpf' => $request->get('cpf'),
+                'phone' => $request->get('phone'),
+                'whatsapp' => $request->get('whatsapp'),
+            ]);
+    
+            foreach ($this->enderecoRequiredFields as $key) {
+                if (!$request->get($key)) {
+                    return response()->json(new BaseResponse(['field' => $key, $request->all()], false, 'Campos requeridos'));
+                }
+            }
+            $endereco = Endereco::where('cliente_id', $cliente->id);
+    
+            $endereco->update([
+                'cep' => $request->get('zip'),
+                'logradouro' => $request->get('logradouro'),
+                'numero' => $request->get('number'),
+                'complemento' => $request->get('complemento'),
+                'bairro' => $request->get('bairro'),
+                'UF' => $request->get('uf'),
+                'cliente_id' => $cliente->id,
+                'tipo' => $request->get('type'),
             ]);
 
-            return response()->json(new BaseResponse(null, true, 'Cliente atualizado com sucesso'));
+            // return response()->json(new BaseResponse(null, true, 'Cliente atualizado com sucesso'));
         }
-        return response()->json(new BaseResponse(null, false, 'Cliente não encontrado'));
+        // return response()->json(new BaseResponse(null, false, 'Cliente não encontrado'));
+        Session::flash('message', 'Cliente atualizado com sucesso.');
+        Session::flash('alert-class', 'alert-success');
+        return redirect()->route('clients.edit', ['client' => $cliente->id]);
     }
 
     public function destroy($id)
     {
         $cliente = Cliente::find($id);
         if ($cliente) {
-            $cliente->delete();
-            return response()->json(new BaseResponse(null, true, 'Cliente removido'));
+            // $cliente->delete();
+            $cliente->update(['disabled' => True]);
+            // return response()->json(new BaseResponse(null, true, 'Cliente removido'));
         }
-        return response()->json(new BaseResponse(null, false, 'Cliente nao encontrado'));
+        // $endereco = Endereco::where('cliente_id', $cliente->id);
+        // if ($endereco) {
+        //     $endereco->delete();
+        // }
+        // return response()->json(new BaseResponse(null, false, 'Cliente nao encontrado'));
+        return redirect()->route('clients.index');
     }
 
     public function storeAddress(Request $request, $id)
@@ -156,5 +228,19 @@ class ClienteController extends Controller
             return response()->json(new BaseResponse(null, false, 'Endereço nao encontrado'));
         }
         return response()->json(new BaseResponse(null, false, 'Cliente nao encontrado'));
+    }
+
+    //NEW METHODS
+    public function create()
+    {
+        return view('clients.form');
+    }
+
+    public function edit($id)
+    {
+        $client = Cliente::with('enderecos')->find($id);
+        // $client = Cliente::find($id);
+        // dd($client);
+        return view('clients.form', ['client' => $client]);
     }
 }

@@ -15,6 +15,7 @@ class Novo extends Component
     public $data_nascimento;
     public $sexo;
 
+
     public function save()
     {
         $cliente = new Cliente();
@@ -32,6 +33,6 @@ class Novo extends Component
     public function render()
     {
         // return view('livewire.clientes.form')->layout('layouts.app');
-        return view('livewire.clientes.form');
+        //return view('livewire.clientes.form');
     }
 }

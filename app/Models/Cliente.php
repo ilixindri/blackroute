@@ -17,18 +17,19 @@ class Cliente extends Model
         'whatsapp',
         'data_nascimento',
         'sexo',
+        'disabled',
     ];
 
     public function enderecos() {
         return $this->hasMany(Endereco::class);
     }
+    
     protected static function boot()
     {
         parent::boot();
         static::deleting(function ($cliente) {
                 $cliente->enderecos()->delete();
         });
-
-        }
     }
+}
 

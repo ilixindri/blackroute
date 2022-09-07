@@ -1,13 +1,5 @@
-<x-jet-form-section submit="save">
-    <x-slot name="title">
-        {{ __('Dados Pessoais') }}
-    </x-slot>
-
-    <x-slot name="description">
-        {{ __('Crie e altere os dados pessoais do cliente.') }}
-    </x-slot>
-
-    <x-slot name="form">
+<div class="px-4 py-5 bg-white sm:p-6 shadow {{ isset($actions1) ? 'sm:rounded-tl-md sm:rounded-tr-md' : 'sm:rounded-md' }}">
+    <div class="grid grid-cols-6 gap-6">
         <!-- Profile Photo -->
         @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
             <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 sm:col-span-4">
@@ -34,7 +26,7 @@
                 <!-- New Profile Photo Preview -->
                 <div class="mt-2" x-show="photoPreview" style="display: none;">
                     <span class="block rounded-full w-20 h-20 bg-cover bg-no-repeat bg-center"
-                          x-bind:style="'background-image: url(\'' + photoPreview + '\');'">
+                        x-bind:style="'background-image: url(\'' + photoPreview + '\');'">
                     </span>
                 </div>
 
@@ -86,30 +78,11 @@
             <x-jet-input id="phone" type="text" class="mt-1 block w-full" wire:model="phone" />
             <x-jet-input-error for="phone" class="mt-2" />
         </div>
+    </div>
+</div>
 
-        <!-- Whatsapp -->
-        <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="whatsapp" value="{{ __('Whatsapp') }}" />
-            <x-jet-input id="whatsapp" type="text" class="mt-1 block w-full" wire:model="whatsapp" />
-            <x-jet-input-error for="whatsapp" class="mt-2" />
-        </div>
-
-        <!-- Data de Nascimento -->
-        <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="data_nascimento" value="{{ __('Data de Nascimento') }}" />
-            <x-jet-input id="data_nascimento" type="date" class="mt-1 block w-full" wire:model="data_nascimento" />
-            <x-jet-input-error for="data_nascimento" class="mt-2" />
-        </div>
-
-        <!-- Sexo -->
-        <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="sexo" value="{{ __('Sexo') }}" />
-            <x-jet-input id="sexo" type="text" class="mt-1 block w-full" wire:model="sexo" />
-            <x-jet-input-error for="sexo" class="mt-2" />
-        </div>
-    </x-slot>
-
-    <x-slot name="actions">
+@if (isset($actions1))
+    <div class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6 shadow sm:rounded-bl-md sm:rounded-br-md">
         <x-jet-action-message class="mr-3" on="saved">
             {{ __('Saved.') }}
         </x-jet-action-message>
@@ -117,5 +90,5 @@
         <x-jet-button wire:loading.attr="disabled"><!-- wire:target="photo">-->
             {{ __('Save') }}
         </x-jet-button>
-    </x-slot>
-</x-jet-form-section>
+    </div>
+@endif

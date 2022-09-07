@@ -38,11 +38,11 @@
                                 {{ __('Manage Account') }}
                             </div> -->
 
-                            <x-jet-dropdown-link href="{{ route('clientes.create') }}">
+                            <x-jet-dropdown-link href="{{ route('clients.create') }}">
                                 {{ __('Novo Cliente') }}
                             </x-jet-dropdown-link>
 
-                            <x-jet-dropdown-link href="{{ route('clientes.index') }}">
+                            <x-jet-dropdown-link href="{{ route('clients.index') }}">
                                 {{ __('Listar Cliente') }}
                             </x-jet-dropdown-link>
 

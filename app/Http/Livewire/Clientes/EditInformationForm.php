@@ -45,7 +45,7 @@ class EditInformationForm extends Component
         // $this->emit('flash_edit'); # componente filho some
         // $this->emitUp('flash_edit'); # componente filho some
         // $this->emitTo('Editar', 'flash_edit'); # nao acontece nada
-        flash('Your request was successful!')->success()->livewire($this);
+        flash('Cliente atualizado no sistema.')->success()->livewire($this);
         // return view('livewire.clientes.edit-information-form'); # nao resolve o erro do componente sumir
     }
 

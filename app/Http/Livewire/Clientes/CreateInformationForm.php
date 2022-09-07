@@ -15,6 +15,8 @@ class CreateInformationForm extends Component
     public $whatsapp;
     public $data_nascimento;
     public $sexo;
+
+    
     
     public function save()
     {
@@ -28,5 +30,6 @@ class CreateInformationForm extends Component
         $cliente->data_nascimento = $this->data_nascimento;
         $cliente->sexo = $this->sexo;
         $cliente->save();
+        flash('Cliente salvo no sistema.')->success()->livewire($this);
     }
 }

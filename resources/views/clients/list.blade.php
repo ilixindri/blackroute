@@ -30,7 +30,14 @@
                             <div class="flex items-start justify-between px-3 py-2">
                                 <div class="w-64">{{ $cliente['id'] }}</div>
                                 <div class="w-64"><x-jet-label :value="$cliente['nome']"></x-jet-label></div>
-                                <div class="w-64"><a href="{{route('clients.edit', ['client' => $cliente['id']])}}">Editar</a></div>
+                                <div class="w-64">
+                                    <a href="{{route('clients.edit', ['client' => $cliente['id']])}}" style="float: left">Editar |&nbsp;</a>
+                                    <form style="float: left" action="{{route('clients.destroy', ['client' => $cliente['id']])}}" method="POST">
+                                        @method('delete')
+                                        @csrf
+                                        <button type="submit">Deletar</button>
+                                    </form>
+                                </div>
                             </div>
                         @endforeach
                     {{-- </div> --}}
