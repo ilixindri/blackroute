@@ -34,7 +34,9 @@ class ClienteController extends Controller
     public function index()
     {
         // return response()->json(new BaseResponse(Cliente::all()));
-        return view('clients.list', ["clientes" => Cliente::where('disabled', False)->get()]);
+        $clients = Cliente::where('disabled', False)->get();
+        // dd($clients);
+        return view('clients.list', ["clients" => $clients]);
     }
 
     public function store(Request $request)
@@ -144,6 +146,7 @@ class ClienteController extends Controller
     public function destroy($id)
     {
         $cliente = Cliente::find($id);
+        $name = $cliente->nome;
         if ($cliente) {
             // $cliente->delete();
             $cliente->update(['disabled' => True]);
@@ -154,6 +157,8 @@ class ClienteController extends Controller
         //     $endereco->delete();
         // }
         // return response()->json(new BaseResponse(null, false, 'Cliente nao encontrado'));
+        Session::flash('message', "Cliente $name arquivado com sucesso.");
+        Session::flash('alert-class', 'alert-error');
         return redirect()->route('clients.index');
     }
 

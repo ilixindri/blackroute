@@ -78,6 +78,17 @@
             @else<x-jet-input required id="uf" name="uf" type="text" class="mt-1 block w-full"/>@endisset
             <x-jet-input-error for="uf" class="mt-2" />
         </div>
+
+        <!-- Telefone -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-jet-label for="coordinates" value="{{ __('Coordenadas') }}" />
+            @isset($client)<x-jet-input required id="coordinates" name="coordinates" type="text" value="{{$client->enderecos[0]->coordinates}}" class="mt-1 block w-full"/>
+            @else<x-jet-input required id="coordinates" name="coordinates" type="text" class="mt-1 block w-full"/>@endisset
+            <a href="#" onclick="" class='m-2 py-3 mr-2 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition'>
+                {{ __('Conferir Coordenadas') }}
+            </a>
+            <x-jet-input-error for="uf" class="mt-2" />
+        </div>
     </div>
 </div>
 
