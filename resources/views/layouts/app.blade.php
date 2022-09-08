@@ -34,8 +34,11 @@
             @endif
 
             <!-- Page Content -->
+            {{-- class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg  --}}
             <main>
-                {{ $slot }}
+                {{-- <div class="container-fluid py-4"> --}}
+                    {{ $slot }}
+                {{-- </div> --}}
             </main>
         </div>
 

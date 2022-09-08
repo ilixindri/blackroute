@@ -19,7 +19,7 @@
 
                 <!-- Settings Dropdown -->
                 <div class="ml-3 relative hidden space-x-8 sm:-my-px sm:ml-10 sm:flex pt-4">
-                    <x-jet-dropdown align="right" width="48">
+                    <x-jet-dropdown align="false" width="48">
                         <x-slot name="trigger">
                                 <span class="inline-flex rounded-md">
                                     <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
@@ -53,28 +53,28 @@
                                 @csrf
 
                                 <x-jet-dropdown-link href="{{ route('logout') }}"
-                                         @click.prevent="$root.submit();">
+                                        @click.prevent="$root.submit();">
                                     {{ __('Log Out') }}
                                 </x-jet-dropdown-link>
                             </form> -->
                         </x-slot>
                     </x-jet-dropdown>
                 </div>
+                @can('task_access')
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-jet-nav-link href="{{ route('tasks.index') }}" :active="request()->routeIs('tasks.*')">
+                            Tasks
+                        </x-jet-nav-link>
+                    </div>
+                @endcan
+                @can('user_access')
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-jet-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.*')">
+                            Users
+                        </x-jet-nav-link>
+                    </div>
+                @endcan
             </div>
-            @can('task_access')
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('tasks.index') }}" :active="request()->routeIs('tasks.*')">
-                        Tasks
-                    </x-jet-nav-link>
-                </div>
-            @endcan
-            @can('user_access')
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.*')">
-                        Users
-                    </x-jet-nav-link>
-                </div>
-            @endcan
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <!-- Teams Dropdown -->
