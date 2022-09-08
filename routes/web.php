@@ -16,6 +16,7 @@ use App\Http\Controllers;
 */
 
 // Route::get('/', function () { return view('welcome'); });
+Route::get('/', function () { return redirect()->route('login'); });
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -26,15 +27,16 @@ Route::middleware([
     })->name('dashboard');
 });
 Route::group(['middleware' => 'auth'], function () {
-    Route::resource('tasks', \App\Http\Controllers\TasksController::class);
-    Route::resource('users', \App\Http\Controllers\UsersController::class);
+    Route::resources([
+        'clients' => \App\Http\Controllers\ClienteController::class,
+        'tasks', \App\Http\Controllers\TasksController::class,
+        'users', \App\Http\Controllers\UsersController::class,
+    ]);
 });
-Route::get('/', function () { return redirect()->route('login'); });
-Route::get('/clientes/', [\App\Http\Livewire\Clientes\Listar::class, '__invoke'])->name('clientes.index');
+
+// JETSTREAM LIVEWIRE
+// Route::get('/clientes/', [\App\Http\Livewire\Clientes\Listar::class, '__invoke'])->name('clientes.index');
 // Route::get('/clientes/', [\App\Http\Controllers\ClienteController::class, 'index'])->name('clientes.index');
 // Route::get('/clientes/create', [\App\Http\Livewire\Clientes\Novo::class, '__invoke'])->name('clientes.create');
-Route::get('/clientes/{cliente}', [\App\Http\Livewire\Clientes\Editar::class, '__invoke'])->name('clientes.edit');
-Route::resources([
-    'clients' => \App\Http\Controllers\ClienteController::class,
-]);
+// Route::get('/clientes/{cliente}', [\App\Http\Livewire\Clientes\Editar::class, '__invoke'])->name('clientes.edit');
 // Route::get('/clients/', [\App\Http\Livewire\Clientes\Listar::class, '__invoke'])->name('clients.index');

@@ -23,6 +23,7 @@ class CreateClientesTable extends Migration
             $table->string('whatsapp');
             $table->date('data_nascimento');
             $table->string('sexo')->comment('masculino ou femenino');
+            $table->boolean('disabled')->default(False);
             $table->timestamps();
         });
     }

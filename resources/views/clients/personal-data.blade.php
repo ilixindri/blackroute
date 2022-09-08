@@ -134,14 +134,26 @@
                     e = document.getElementById(arr[i]);
                     if (e.value == '' || e.value == 'None') {
                         document.getElementById('verification_personal_data').innerHTML = 'Campo ' + arr[i] + ' obrigatório. &nbsp;';
-                        evt.preventDefault();
+                        // evt.preventDefault();
                         return;
                     } else if (arr[i] == 'email') {
                         /* check if is email */
                         var emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
                         if (!emailRegex.test(e.value)) {
                             document.getElementById('verification_personal_data').innerHTML = 'Deve ser um email válido no formato username@provider. &nbsp;';
-                            evt.preventDefault();
+                            // evt.preventDefault();
+                            return;
+                        }
+                    } else if (arr[i] == 'data_nascimento') {
+                        /* split date and get year */
+                        // console.log(e.value);
+                        var date = e.value;
+                        var dateParts = date.split('-');
+                        var year = dateParts[0];
+                        /* check if year has four digits */
+                        if (year.length != 4) {
+                            document.getElementById('verification_personal_data').innerHTML = 'O ano da data precisa ter 4 dígitos. &nbsp;';
+                            // evt.preventDefault();
                             return;
                         }
                     }
