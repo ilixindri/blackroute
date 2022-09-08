@@ -15,6 +15,8 @@ class PermissionRoleTableSeeder extends Seeder
         $user_permissions = $admin_permissions->filter(function ($permission) {
             return substr($permission->title, 0, 5) != 'user_';
         });
+        //https://codebrisk.com/blog/filtering-eloquent-models-in-laravel-with-eloquent-filter
+        //filter return of model laravel
         Role::findOrFail(2)->permissions()->sync($user_permissions);
     }
 }
