@@ -22,6 +22,7 @@ class CreateEnderecosTable extends Migration
             $table->text('UF');
             $table->text('complemento')->nullable();
             $table->text('bairro')->nullable();
+            $table->text('tipo')->comment('Comercial ou Residencial');
             $table->timestamps();
         });
     }

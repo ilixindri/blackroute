@@ -36,6 +36,7 @@
                                         @method('delete')
                                         @csrf
                                         <button type="submit">Deletar</button>
+                                        {{-- <i class="fa-regular fa-trash"></i> --}}
                                     </form>
                                 </div>
                             </div>

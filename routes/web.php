@@ -15,10 +15,7 @@ use App\Http\Controllers;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+// Route::get('/', function () { return view('welcome'); });
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -28,6 +25,11 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('tasks', \App\Http\Controllers\TasksController::class);
+    Route::resource('users', \App\Http\Controllers\UsersController::class);
+});
+Route::get('/', function () { return redirect()->route('login'); });
 Route::get('/clientes/', [\App\Http\Livewire\Clientes\Listar::class, '__invoke'])->name('clientes.index');
 // Route::get('/clientes/', [\App\Http\Controllers\ClienteController::class, 'index'])->name('clientes.index');
 // Route::get('/clientes/create', [\App\Http\Livewire\Clientes\Novo::class, '__invoke'])->name('clientes.create');

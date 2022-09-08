@@ -100,31 +100,9 @@
                 'click', submit, false
             );
             function submit(evt) {
-                document.getElementById('verification_personal_data').innerHTML = '';
                 document.getElementById('verification_address').innerHTML = '';
-                var arr = ['name', 'data_nascimento', 'sexo', 'email', 'rg', 'cpf', 'phone', 'whatsapp'];
-                for (var i = 0; i < arr.length; i++) {
-                    console.log(arr[i]);
-                    e = document.getElementById(arr[i]);
-                    if (e.value == '' || e.value == 'None') {
-                        section1();
-                        document.getElementById('verification_personal_data').innerHTML = 'Campo ' + arr[i] + ' obrigatório. &nbsp;';
-                        evt.preventDefault();
-                        return;
-                    } else if (arr[i] == 'email') {
-                        /* check if is email */
-                        var emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-                        if (!emailRegex.test(e.value)) {
-                            section1();
-                            document.getElementById('verification_personal_data').innerHTML = 'Deve ser um email válido no formato username@provider. &nbsp;';
-                            evt.preventDefault();
-                            return;
-                        }
-                    }
-                }
                 var arr = ['zip', 'logradouro', 'number', 'uf', 'complemento', 'bairro', 'type'];
                 for (var i = 0; i < arr.length; i++) {
-                    console.log(arr[i]);
                     e = document.getElementById(arr[i]);
                     if (e.value == '' || e.value == 'None') {
                         document.getElementById('verification_address').innerHTML = 'Campo ' + arr[i] + ' obrigatório. &nbsp;';
