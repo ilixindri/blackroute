@@ -45,18 +45,6 @@
                             <x-jet-dropdown-link href="{{ route('clients.index') }}">
                                 {{ __('Listar Cliente') }}
                             </x-jet-dropdown-link>
-
-                            <!-- <div class="border-t border-gray-100"></div> -->
-
-                            <!-- Authentication -->
-                            <!-- <form method="POST" action="{{ route('logout') }}" x-data>
-                                @csrf
-
-                                <x-jet-dropdown-link href="{{ route('logout') }}"
-                                        @click.prevent="$root.submit();">
-                                    {{ __('Log Out') }}
-                                </x-jet-dropdown-link>
-                            </form> -->
                         </x-slot>
                     </x-jet-dropdown>
                 </div>
@@ -67,13 +55,13 @@
                         </x-jet-nav-link>
                     </div>
                 @endcan
-                @can('user_access')
+                <!--@can('user_access')
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-jet-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.*')">
                             Users
                         </x-jet-nav-link>
                     </div>
-                @endcan
+                @endcan-->
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">

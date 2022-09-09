@@ -26,6 +26,13 @@
                                     <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         {{ __('Email') }}
                                     </th>
+                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('CPF') }}
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('Editar/Deletar') }}
+                                        
+                                    </th>
                                     <th scope="col" width="200" class="px-6 py-3 bg-gray-50">
                                     </th>
                                 </tr>
@@ -45,10 +52,14 @@
                                             {{ $client['email'] }}
                                         </td>
 
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {{ $client['cpf'] }}
+                                        </td>
+
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             {{-- <a href="{{ route('users.show', $user->id) }}" class="text-blue-600 hover:text-blue-900 mb-2 mr-2">View</a> --}}
                                             <a href="{{ route('clients.edit', $client['id']) }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Editar') }}</a>
-                                            <form class="inline-block" action="{{ route('clients.destroy', $client['id']) }}" method="POST" onsubmit="return confirm('{{ __("O cliente $client->name será excluído do sistema. Confirma essa ação?") }}');">
+                                            <form class="inline-block" action="{{ route('clients.destroy', $client['id']) }}" method="POST" onsubmit="return confirm('{{ __("O cliente $client->name será excluído do sistema. Clique Ok para Deletar?") }}');">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                 <input type="submit" class="text-red-600 hover:text-red-900 mb-2 mr-2" value="Delete">
