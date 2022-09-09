@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBankingBilletsTable extends Migration
+class CreateBankingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,16 @@ class CreateBankingBilletsTable extends Migration
      */
     public function up()
     {
-        Schema::create('banking_billets', function (Blueprint $table) {
+        Schema::create('bankings', function (Blueprint $table) {
             $table->id();
-            $table->foreign('client_id')->references('id')->on('clientes');
-            $table->date('expire_at');
+            $table->string('client_id_production');
+            $table->string('client_secret_production');
+            $table->string('client_id_homologation');
+            $table->string('client_secret_homologation');
+            $table->string('type')->default('gerencia_net');
             $table->date('fine');
             $table->date('interest');
+            $table->boolean('sandbox')->default(False);
             $table->timestamps();
         });
     }
@@ -30,6 +34,6 @@ class CreateBankingBilletsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('banking_billets');
+        Schema::dropIfExists('bankings');
     }
 }

@@ -14,7 +14,15 @@ class BankingController extends Controller
      */
     public function index()
     {
-        //
+        $bankings = Banking::all();
+        $Model = new Banking();
+        // foreach ($Model->getFillable() as $key => $value) {
+        //     # code...
+        //     echo $value;
+        // }
+        dd($Model);
+        // dd($bankings);
+        return view('bankings.form', ['bankings' => $bankings, 'Model' => $Model]);
     }
 
     /**

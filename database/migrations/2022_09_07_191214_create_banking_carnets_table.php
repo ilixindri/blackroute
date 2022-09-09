@@ -15,6 +15,15 @@ class CreateBankingCarnetsTable extends Migration
     {
         Schema::create('banking_carnets', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('client_id');
+            $table->foreign('client_id')->references('id')->on('clientes');
+            $table->bigInteger('carnet_id');
+            $table->string('status');
+            $table->string('cover');
+            $table->string('link')->comment('link responsivo do carnê, de acordo com as repetições');
+            $table->string('carnet_link')->comment('link do carnê, de acordo com as repetições')->nullable();
+            $table->string('pdf_carnet');
+            $table->string('pdf_cover');
             $table->timestamps();
         });
     }

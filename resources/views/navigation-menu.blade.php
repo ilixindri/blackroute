@@ -23,7 +23,7 @@
                         <x-slot name="trigger">
                                 <span class="inline-flex rounded-md">
                                     <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
-                                        Clientes
+                                        <a href="{{ route('clients.index') }}">Clientes</a>
 
                                         <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -48,6 +48,41 @@
                         </x-slot>
                     </x-jet-dropdown>
                 </div>
+                {{-- <div class="ml-3 relative hidden space-x-8 sm:-my-px sm:ml-10 sm:flex pt-4">
+                    <x-jet-dropdown align="false" width="48">
+                        <x-slot name="trigger">
+                                <span class="inline-flex rounded-md">
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
+                                        <a href="{{ route('banking-carnets.index') }}">{{ __('Financeiro') }}</a>
+
+                                        <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </span>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <!-- Account Management -->
+                            <!-- <div class="block px-4 py-2 text-xs text-gray-400">
+                                {{ __('Manage Account') }}
+                            </div> -->
+
+                            <x-jet-dropdown-link href="{{ route('clients.create') }}">
+                                {{ __('Novo Cliente') }}
+                            </x-jet-dropdown-link>
+
+                            <x-jet-dropdown-link href="{{ route('clients.index') }}">
+                                {{ __('Listar Cliente') }}
+                            </x-jet-dropdown-link>
+                        </x-slot>
+                    </x-jet-dropdown>
+                </div> --}}
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('bankings.index') }}" :active="request()->routeIs('banking-carnets.*')">
+                        {{ __('Financeiro') }}
+                    </x-jet-nav-link>
+                </div>
                 @can('task_access')
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-jet-nav-link href="{{ route('tasks.index') }}" :active="request()->routeIs('tasks.*')">
@@ -55,13 +90,13 @@
                         </x-jet-nav-link>
                     </div>
                 @endcan
-                <!--@can('user_access')
+                @can('user_access')
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-jet-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.*')">
                             Users
                         </x-jet-nav-link>
                     </div>
-                @endcan-->
+                @endcan
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">

@@ -33,30 +33,30 @@
                 </header>
             @endif
 
-            @if(Session::has('message'))
-                <div>
-                    <div class="alert alert-success max-w-7xl mx-auto pt-4 px-4 sm:px-6 lg:px-8">
-                        <div class="rounded-r-md bg-green-100 p-4 border-l-4 border-green-400 mb-3">
-                            <div class="flex">
+            <div id="message_div" style="display: @if(Session::has('message')) block @else none @endif">
+                <div class="alert alert-success max-w-7xl mx-auto pt-4 px-4 sm:px-6 lg:px-8">
+                    <div class="rounded-r-md bg-green-100 p-4 border-l-4 border-green-400 mb-3">
+                        <div class="flex">
                             <div class="flex-shrink-0">
                                 <p class="text-green-400">
                                     <i class="fas fa-check"></i>
                                 </p>
                             </div>
                             <div class="ml-3 text-sm leading-5 font-medium text-green-800">
-                                <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+                                <p id="message" class="alert @if(Session::has('message')) {{ Session::get('alert-class', 'alert-info') }} @endif">
+                                    @if(Session::has('message')) {{ Session::get('message') }} @endif</p>
                             </div>
                             <div class="ml-auto pl-3">
-                            <div class="-mx-1.5 -my-1.5">
-                                <button type="button" class="inline-flex rounded-md p-1.5 text-green-800 focus:outline-none transition ease-in-out duration-150" wire:click="dismiss">
-                                <i class="fas fa-times"></i>
-                                </button>
+                                <div class="-mx-1.5 -my-1.5">
+                                    <button type="button" class="inline-flex rounded-md p-1.5 text-green-800 focus:outline-none transition ease-in-out duration-150" wire:click="dismiss">
+                                    <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
                         </div>
                     </div>
                 </div>
-            @endif
+            </div>
 
             <!-- Page Content -->
             {{-- class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg  --}}

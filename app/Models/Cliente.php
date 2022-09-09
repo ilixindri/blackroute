@@ -21,10 +21,6 @@ class Cliente extends Model
         'disabled',
     ];
 
-    public function enderecos() {
-        return $this->hasMany(Endereco::class);
-    }
-    
     protected static function boot()
     {
         parent::boot();
@@ -32,5 +28,16 @@ class Cliente extends Model
                 $cliente->enderecos()->delete();
         });
     }
-}
 
+    public function enderecos() {
+        return $this->hasMany(Endereco::class);
+    }
+    
+    public function bankingBillets() {
+        return $this->hasMany(BankingBillet::class);
+    }
+
+    public function bankingCarnets() {
+        return $this->hasMany(BankingCarnet::class);
+    }
+}

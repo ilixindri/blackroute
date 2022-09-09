@@ -12,9 +12,10 @@ class BankingCarnetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $bankingCarnets = BankingCarnet::all();
+        return view('bankings.carnets.list', ["bankingCarnets" => $bankingCarnets]);
     }
 
     /**
@@ -22,9 +23,8 @@ class BankingCarnetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
     }
 
     /**
