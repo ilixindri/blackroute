@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
             PermissionRoleTableSeeder::class,
             UsersTableSeeder::class,
             RoleUserTableSeeder::class,
+            BankingsTableSeeder::class,
+            // ClientsTableSeeder::class,
         ]);
     }
 }

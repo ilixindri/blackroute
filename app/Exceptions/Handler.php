@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Symfony\Component\HttpKernel\Exception;
+use Illuminate\Session;
 
 class Handler extends ExceptionHandler
 {
@@ -41,8 +43,16 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
+        // echo $exception;
+        // dd(get_class($exception));
+        // dd($exception instanceof Illuminate\Session\TokenMismatchException);
+        // echo $exception instanceof TokenMismatchException;
+        // echo $exception instanceof AccessDeniedHttpException;
         if ($exception instanceof AccessDeniedHttpException) {
-            return response(view('errors.404'), 404);
+            return response(view('errors.404.index'), 404);
+        } else if ($exception instanceof Illuminate\Session\TokenMismatchException) {
+            //refazer: antes de enviar um form deslogar
+            return response(view('errors.419.index'), 419);
         }
         return parent::render($request, $exception);
     }

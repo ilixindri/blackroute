@@ -5,19 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cliente extends Model
+class Client extends Model
 {
     use HasFactory;
     protected $fillable =[
         // 'id',
-        'nome',
+        'name',
         'email',
         'rg',
         'cpf',
         'phone',
         'whatsapp',
-        'data_nascimento',
+        'birth_date',
         'sexo',
+        'banking_id',
         'disabled',
     ];
 
@@ -29,8 +30,8 @@ class Cliente extends Model
         });
     }
 
-    public function enderecos() {
-        return $this->hasMany(Endereco::class);
+    public function adresses() {
+        return $this->hasMany(Address::class);
     }
     
     public function bankingBillets() {
@@ -39,5 +40,9 @@ class Cliente extends Model
 
     public function bankingCarnets() {
         return $this->hasMany(BankingCarnet::class);
+    }
+
+    public function banking() {
+        return $this->belongsTo(Banking::class);
     }
 }

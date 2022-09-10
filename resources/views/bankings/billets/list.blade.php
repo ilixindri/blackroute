@@ -1,15 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Clientes') }}
+            {{-- @php
+                dd((array) $bankingCarnets);
+            @endphp --}}
+            {{-- {{ __('Boletos do Carnê') }} {{ ((array) $bankingCarnets)[0]->carnet_id }} {{ ((array) $bankingCarnets)[0]->client->name }} --}}
         </h2>
     </x-slot>
 
     <div>
         <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
-            <div class="block mb-8">
+            {{-- <div class="block mb-8">
                 <a href="{{ route('clients.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">{{ __('Novo Cliente') }}</a>
-            </div>
+            </div> --}}
             <div class="flex flex-col">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -17,62 +20,59 @@
                             <table class="min-w-full divide-y divide-gray-200 w-full">
                                 <thead>
                                 <tr>
-                                    <th scope="col" width="50" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('ID') }}
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('Nome') }}
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('Email') }}
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('CPF') }}
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('Editar/Deletar') }}
-                                        
-                                    </th>
-                                    {{-- <th scope="col" width="200" class="px-6 py-3 bg-gray-50">
+                                    {{-- <th scope="col" width="50" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('Cliente') }}
                                     </th> --}}
+                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('ID GerenciaNet do Boleto') }}
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('Parcela') }}
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('Status') }}
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('Valor') }}
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        {{ __('Vencimento') }}
+                                    </th>
+                                    <th scope="col" width="200" class="px-6 py-3 bg-gray-50">
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach ($clients as $client)
+                                @foreach ($bankingBillets as $billet)
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $client->id }}
-                                        </td>
+                                        {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {{ $carnet->client->name }}
+                                        </td> --}}
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $client['name'] }}
+                                            {{ $billet->charge_id }}
                                         </td>
-
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $client['email'] }}
+                                            {{ $billet->parcel }}
                                         </td>
-
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $client['cpf'] }}
+                                            {{ $billet->status }}
                                         </td>
-
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {{ $billet->value }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {{ $billet->expire_at }}
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <form class="inline-block" action="{{ route('banking-carnets.create') }}" method="GET" onsubmit="return confirm('{{ __("Será adicionado um novo carnê para o cliente $client->name. Clique Ok para Confirmar?") }}');">
-                                                {{-- <input type="hidden" name="_method" value="DELETE"> --}}
-                                                <input type="hidden" name="client_id" value="{{ $client->id }}">
-                                                <input style="cursor: pointer;" type="submit" class="text-purple-600 hover:text-purple-900 mb-2 mr-2" value="Criar Carnê">
-                                            </form>
-                                            <form class="inline-block" action="{{ route('banking-carnets.index') }}" method="GET">
-                                                {{-- <input type="hidden" name="_method" value="DELETE"> --}}
-                                                <input type="hidden" name="client_id" value="{{ $client->id }}">
-                                                <input style="cursor: pointer;" type="submit" class="text-purple-600 hover:text-purple-900 mb-2 mr-2" value="Financeiro">
-                                            </form>
                                             {{-- <a href="{{ route('users.show', $user->id) }}" class="text-blue-600 hover:text-blue-900 mb-2 mr-2">View</a> --}}
-                                            <a href="{{ route('clients.edit', $client['id']) }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Editar') }}</a>
-                                            <form class="inline-block" action="{{ route('clients.destroy', $client['id']) }}" method="POST" onsubmit="return confirm('{{ __("O cliente $client->name será excluído do sistema. Clique Ok para Deletar?") }}');">
+                                            <a href="{{ $billet->url }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Link') }}</a>
+                                            <a href="{{ $billet->parcel_link }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Link do Boleto') }}</a>
+                                            <a href="{{ $billet->pdf_charge }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Boleto em PDF') }}</a>
+                                            <form class="inline-block" action="{{ route('banking-carnets.destroy', $billet->id }}" method="POST" onsubmit="return confirm('{{ __("O boleto com vencimento em $billets do cliente $billets->client->name será dado baixa e deletado. Clique Ok para Deletar?") }}');">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                <input style="cursor: pointer;" type="submit" class="text-red-600 hover:text-red-900 mb-2 mr-2" value="Delete">
+                                                <input type="submit" class="text-red-600 hover:text-red-900 mb-2 mr-2" value="Delete">
                                             </form>
                                         </td>
                                     </tr>
@@ -83,7 +83,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </x-app-layout>

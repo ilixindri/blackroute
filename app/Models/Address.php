@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Endereco extends Model
+class Address extends Model
 {
     use HasFactory;
     protected $fillable = [
@@ -15,11 +15,13 @@ class Endereco extends Model
         'complemento',
         'bairro',
         'UF',
-        'cliente_id',
+        'client_id',
         'tipo',
+        'coordinates',
     ];
+    protected $table = 'adresses';
 
-    public function cliente() {
+    public function client() {
         return $this->belongsTo(Cliente::class);
     }
 }

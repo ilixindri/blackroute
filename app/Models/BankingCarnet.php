@@ -17,6 +17,6 @@ class BankingCarnet extends Model
     }
 
     public function client() {
-        return $this->belongsTo(Cliente::class);
+        return $this->belongsTo(Client::class);
     }
 }

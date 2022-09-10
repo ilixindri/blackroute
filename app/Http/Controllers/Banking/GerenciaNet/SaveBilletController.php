@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Banking\GerenciaNet;
 
-use App\Models\BankingCarnet;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class BankingCarnetController extends Controller
+class SaveBilletController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $bankingCarnets = BankingCarnet::all();
-        return view('bankings.carnets.list', ["bankingCarnets" => $bankingCarnets]);
+        //
     }
 
     /**
@@ -23,8 +22,9 @@ class BankingCarnetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
+        //
     }
 
     /**
@@ -41,10 +41,10 @@ class BankingCarnetController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\BankingCarnet  $bankingCarnet
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(BankingCarnet $bankingCarnet)
+    public function show($id)
     {
         //
     }
@@ -52,10 +52,10 @@ class BankingCarnetController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\BankingCarnet  $bankingCarnet
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(BankingCarnet $bankingCarnet)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +64,10 @@ class BankingCarnetController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\BankingCarnet  $bankingCarnet
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BankingCarnet $bankingCarnet)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +75,10 @@ class BankingCarnetController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\BankingCarnet  $bankingCarnet
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BankingCarnet $bankingCarnet)
+    public function destroy($id)
     {
         //
     }

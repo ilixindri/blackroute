@@ -4,15 +4,15 @@
             <x-jet-label for="type" value="{{ __('Tipo') }}" />
             <select required id="type" name="type" class='border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm'>
                 <option value="None" selected></option>
-                <option @isset($client)@if($client->enderecos[0]->tipo=="Comercial") selected @endif @endisset value="Comercial">Comercial</option>
-                <option @isset($client)@if($client->enderecos[0]->tipo=="Residencial") selected @endif @endisset value="Residencial">Residencial</option>
+                <option @isset($client)@if($client->adresses[0]->tipo=="Comercial") selected @endif @endisset value="Comercial">Comercial</option>
+                <option @isset($client)@if($client->adresses[0]->tipo=="Residencial") selected @endif @endisset value="Residencial">Residencial</option>
             </select>
-        <x-jet-input-error for="type" class="mt-2" />
+            <x-jet-input-error for="type" class="mt-2" />
         </div>
 
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="zip" value="{{ __('CEP') }}" />
-            @isset($client)<x-jet-input required id="zip" oninput="cep(this)" name="zip" value="{{$client->enderecos[0]->cep}}" type="text" class="mt-1 block w-full" autocomplete="name" />
+            @isset($client)<x-jet-input required id="zip" oninput="cep(this)" name="zip" value="{{$client->adresses[0]->cep}}" type="text" class="mt-1 block w-full" autocomplete="name" />
             @else<x-jet-input required id="zip" oninput="cep(this)" name="zip" type="text" class="mt-1 block w-full" autocomplete="name" />@endisset
             <x-jet-input-error for="zip" class="mt-2" />
         </div>
@@ -42,7 +42,7 @@
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="logradouro" value="{{ __('Logradouro') }}" />
-            @isset($client)<x-jet-input required id="logradouro" name="logradouro" value="{{$client->enderecos[0]->logradouro}}" type="text" class="mt-1 block w-full"/>
+            @isset($client)<x-jet-input required id="logradouro" name="logradouro" value="{{$client->adresses[0]->logradouro}}" type="text" class="mt-1 block w-full"/>
             @else<x-jet-input required id="logradouro" name="logradouro" type="text" class="mt-1 block w-full" />@endisset
             <x-jet-input-error for="logradouro" class="mt-2" />
         </div>
@@ -50,7 +50,7 @@
         <!-- RG -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="number" value="{{ __('Número') }}" />
-            @isset($client)<x-jet-input required id="number" name="number" type="text" value="{{$client->enderecos[0]->numero}}" class="mt-1 block w-full"/>
+            @isset($client)<x-jet-input required id="number" name="number" type="text" value="{{$client->adresses[0]->numero}}" class="mt-1 block w-full"/>
             @else<x-jet-input required id="number" name="number" type="text" class="mt-1 block w-full" />@endisset
             <x-jet-input-error for="number" class="mt-2" />
         </div>
@@ -58,7 +58,7 @@
         <!-- CPF -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="complemento" value="{{ __('Complemento') }}" />
-            @isset($client)<x-jet-input required id="complemento" name="complemento" type="text" value="{{$client->enderecos[0]->complemento}}" class="mt-1 block w-full"/>
+            @isset($client)<x-jet-input required id="complemento" name="complemento" type="text" value="{{$client->adresses[0]->complemento}}" class="mt-1 block w-full"/>
             @else<x-jet-input required id="complemento" name="complemento" type="text" class="mt-1 block w-full"/>@endisset
             <x-jet-input-error for="complemento" class="mt-2" />
         </div>
@@ -66,7 +66,7 @@
         <!-- Telefone -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="bairro" value="{{ __('Bairro') }}" />
-            @isset($client)<x-jet-input required id="bairro" name="bairro" type="text" value="{{$client->enderecos[0]->bairro}}" class="mt-1 block w-full"/>
+            @isset($client)<x-jet-input required id="bairro" name="bairro" type="text" value="{{$client->adresses[0]->bairro}}" class="mt-1 block w-full"/>
             @else<x-jet-input required id="bairro" name="bairro" type="text" class="mt-1 block w-full"/>@endisset
             <x-jet-input-error for="bairro" class="mt-2" />
         </div>
@@ -74,7 +74,7 @@
         <!-- Telefone -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="uf" value="{{ __('UF') }}" />
-            @isset($client)<x-jet-input required id="uf" name="uf" type="text" value="{{$client->enderecos[0]->UF}}" class="mt-1 block w-full"/>
+            @isset($client)<x-jet-input required id="uf" name="uf" type="text" value="{{$client->adresses[0]->UF}}" class="mt-1 block w-full"/>
             @else<x-jet-input required id="uf" name="uf" type="text" class="mt-1 block w-full"/>@endisset
             <x-jet-input-error for="uf" class="mt-2" />
         </div>
@@ -82,7 +82,7 @@
         <!-- Telefone -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="coordinates" value="{{ __('Coordenadas') }}" />
-            @isset($client)<x-jet-input required id="coordinates" name="coordinates" type="text" value="{{$client->enderecos[0]->coordinates}}" class="mt-1 block w-full"/>
+            @isset($client)<x-jet-input required id="coordinates" name="coordinates" type="text" value="{{$client->adresses[0]->coordinates}}" class="mt-1 block w-full"/>
             @else<x-jet-input required id="coordinates" name="coordinates" type="text" class="mt-1 block w-full"/>@endisset
             <a href="#" onclick="" class='m-2 py-1 mr-2 inline-flex items-center px-1 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white  tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition'>
                 {{ __('Verificar Coordenadas') }}

@@ -28,12 +28,12 @@ Route::middleware([
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::resources([
-        'clients' => \App\Http\Controllers\ClienteController::class,
+        'clients' => \App\Http\Controllers\ClientController::class,
         'tasks' => \App\Http\Controllers\TasksController::class,
         'users' => \App\Http\Controllers\UsersController::class,
-        'bankings' => \App\Http\Controllers\BankingController::class,
-        'banking-carnets' => \App\Http\Controllers\BankingCarnetController::class,
-        'banking-billets' => \App\Http\Controllers\BankingBilletController::class,
+        'bankings' => \App\Http\Controllers\Banking\Controller::class,
+        'banking-carnets' => \App\Http\Controllers\Banking\CarnetController::class,
+        'banking-billets' => \App\Http\Controllers\Banking\BilletController::class,
     ]);
 });
 

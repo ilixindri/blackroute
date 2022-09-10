@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClientesTable extends Migration
+class CreateClientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,17 @@ class CreateClientesTable extends Migration
      */
     public function up()
     {
-        Schema::create('clientes', function (Blueprint $table) {
+        Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
+            $table->string('name');
             $table->string('email');
             $table->string('rg');
             $table->string('cpf');
             $table->string('phone');
             $table->string('whatsapp');
-            $table->date('data_nascimento');
-            $table->string('sexo')->comment('masculino ou femenino');
+            $table->date('birth_date');
+            $table->string('sexo')->comment('masculino ou feminino');
+            $table->foreignId('banking_id')->on('banking');
             $table->boolean('disabled')->default(False);
             $table->timestamps();
         });

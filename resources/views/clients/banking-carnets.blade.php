@@ -1,10 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{-- @php
-                dd((array) $bankingCarnets);
-            @endphp --}}
-            {{-- {{ __('Carnês') }} {{ ((array) $bankingCarnets)[0]->client->name }} --}}
+            {{ __('Carnês') }} {{ $ASD }}
         </h2>
     </x-slot>
 
@@ -20,14 +17,12 @@
                             <table class="min-w-full divide-y divide-gray-200 w-full">
                                 <thead>
                                 <tr>
-                                    {{-- <th scope="col" width="50" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col" width="50" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         {{ __('Cliente') }}
-                                    </th> --}}
-                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('ID do Carnê no GerenciaNet') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         {{ __('Status') }}
+                                    </th>
                                     </th>
                                     <th scope="col" width="200" class="px-6 py-3 bg-gray-50">
                                     </th>
@@ -36,13 +31,10 @@
                                 <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach ($bankingCarnets as $carnet)
                                     <tr>
-                                        {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $carnet->client->name }}
-                                        </td> --}}
-
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $carnet->carnet_id }}
+                                            {{ $carnet->client->name }}
                                         </td>
+
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {{ $carnet->status }}
                                         </td>
@@ -55,11 +47,7 @@
                                             <a href="{{ $carnet->carnet_link }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Link do Carnê') }}</a>
                                             <a href="{{ $carnet->pdf_carnet }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Carnê em PDF') }}</a>
                                             <a href="{{ $carnet->pdf_cover }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Capa em PDF') }}</a>
-                                            <form class="inline-block" action="{{ route('banking-billets.index') }}" method="POST" onsubmit="">
-                                                <input type="hidden" name="carnet_id" value="{{ $carnet['id'] }}">
-                                                <input type="submit" class="text-brown-600 hover:text-brown-900 mb-2 mr-2" value="Ver Boletos">
-                                            </form>
-                                            <form class="inline-block" action="{{ route('banking-carnets.destroy', $carnet['id']) }}" method="POST" onsubmit="return confirm('{{ __("O carnê do cliente $carnet->client->name será dado baixa e arquivado. Clique Ok para Deletar?") }}');">
+                                            <form class="inline-block" action="{{ route('clients.destroy', $client['id']) }}" method="POST" onsubmit="return confirm('{{ __("O carnê do cliente $carnet->client->nome será dado baixa e arquivado. Clique Ok para Deletar?") }}');">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                 <input type="submit" class="text-red-600 hover:text-red-900 mb-2 mr-2" value="Delete">

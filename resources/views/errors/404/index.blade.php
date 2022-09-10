@@ -19,5 +19,5 @@
         </div>
     </x-app-layout>
 @else
-    @include('errors.404-guest')
+    @include('errors.404.guest')
 @endauth

@@ -15,7 +15,7 @@
                             onMouseOut="document.body.style.cursor = '';">
                             <h3 class="text-lg font-medium text-gray-900">{{ __('Dados do GerenciaNet') }}</h3>
                             <p class="mt-1 text-sm text-gray-600">
-                                {{ __('Digite os dados da sua api no Gerencia Net.') }}
+                                {{ __('Digite os dados da sua api do Gerencia Net.') }}
                             </p>
                         </div>
                         {{-- <div id="title2" class="py-2 px-2" onclick="section2()" style="" 
@@ -42,16 +42,41 @@
                         document.getElementById('title2').style.backgroundColor = '#eee';
                     }
                 </script>
-                <form id="client" action="@isset($client){{ route('clients.update', ['client'=>$client->id]) }}@else{{ route('clients.store') }}@endisset" method="POST" class="mt-5 md:mt-0 md:col-span-2">
-                    @csrf
-                    @isset($client)@method('PUT')@endisset
-                    <div id="form1" class="mt-5 md:mt-0 md:col-span-2">
-                        @include('bankings.gerencianet')
-                    </div>
-                    {{-- <div id="form2" class="mt-5 md:mt-0 md:col-span-2" style="display: none">
-                        @include('clients.address')
-                    </div> --}}
-                </form>
+                @isset($bankings)
+                    @forelse ($bankings as $banking)
+                        <form id="form{{$banking->id}}" action="{{ route('bankings.update', ['banking'=>$banking->id]) }}" method="POST" class="mt-5 md:mt-0 md:col-span-2">
+                            @csrf
+                            @method('PUT')
+                            <div id="form1" class="mt-5 md:mt-0 md:col-span-2">
+                                @include('bankings.gerencianet')
+                            </div>
+                        </form>
+                    @empty
+                        <form id="form" action="{{ route('bankings.store') }}" method="POST" class="mt-5 md:mt-0 md:col-span-2">
+                            @csrf
+                            <div id="form1" class="mt-5 md:mt-0 md:col-span-2">
+                                @include('bankings.gerencianet', ['Model' => $Model])
+                            </div>
+                        </form>
+                    @endforelse
+                @else
+                    @isset($banking)
+                        <form id="form" action="{{ route('bankings.update', ['banking'=>$banking->id]) }}" method="POST" class="mt-5 md:mt-0 md:col-span-2">
+                            @csrf
+                            @method('PUT')
+                            <div id="form1" class="mt-5 md:mt-0 md:col-span-2">
+                                @include('bankings.gerencianet', ['Model' => $Model])
+                            </div>
+                        </form>
+                    @else
+                        <form id="form" action="{{ route('bankings.store') }}" method="POST" class="mt-5 md:mt-0 md:col-span-2">
+                            @csrf
+                            <div id="form1" class="mt-5 md:mt-0 md:col-span-2">
+                                @include('bankings.gerencianet', ['Model' => $Model])
+                            </div>
+                        </form>
+                    @endisset
+                @endisset
             </div>
 
             <x-jet-section-border />

@@ -15,14 +15,17 @@ class CreateBankingsTable extends Migration
     {
         Schema::create('bankings', function (Blueprint $table) {
             $table->id();
-            $table->string('client_id_production');
-            $table->string('client_secret_production');
-            $table->string('client_id_homologation');
-            $table->string('client_secret_homologation');
-            $table->string('type')->default('gerencia_net');
-            $table->date('fine');
-            $table->date('interest');
-            $table->boolean('sandbox')->default(False);
+            $table->string('name', 256);
+            $table->string('client_id_production', 2048);//->default('default');
+            $table->string('client_secret_production', 2048);//->default('default');
+            $table->string('client_id_homologation', 2048);//->default('default');
+            $table->string('client_secret_homologation', 2048);//->default('default');
+            $table->unsignedSmallInteger('fine');//->default('123');
+            $table->unsignedSmallInteger('interest');//->default('123');
+            $table->string('notification_url');
+            $table->boolean('sandbox');
+            $table->string('type', 32)->default('gerencianet');// criar table for this
+            $table->boolean('disabled')->default(False);
             $table->timestamps();
         });
     }

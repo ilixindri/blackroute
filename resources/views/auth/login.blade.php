@@ -1,4 +1,7 @@
 <x-guest-layout>
+    <script>
+        document.getElementById('menu').style.display = 'none';
+    </script>
     <x-jet-authentication-card>
         <x-slot name="logo">
             <x-jet-authentication-card-logo />

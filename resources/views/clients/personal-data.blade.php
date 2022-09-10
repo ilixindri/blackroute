@@ -48,7 +48,7 @@
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="name" value="{{ __('Nome') }}" />
             @isset($client)
-                <x-jet-input required id="name" value="{{$client->nome}} " name="name" type="text" class="mt-1 block w-full"  autocomplete="name" />
+                <x-jet-input required id="name" value="{{$client->name}} " name="name" type="text" class="mt-1 block w-full"  autocomplete="name" />
             @else
                 <x-jet-input required id="name" name="name" type="text" class="mt-1 block w-full"  autocomplete="name" />
             @endisset
@@ -95,10 +95,10 @@
         </div>
         <!-- Telefone -->
         <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="data_nascimento" value="{{ __('Data de Nascimento') }}" />
-            @isset($client)<x-jet-input required id="data_nascimento" name="data_nascimento" value="{{$client->data_nascimento}}" type="date" class="mt-1 block w-full"  />
-            @else<x-jet-input required id="data_nascimento" name="data_nascimento" type="date" class="mt-1 block w-full"  />@endisset
-            <x-jet-input-error for="data_nascimento" class="mt-2" />
+            <x-jet-label for="birth_date" value="{{ __('Data de Nascimento') }}" />
+            @isset($client)<x-jet-input required id="birth_date" name="birth_date" value="{{$client->birth_date}}" type="date" class="mt-1 block w-full"  />
+            @else<x-jet-input required id="birth_date" name="birth_date" type="date" class="mt-1 block w-full"  />@endisset
+            <x-jet-input-error for="birth_date" class="mt-2" />
         </div>
         <!-- Telefone -->
         <div class="col-span-6 sm:col-span-4">
@@ -129,7 +129,7 @@
         <script>
             function validate_personal_data(params) {
                 document.getElementById('verification_personal_data').innerHTML = '';
-                var arr = ['name', 'data_nascimento', 'sexo', 'email', 'rg', 'cpf', 'phone', 'whatsapp'];
+                var arr = ['name', 'birth_date', 'sexo', 'email', 'rg', 'cpf', 'phone', 'whatsapp'];
                 for (var i = 0; i < arr.length; i++) {
                     e = document.getElementById(arr[i]);
                     if (e.value == '' || e.value == 'None') {
