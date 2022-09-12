@@ -53,21 +53,27 @@
                                             <a href="{{ $carnet->cover }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Capa') }}</a>
                                             <a href="{{ $carnet->link }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Link') }}</a>
                                             <a href="{{ $carnet->carnet_link }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Link do Carnê') }}</a>
-                                            <a href="{{ $carnet->pdf_carnet }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Carnê em PDF') }}</a>
-                                            <a href="{{ $carnet->pdf_cover }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Capa em PDF') }}</a>
+                                            <a href="{{ $carnet->carnet_link }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Link do Carnê') }}</a>
+                                            <!-- <a href="{{ $carnet->pdf_carnet }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Carnê em PDF') }}</a>
+                                            <a href="{{ $carnet->pdf_cover }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Capa em PDF') }}</a> -->
                                             <form class="inline-block" action="{{ route('banking-billets.index') }}" method="POST" onsubmit="">
                                                 <input type="hidden" name="carnet_id" value="{{ $carnet['id'] }}">
-                                                <input type="submit" class="text-brown-600 hover:text-brown-900 mb-2 mr-2" value="Ver Boletos">
+                                                <input type="submit" style="cursor: pointer" class="button text-brown-600 hover:text-brown-900 mb-2 mr-2" value="Ver Boletos">
                                             </form>
-                                            @php
-                                                $name = $carnet->client->name;
-                                                $type = $carnet->client->banking->type__datas['label'];
-                                            @endphp
-                                            <form class="inline-block" action="{{ route('banking-carnets.destroy', $carnet['id']) }}" method="POST" 
-                                            onsubmit="return confirm('{{ __("O carnê $type $carnet->carnet_id do cliente $name será dado baixa e arquivado. Clique Ok para Deletar?") }}');">
+                                            <form class="inline-block" action="{{ route('banking-carnets.update', $carnet['id']) }}" method="POST"
+                                                    onsubmit="return confirm('{{ __("O carnê :type :id do cliente :client será cancelado. Confirme para cancelar esse carnê?",
+                                                        ["type" => $carnet->client->banking->type__datas['label'], 'id' => $carnet->carnet_id, "client" => $carnet->client->name]) }}');">
+                                                <input type="hidden" name="_method" value="PATCH">
+                                                <input type="hidden" name="action" value="cancel">
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <input type="submit" style="cursor: pointer" class="button text-red-600 hover:text-red-900 mb-2 mr-2" value="Cancelar">
+                                            </form>
+                                            <form class="inline-block" action="{{ route('banking-carnets.destroy', $carnet['id']) }}" method="POST"
+                                                onsubmit="return confirm('{{ __("O carnê :type :id do cliente :client será deletado. Confirme para deletar esse carnê?",
+                                                        ["type" => $carnet->client->banking->type__datas['label'], 'id' => $carnet->carnet_id, "client" => $carnet->client->name]) }}');">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                <input type="submit" class="text-red-600 hover:text-red-900 mb-2 mr-2" value="Delete">
+                                                <input type="submit" style="cursor: pointer" class="button text-red-600 hover:text-red-900 mb-2 mr-2" value="Delete">
                                             </form>
                                         </td>
                                     </tr>

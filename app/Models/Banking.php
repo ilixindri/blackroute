@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 class Banking extends Model
 {
     use HasFactory;
-    protected $fillable =['name', 'client_id_production', 'client_secret_production', 'client_id_homologation', 
+    protected $fillable =['name', 'client_id_production', 'client_secret_production', 'client_id_homologation',
         'client_secret_homologation', 'notification_url', 'fine', 'interest', 'sandbox'];
     protected $table = 'bankings';
 
@@ -25,7 +25,7 @@ class Banking extends Model
 
     public $type__datas = ["type" => "select", "label" => "GerenciaNet", "options" => [["value" => "gerencianet", "text" => "GerenciaNet"]]];
 
-    public function __construct()
+    public function __construct(array $attributes = [])
     {
         $path = Controller::join_paths([base_path(), "database", "migrations", "2022_09_07_191157_create_bankings_table.php"]);
         $myfile = fopen($path, "r") or die("Unable to open file!");
@@ -38,16 +38,23 @@ class Banking extends Model
         }
         fclose($myfile);
         // exit();
-        if ($this->fillable->sandbox != 0) {
-            $this->client_id = $this->fillable['client_id_homologation'];
-            $this->client_secret = $this->fillable['client_secret_homologation'];
-        } else {
-            $this->client_id = $this->fillable['client_id_production'];
-            $this->client_secret = $this->fillable['client_secret_production'];
-        }
-        parent::__construct();
+        parent::__construct($attributes);
     }
-
+    protected static function booted()
+    {
+        static::retrieved(function ($model) {
+            $model->what(); //called once all attributes are loaded
+        });
+    }
+    public function what() {
+        if ($this->sandbox != 0) {
+            $this->client_id = $this->client_id_homologation;
+            $this->client_secret = $this->client_secret_homologation;
+        } else {
+            $this->client_id = $this->client_id_production;
+            $this->client_secret = $this->client_secret_production;
+        }
+    }
     public function clients() {
         return $this->hasMany(Client::class);
     }

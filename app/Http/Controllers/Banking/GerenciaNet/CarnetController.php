@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Banking\GerenciaNet;
 use Illuminate\Http\Request;
 use Gerencianet\Exception\GerencianetException;
 use Gerencianet\Gerencianet;
+use App\Models\BankingCarnet;
 
 class CarnetController extends \App\Http\Controllers\Controller
 {
@@ -144,7 +145,7 @@ class CarnetController extends \App\Http\Controllers\Controller
             'client_id' => $bankingCarnet->client->banking->client_id,
             'client_secret' => $bankingCarnet->client->banking->client_secret,
             'sandbox' => $bankingCarnet->client->banking->sandbox
-        ];   
+        ];
         $params = [
             'id' => $bankingCarnet->carnet_id,
         ];
@@ -153,6 +154,7 @@ class CarnetController extends \App\Http\Controllers\Controller
             $api = new Gerencianet($options);
             $response = $api->cancelCarnet($params, []);
             print_r($response);
+            return $response;
         } catch (GerencianetException $e) {
             print_r($e->code);
             print_r($e->error);

@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-#qwe {
-    background-color: aliceblue;
+input[type=submit] {
+    cursor: pointer;
 }

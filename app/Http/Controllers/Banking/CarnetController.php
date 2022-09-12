@@ -16,7 +16,7 @@ class CarnetController extends \App\Http\Controllers\Controller
      */
     public function index(Request $request)
     {
-        $bankingCarnets = BankingCarnet::where('client_id', $request->client_id)->get();
+        $bankingCarnets = BankingCarnet::where('client_id', $request->client_id)->where('disabled', False)->get();
         return view('bankings.carnets.list', ["bankingCarnets" => $bankingCarnets]);
     }
 
@@ -90,7 +90,15 @@ class CarnetController extends \App\Http\Controllers\Controller
      */
     public function update(Request $request, BankingCarnet $bankingCarnet)
     {
-        //
+//        dd($bankingCarnet);
+        if ($request->action == "cancel") {
+            if ($bankingCarnet->client->banking->type == 'gerencianet') {
+                (new GerenciaNet\CarnetController())->destroy($bankingCarnet);
+            }
+        }
+        Session::flash('message', "Carnê para $bankingCarnet->client->name cancelado com sucesso.");
+        Session::flash('alert-class', 'alert-success');
+        return redirect()->route('banking-carnets.index', $request);
     }
 
     /**
@@ -102,8 +110,13 @@ class CarnetController extends \App\Http\Controllers\Controller
     public function destroy(BankingCarnet $bankingCarnet)
     {
         if ($bankingCarnet->client->banking->type == 'gerencianet') {
-            (new GerenciaNetController())->destroy($bankingCarnet);
+            (new GerenciaNet\CarnetController())->destroy($bankingCarnet);
         }
-
+        $bankingCarnet->destroy();
+        Session::flash('message', "Carnê para $bankingCarnet->client->name arquivado com sucesso.");
+        Session::flash('alert-class', 'alert-success');
+        $request = new Request();
+        $request->client_id = $bankingCarnet->client->id;
+        return redirect()->route('banking-carnets.index', $request);
     }
 }
