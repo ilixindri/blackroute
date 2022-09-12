@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Banking;
 
 use App\Models\Banking;
 use Illuminate\Http\Request;
-use App\Http\Controllers;
 use Session;
 
-class Controller extends Controller
+class Controller extends \App\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.

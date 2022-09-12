@@ -38,6 +38,13 @@ class Banking extends Model
         }
         fclose($myfile);
         // exit();
+        if ($this->fillable->sandbox != 0) {
+            $this->client_id = $this->fillable['client_id_homologation'];
+            $this->client_secret = $this->fillable['client_secret_homologation'];
+        } else {
+            $this->client_id = $this->fillable['client_id_production'];
+            $this->client_secret = $this->fillable['client_secret_production'];
+        }
         parent::__construct();
     }
 

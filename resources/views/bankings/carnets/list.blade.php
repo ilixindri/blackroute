@@ -59,7 +59,12 @@
                                                 <input type="hidden" name="carnet_id" value="{{ $carnet['id'] }}">
                                                 <input type="submit" class="text-brown-600 hover:text-brown-900 mb-2 mr-2" value="Ver Boletos">
                                             </form>
-                                            <form class="inline-block" action="{{ route('banking-carnets.destroy', $carnet['id']) }}" method="POST" onsubmit="return confirm('{{ __("O carnê do cliente $carnet->client->name será dado baixa e arquivado. Clique Ok para Deletar?") }}');">
+                                            @php
+                                                $name = $carnet->client->name;
+                                                $type = $carnet->client->banking->type__datas['label'];
+                                            @endphp
+                                            <form class="inline-block" action="{{ route('banking-carnets.destroy', $carnet['id']) }}" method="POST" 
+                                            onsubmit="return confirm('{{ __("O carnê $type $carnet->carnet_id do cliente $name será dado baixa e arquivado. Clique Ok para Deletar?") }}');">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                 <input type="submit" class="text-red-600 hover:text-red-900 mb-2 mr-2" value="Delete">

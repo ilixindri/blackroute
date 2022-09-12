@@ -24,6 +24,7 @@ class CreateBankingCarnetsTable extends Migration
             $table->string('carnet_link')->comment('link do carnê, de acordo com as repetições')->nullable();
             $table->string('pdf_carnet');
             $table->string('pdf_cover');
+            $table->boolean('disabled')->default(False);
             $table->timestamps();
         });
     }

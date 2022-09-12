@@ -34,6 +34,7 @@ class CreateBankingBilletsTable extends Migration
             $table->string('payment')->comment("boleto")->nullable();
             $table->unsignedSmallInteger('fine');
             $table->unsignedSmallInteger('interest');
+            $table->boolean('disabled')->default(False);
             $table->timestamps();
         });
     }

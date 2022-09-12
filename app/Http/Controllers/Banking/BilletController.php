@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Banking;
 
 use App\Models\BankingBillet;
 use Illuminate\Http\Request;
-use App\Http\Controllers;
 
-class BilletController extends Controller
+class BilletController extends \App\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.

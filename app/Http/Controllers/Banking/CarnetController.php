@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Banking;
 
 use App\Models\BankingCarnet;
 use App\Models\Client;
 use Illuminate\Http\Request;
-use App\Http\Controllers;
 use Session;
 
-class CarnetController extends Controller
+class CarnetController extends \App\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,19 +30,19 @@ class CarnetController extends Controller
         $client = Client::find($request->client_id)->first();
         $request->client = $client;
         if ($client->banking->type == 'gerencianet') {
-            $carnet = (new GerenciaNet\GenerateCarnetController())->create($request);
+            $carnet = (new GerenciaNet\CarnetController())->create($request);
+            $carnet['data']['pdf_carnet'] = $carnet['data']['pdf']['carnet'];
+            $carnet['data']['pdf_cover'] = $carnet['data']['pdf']['cover'];
+            $request->carnet = $carnet['data'];
+            $aux = (new GerenciaNet\CarnetController())->store($request);
+            $request->carnet['id'] = $aux->id;
+            foreach ($request->carnet['charges'] as $key => $charge) {
+                $request->charge = $charge;
+                (new GerenciaNet\BilletController())->store($request);
+            }
+            $expire_at = $request->carnet['charges'][0]['expire_at'];
+            $repeats = count($request->carnet['charges']);
         }
-        $carnet['data']['pdf_carnet'] = $carnet['data']['pdf']['carnet'];
-        $carnet['data']['pdf_cover'] = $carnet['data']['pdf']['cover'];
-        $request->carnet = $carnet['data'];
-        $aux = $this->store($request);
-        $request->carnet['id'] = $aux->id;
-        foreach ($request->carnet['charges'] as $key => $charge) {
-            $request->charge = $charge;
-            (new GerenciaNet\SaveBilletController())->store($request);
-        }
-        $expire_at = $request->carnet['charges'][0]['expire_at'];
-        $repeats = count($request->carnet['charges']);
         Session::flash('message', "Carnê para $client->name com primeiro vencimento em $expire_at e $repeats parcelas gerado com sucesso.");
         Session::flash('alert-class', 'alert-success');
         return redirect()->route('banking-carnets.index', $request);
@@ -57,9 +56,7 @@ class CarnetController extends Controller
      */
     public function store(Request $request)
     {
-        $request->carnet['client_id'] = $request->client_id;
-        $carnet = BankingCarnet::create($request->carnet);
-        return $carnet;
+
     }
 
     /**
@@ -105,32 +102,8 @@ class CarnetController extends Controller
     public function destroy(BankingCarnet $bankingCarnet)
     {
         if ($bankingCarnet->client->banking->type == 'gerencianet') {
-            (new GerenciaNetController())->create($request);
+            (new GerenciaNetController())->destroy($bankingCarnet);
         }
-        $clientId = 'informe_seu_client_id'; // insira seu Client_Id, conforme o ambiente (Des ou Prod)
-        $clientSecret = 'informe_seu_client_secret'; // insira seu Client_Secret, conforme o ambiente (Des ou Prod)
-        
-        $options = [
-        'client_id' => $clientId,
-        'client_secret' => $clientSecret,
-        'sandbox' => true // altere conforme o ambiente (true = Homologação e false = producao)
-        ];
 
-        // $carnet_id refere-se ao ID do carnê desejado
-        $params = [
-        'id' => $carnet_id
-        ];
-
-        try {
-            $api = new Gerencianet($options);
-            $response = $api->cancelCarnet($params, []);
-            print_r($response);
-        } catch (GerencianetException $e) {
-            print_r($e->code);
-            print_r($e->error);
-            print_r($e->errorDescription);
-        } catch (Exception $e) {
-            print_r($e->getMessage());
-        }
     }
 }

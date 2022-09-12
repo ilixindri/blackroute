@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Banking\GerenciaNet;
 
 use Illuminate\Http\Request;
 use Gerencianet\Exception\GerencianetException;
 use Gerencianet\Gerencianet;
-use App\Http\Controllers;
 
-class GenerateCarnetController extends Controller
+class CarnetController extends \App\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,16 +25,9 @@ class GenerateCarnetController extends Controller
      */
     public function create(Request $request)
     {
-        if ($request->client->banking->sandbox != 0) {
-            $clientId = $request->client->banking->client_id_homologation;
-            $clientSecret = $request->client->banking->client_secret_homologation;
-        } else {
-            $clientId = $request->client->banking->client_id_production;
-            $clientSecret = $request->client->banking->client_secret_production;
-        }
         $options = [
-            'client_id' => $clientId,
-            'client_secret' => $clientSecret,
+            'client_id' => $request->client->banking->client_id,
+            'client_secret' => $request->client->banking->client_secret,
             'sandbox' => $request->client->banking->sandbox
         ];
         $item_1 = [
@@ -101,7 +93,9 @@ class GenerateCarnetController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->carnet['client_id'] = $request->client_id;
+        $carnet = BankingCarnet::create($request->carnet);
+        return $carnet;
     }
 
     /**
@@ -144,8 +138,27 @@ class GenerateCarnetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(BankingCarnet $bankingCarnet)
     {
-        //
+        $options = [
+            'client_id' => $bankingCarnet->client->banking->client_id,
+            'client_secret' => $bankingCarnet->client->banking->client_secret,
+            'sandbox' => $bankingCarnet->client->banking->sandbox
+        ];   
+        $params = [
+            'id' => $bankingCarnet->carnet_id,
+        ];
+
+        try {
+            $api = new Gerencianet($options);
+            $response = $api->cancelCarnet($params, []);
+            print_r($response);
+        } catch (GerencianetException $e) {
+            print_r($e->code);
+            print_r($e->error);
+            print_r($e->errorDescription);
+        } catch (Exception $e) {
+            print_r($e->getMessage());
+        }
     }
 }
