@@ -35,7 +35,22 @@ class SaveBilletController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->charge['pdf_charge'] = $request->charge['pdf']['charge'];
+        $request->charge['pix_qrcode'] = $request->charge['pix']['qrcode'];
+        $request->charge['pix_qrcode_image'] = $request->charge['pix']['qrcode_image'];
+        $request->charge['client_id'] = $request->client_id;
+        $request->charge['carnet_id'] = $request->carnet['id'];
+        $request->charge['fine'] = strval($request->client->banking->fine);
+        $request->charge['interest'] = strval($request->client->banking->interest);
+        // dd($request->charge['expire_at']);
+        try {
+            $billet = BankingBillet::create($request->charge);
+        } catch (\Throwable $th) {
+            echo $th->getMessage();
+            dd($request->charge);
+            //throw $th;
+        }
+        return $billet;
     }
 
     /**
