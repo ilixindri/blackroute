@@ -11,7 +11,7 @@ class ClientsTableSeeder extends Seeder
     {
         $clients = [
             [
-                'name' => "Alexandro",
+                'name' => "Alexandro G Dos Santos",
                 'email' => "alexandrogonsan@outlook.com",
                 'rg' => "1456407953",
                 'cpf' => "05289770593",
@@ -19,7 +19,7 @@ class ClientsTableSeeder extends Seeder
                 'whatsapp' => "+5595981042843",
                 'birth_date' => "1993-07-18",
                 'sexo' => "Masculino",
-                'banking_id' => 0,
+                'banking_id' => 1,
             ],
         ];
 

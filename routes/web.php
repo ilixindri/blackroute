@@ -28,13 +28,23 @@ Route::middleware([
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::resources([
-        'clients' => \App\Http\Controllers\ClientController::class,
+        'clients' => \App\Http\Controllers\Client\Controller::class,
+        'clients.carnets' => \App\Http\Controllers\Client\Carnet\Controller::class,
+        'clients.carnets.billets' => \App\Http\Controllers\Client\Carnet\BilletController::class,
+        'clients.billets' => \App\Http\Controllers\Client\BilletController::class,
         'tasks' => \App\Http\Controllers\TasksController::class,
         'users' => \App\Http\Controllers\UsersController::class,
         'bankings' => \App\Http\Controllers\Banking\Controller::class,
-        'banking-carnets' => \App\Http\Controllers\Banking\CarnetController::class,
-        'banking-billets' => \App\Http\Controllers\Banking\BilletController::class,
+        // 'bankings.carnets' => \App\Http\Controllers\Banking\Carnet\Controller::class,
+        // 'bankings.carnets.billets' => \App\Http\Controllers\Banking\Carnet\BilletController::class,
+        // 'bankings.billets' => \App\Http\Controllers\Banking\BilletController::class,
+        'tests' => \App\Http\Controllers\Test\Controller::class,
+        'tests.clients.carnets' => \App\Http\Controllers\Test\Client\CarnetController::class,
+        'tests.clients.billets' => \App\Http\Controllers\Test\Client\BilletController::class,
+        // 'tests.bankings.carnets' => \App\Http\Controllers\Test\Banking\CarnetController::class,
+        // 'tests.bankings.billets' => \App\Http\Controllers\Test\Banking\BilletController::class,
     ]);
+//    Route::get('/banking-carnets/create/test', \App\Http\Controllers\Banking\Carnet\Controller::class);
 });
 
 // JETSTREAM LIVEWIRE

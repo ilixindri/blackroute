@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Banking;
+namespace App\Http\Controllers\Test\Client;
 
-use App\Models\BankingBillet;
+use App\Models\BankingCarnet;
+use App\Models\Client;
 use Illuminate\Http\Request;
 
-class BilletController extends \App\Http\Controllers\Controller
+class CarnetController extends \App\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,7 @@ class BilletController extends \App\Http\Controllers\Controller
      */
     public function index()
     {
-        
+//        $tests =
     }
 
     /**
@@ -22,9 +23,10 @@ class BilletController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request, $test, Client $client)
     {
-        //
+        $Model = (new BankingCarnet());
+        return view('tests.clients.carnets.form')->with('client', $client)->with('Model', $Model);
     }
 
     /**
@@ -35,16 +37,16 @@ class BilletController extends \App\Http\Controllers\Controller
      */
     public function store(Request $request)
     {
-
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\BankingBillet  $bankingBillet
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(BankingBillet $bankingBillet)
+    public function show($id)
     {
         //
     }
@@ -52,10 +54,10 @@ class BilletController extends \App\Http\Controllers\Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\BankingBillet  $bankingBillet
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(BankingBillet $bankingBillet)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +66,10 @@ class BilletController extends \App\Http\Controllers\Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\BankingBillet  $bankingBillet
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BankingBillet $bankingBillet)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +77,10 @@ class BilletController extends \App\Http\Controllers\Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\BankingBillet  $bankingBillet
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BankingBillet $bankingBillet)
+    public function destroy($id)
     {
         //
     }

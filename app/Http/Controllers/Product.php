@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Banking\GerenciaNet;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\BankingBillet;
 
-class BilletController extends \App\Http\Controllers\Controller
+class Product extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,18 +34,7 @@ class BilletController extends \App\Http\Controllers\Controller
      */
     public function store(Request $request)
     {
-        $request->charge['pdf_charge'] = $request->charge['pdf']['charge'];
-        $request->charge['pix_qrcode'] = $request->charge['pix']['qrcode'];
-        $request->charge['pix_qrcode_image'] = $request->charge['pix']['qrcode_image'];
-        $request->charge['client_id'] = $request->client->id;
-        $request->charge['banking_id'] = $request->client->banking->id;
-        $request->charge['fine'] = strval($request->client->banking->fine);
-        $request->charge['interest'] = strval($request->client->banking->interest);
-        try {
-            $request->charge['carnet_id'] = $request->carnet['id'];
-        } catch (\Throwable $th) { }
-        $billet = BankingBillet::create($request->charge);
-        return $billet;
+        //
     }
 
     /**

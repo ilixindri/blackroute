@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Cliente') }}
+            {{ __('Tests') }}
         </h2>
     </x-slot>
 
@@ -11,8 +11,8 @@
                 <div class="md:col-span-1 flex justify-between">
                     <div class="px-4 sm:px-0">
                         <div id="title1" class="py-2 px-2" onclick="section1()" style="background-color: #eee"
-                            onMouseOver="document.body.style.cursor = 'pointer';"
-                            onMouseOut="document.body.style.cursor = '';">
+                             onMouseOver="document.body.style.cursor = 'pointer';"
+                             onMouseOut="document.body.style.cursor = '';">
                             <h3 class="text-lg font-medium text-gray-900">{{ __('Dados do GerenciaNet') }}</h3>
                             <p class="mt-1 text-sm text-gray-600">
                                 {{ __('Digite os dados da sua api do Gerencia Net.') }}
@@ -72,7 +72,7 @@
                         <form id="form" action="{{ route('bankings.store') }}" method="POST" class="mt-5 md:mt-0 md:col-span-2">
                             @csrf
                             <div id="form1" class="mt-5 md:mt-0 md:col-span-2">
-                                <input type="hidden" id="client_id" name="client_id" @isset($client) value="{{ $client->id }}" @endisset >
+                                <input type="hidden" id="client_id" name="client_id" @issset() value="{{ $client->id }}" @endisset >
                                 @include('bankings.gerencianet', ['Model' => $Model])
                             </div>
                         </form>

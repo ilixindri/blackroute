@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             RoleUserTableSeeder::class,
             BankingsTableSeeder::class,
-            // ClientsTableSeeder::class,
+            ClientsTableSeeder::class,
         ]);
     }
 }

@@ -24,6 +24,7 @@ class CreateBankingsTable extends Migration
             $table->unsignedSmallInteger('interest');//->default('123');
             $table->string('notification_url');
             $table->boolean('sandbox');
+            // $table->foreign('type_id')->references('id')->on('banking_types');
             $table->string('type', 32)->default('gerencianet');// criar table for this
             $table->boolean('disabled')->default(False);
             $table->timestamps();

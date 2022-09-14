@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Banking\GerenciaNet;
+namespace App\Http\Controllers\Test;
 
 use Illuminate\Http\Request;
-use App\Models\BankingBillet;
+use App\Models\Client;
 
-class BilletController extends \App\Http\Controllers\Controller
+class Controller extends \App\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,18 @@ class BilletController extends \App\Http\Controllers\Controller
      */
     public function index()
     {
-        //
+        $client = Client::all()->first();
+//        dd($client);
+        $tests = [];
+        $test = (object) [];
+        $test->id = 1;
+        $test->functionality = 'Carnê com cliente selecionado';
+        $test->action = 'Criar';
+        $test->version = 'v1';
+        $test->comments = '';
+        $test->route = route('tests.clients.carnets.create', ['test' => 1, 'client' => $client->id]);
+        $tests[] = $test;
+        return view('tests.list')->with('tests', $tests);
     }
 
     /**
@@ -35,18 +46,7 @@ class BilletController extends \App\Http\Controllers\Controller
      */
     public function store(Request $request)
     {
-        $request->charge['pdf_charge'] = $request->charge['pdf']['charge'];
-        $request->charge['pix_qrcode'] = $request->charge['pix']['qrcode'];
-        $request->charge['pix_qrcode_image'] = $request->charge['pix']['qrcode_image'];
-        $request->charge['client_id'] = $request->client->id;
-        $request->charge['banking_id'] = $request->client->banking->id;
-        $request->charge['fine'] = strval($request->client->banking->fine);
-        $request->charge['interest'] = strval($request->client->banking->interest);
-        try {
-            $request->charge['carnet_id'] = $request->carnet['id'];
-        } catch (\Throwable $th) { }
-        $billet = BankingBillet::create($request->charge);
-        return $billet;
+        //
     }
 
     /**

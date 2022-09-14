@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Banking\GerenciaNet;
+namespace App\Http\Controllers\Client\Carnet;
 
-use Illuminate\Http\Request;
 use App\Models\BankingBillet;
+use Illuminate\Http\Request;
+use App\Models\Client;
+use App\Models\BankingCarnet;
 
 class BilletController extends \App\Http\Controllers\Controller
 {
@@ -12,9 +14,12 @@ class BilletController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, Client $client, BankingCarnet $carnet)
     {
-        //
+        $bankingBillets = BankingBillet::where('carnet_id', $carnet->id)->get();
+        $bankingBillets->carnet = $carnet;
+        $bankingBillets->client = $client;
+        return view('clients.carnets.billets.list')->with("bankingBillets", $bankingBillets);
     }
 
     /**
@@ -35,27 +40,16 @@ class BilletController extends \App\Http\Controllers\Controller
      */
     public function store(Request $request)
     {
-        $request->charge['pdf_charge'] = $request->charge['pdf']['charge'];
-        $request->charge['pix_qrcode'] = $request->charge['pix']['qrcode'];
-        $request->charge['pix_qrcode_image'] = $request->charge['pix']['qrcode_image'];
-        $request->charge['client_id'] = $request->client->id;
-        $request->charge['banking_id'] = $request->client->banking->id;
-        $request->charge['fine'] = strval($request->client->banking->fine);
-        $request->charge['interest'] = strval($request->client->banking->interest);
-        try {
-            $request->charge['carnet_id'] = $request->carnet['id'];
-        } catch (\Throwable $th) { }
-        $billet = BankingBillet::create($request->charge);
-        return $billet;
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\BankingBillet  $bankingBillet
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(BankingBillet $bankingBillet)
     {
         //
     }
@@ -63,10 +57,10 @@ class BilletController extends \App\Http\Controllers\Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\BankingBillet  $bankingBillet
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(BankingBillet $bankingBillet)
     {
         //
     }
@@ -75,10 +69,10 @@ class BilletController extends \App\Http\Controllers\Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\BankingBillet  $bankingBillet
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, BankingBillet $bankingBillet)
     {
         //
     }
@@ -86,10 +80,10 @@ class BilletController extends \App\Http\Controllers\Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\BankingBillet  $bankingBillet
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(BankingBillet $bankingBillet)
     {
         //
     }

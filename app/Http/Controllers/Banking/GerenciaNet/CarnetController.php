@@ -75,15 +75,15 @@ class CarnetController extends \App\Http\Controllers\Controller
         try {
             $api = new Gerencianet($options);
             $carnet = $api->createCarnet([], $body);
-            print_r($carnet);
+        //            print_r($carnet);
+            return $carnet;
         } catch (GerencianetException $e) {
-            print_r($e->code);
-            print_r($e->error);
-            print_r($e->errorDescription);
+//            print_r($e->code);
+//            print_r($e->error);
+//            print_r($e->errorDescription);
         } catch (Exception $e) {
-            print_r($e->getMessage());
+//            print_r($e->getMessage());
         }
-        return $carnet;
     }
 
     /**
@@ -94,7 +94,8 @@ class CarnetController extends \App\Http\Controllers\Controller
      */
     public function store(Request $request)
     {
-        $request->carnet['client_id'] = $request->client_id;
+        $request->carnet['client_id'] = $request->client->id;
+        $request->carnet['banking_id'] = $request->client->banking->id;
         $carnet = BankingCarnet::create($request->carnet);
         return $carnet;
     }
@@ -105,9 +106,30 @@ class CarnetController extends \App\Http\Controllers\Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(BankingCarnet $bankingCarnet)
     {
-        //
+        $client = $bankingCarnet->client;
+        $options = [
+            'client_id' => $client->banking->client_id,
+            'client_secret' => $client->banking->client_secret,
+            'sandbox' => $client->banking->sandbox
+        ];
+        $params = [
+            'id' => $bankingCarnet->carnet_id,
+        ];
+
+        try {
+            $api = new Gerencianet($options);
+            $carnet = $api->detailCarnet($params, []);
+//            print_r($carnet);
+            return $carnet;
+        } catch (GerencianetException $e) {
+//            print_r($e->code);
+//            print_r($e->error);
+//            print_r($e->errorDescription);
+        } catch (Exception $e) {
+//            print_r($e->getMessage());
+        }
     }
 
     /**
@@ -128,9 +150,14 @@ class CarnetController extends \App\Http\Controllers\Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, BankingCarnet $bankingCarnet)
     {
-        //
+        if ($request->action == "finished") {
+            $carnet = $this->show($bankingCarnet);
+            $bankingCarnet->update($carnet['data']);
+        } else if ($request->action == "cancel") {
+            $return = (new CarnetController())->destroy($bankingCarnet);
+        }
     }
 
     /**
@@ -153,14 +180,17 @@ class CarnetController extends \App\Http\Controllers\Controller
         try {
             $api = new Gerencianet($options);
             $response = $api->cancelCarnet($params, []);
-            print_r($response);
+//            print_r($response);
+            $request = new Request();
+            $request->action = "finished";
+            $this->update($request, $bankingCarnet);
             return $response;
         } catch (GerencianetException $e) {
-            print_r($e->code);
-            print_r($e->error);
-            print_r($e->errorDescription);
+//            print_r($e->code);
+//            print_r($e->error);
+//            print_r($e->errorDescription);
         } catch (Exception $e) {
-            print_r($e->getMessage());
+//            print_r($e->getMessage());
         }
     }
 }

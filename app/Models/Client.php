@@ -9,7 +9,7 @@ class Client extends Model
 {
     use HasFactory;
     protected $fillable =[
-        // 'id',
+//        'id',
         'name',
         'email',
         'rg',
@@ -25,15 +25,15 @@ class Client extends Model
     protected static function boot()
     {
         parent::boot();
-        static::deleting(function ($cliente) {
-                $cliente->enderecos()->delete();
+        static::deleting(function ($client) {
+                $client->adresses()->delete();
         });
     }
 
     public function adresses() {
         return $this->hasMany(Address::class);
     }
-    
+
     public function bankingBillets() {
         return $this->hasMany(BankingBillet::class);
     }

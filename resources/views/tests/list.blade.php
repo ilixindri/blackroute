@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Clientes') }}
+            {{ __("Tests") }}
         </h2>
     </x-slot>
 
     <div>
         <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
             <div class="block mb-8">
-                <a href="{{ route('clients.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">{{ __('Novo Cliente') }}</a>
+                <a href="{{ route('tests.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">{{ __('Nova API') }}</a>
             </div>
             <div class="flex flex-col">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -18,53 +18,45 @@
                                 <thead>
                                 <tr>
                                     <th scope="col" width="50" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('ID') }}
+                                        {{ __('Funcionalidade') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('Nome') }}
+                                        {{ __('Action') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('Email') }}
+                                        {{ __('Version') }}
                                     </th>
                                     <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('CPF') }}
+                                        {{ __('Comments') }}
                                     </th>
-                                    <th scope="col" class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('Editar/Deletar') }}
-
+                                    <th scope="col" width="200" class="px-6 py-3 bg-gray-50">
                                     </th>
-                                    {{-- <th scope="col" width="200" class="px-6 py-3 bg-gray-50">
-                                    </th> --}}
                                 </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach ($clients as $client)
+                                @foreach ($tests as $test)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $client->id }}
+                                            {{ $test->functionality }}
                                         </td>
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $client['name'] }}
+                                            {{ $test->action }}
                                         </td>
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $client['email'] }}
+                                            {{ $test->version }}
                                         </td>
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $client['cpf'] }}
+                                            {{ $test->comments }}
                                         </td>
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <form class="inline-block" action="{{ route('clients.carnets.index', ['client' => $client->id]) }}" method="GET">
-                                                {{-- <input type="hidden" name="_method" value="DELETE"> --}}
-{{--                                                <input type="hidden" name="client_id" value="{{ $client->id }}">--}}
-                                                <input style="cursor: pointer;" type="submit" class="text-purple-600 hover:text-purple-900 mb-2 mr-2" value="Financeiro">
-                                            </form>
                                             {{-- <a href="{{ route('users.show', $user->id) }}" class="text-blue-600 hover:text-blue-900 mb-2 mr-2">View</a> --}}
-                                            <a href="{{ route('clients.edit', $client['id']) }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Editar') }}</a>
-                                            <form class="inline-block" action="{{ route('clients.destroy', $client['id']) }}" method="POST" onsubmit="return confirm('{{ __("O cliente $client->name será excluído do sistema. Clique Ok para Deletar?") }}');">
+                                            <a href="{{ $test->route }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Ver') }}</a>
+                                            <a href="{{ route('tests.edit', $test->id) }}" class="text-indigo-600 hover:text-indigo-900 mb-2 mr-2"> {{ __('Editar') }}</a>
+                                            <form class="inline-block" action="{{ route('tests.destroy', $test->id) }}" method="POST" onsubmit="return confirm('{{ __("O test $test->id será excluído do sistema. Clique Ok para Deletar?") }}');">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                 <input style="cursor: pointer;" type="submit" class="text-red-600 hover:text-red-900 mb-2 mr-2" value="Delete">

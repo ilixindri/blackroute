@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Client;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Client;
+use App\Models\Banking;
 
-class TestController extends Controller
+class BilletController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,9 +24,10 @@ class TestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request, Client $client)
     {
-        //
+        return view('clients.billets.form')->with('client', $client)
+            ->with('bankings', Banking::all());
     }
 
     /**

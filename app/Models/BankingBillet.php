@@ -13,10 +13,12 @@ class BankingBillet extends Model
         'pix_qrcode', 'pix_qrcode_image', 'fine', 'interest'];
 
     public function client() {
-        return $this->belongsTo(Cliente::class);
+        return $this->belongsTo(Client::class);
     }
-
     public function bankingCarnet() {
         return $this->belongsTo(BankingCarnet::class);
+    }
+    public function banking() {
+        return $this->belongsTo(Banking::class);
     }
 }

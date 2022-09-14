@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Client;
 
 use App\Models\Client;
 use App\Models\Address;
@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Types\BaseResponse;
 use Session;
 
-class ClientController extends Controller
+class Controller extends \App\Http\Controllers\Controller
 {
     private $clientRequiredFields = [
         'name',
@@ -117,14 +117,14 @@ class ClientController extends Controller
                 'phone' => $request->get('phone'),
                 'whatsapp' => $request->get('whatsapp'),
             ]);
-    
+
             foreach ($this->addressRequiredFields as $key) {
                 if (!$request->get($key)) {
                     return response()->json(new BaseResponse(['field' => $key, $request->all()], false, 'Campos requeridos'));
                 }
             }
             $address = Address::where('client_id', $client->id);
-    
+
             $address->update([
                 'cep' => $request->get('zip'),
                 'logradouro' => $request->get('logradouro'),

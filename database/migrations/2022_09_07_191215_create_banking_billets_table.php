@@ -17,6 +17,7 @@ class CreateBankingBilletsTable extends Migration
             $table->id();
             $table->foreignId('client_id')->on('clients');
             $table->foreignId('carnet_id')->on('banking_carnets');
+            $table->foreignId('banking_id')->on('bankings');
             $table->bigInteger('charge_id');
             $table->smallInteger('parcel');
             $table->string('status');
@@ -34,6 +35,7 @@ class CreateBankingBilletsTable extends Migration
             $table->string('payment')->comment("boleto")->nullable();
             $table->unsignedSmallInteger('fine');
             $table->unsignedSmallInteger('interest');
+            $table->boolean('sandbox');
             $table->boolean('disabled')->default(False);
             $table->timestamps();
         });

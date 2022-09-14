@@ -55,7 +55,14 @@ class Banking extends Model
             $this->client_secret = $this->client_secret_production;
         }
     }
+
     public function clients() {
         return $this->hasMany(Client::class);
+    }
+    public function bankingCarnets() {
+        return $this->hasMany(BankingCarnet::class);
+    }
+    public function bankingBillets() {
+        return $this->hasMany(BankingBillet::class);
     }
 }
