@@ -22,8 +22,10 @@ class CreateClientsTable extends Migration
             $table->string('phone');
             $table->string('whatsapp');
             $table->date('birth_date');
+            $table->string('expire_at',2);
             $table->string('sexo')->comment('masculino ou feminino');
             $table->foreignId('banking_id')->on('banking');
+            $table->foreignId('plan_id')->on('plan');
             $table->boolean('disabled')->default(False);
             $table->timestamps();
         });

@@ -26,9 +26,8 @@ class Controller extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, Client $client)
     {
-        $client = Client::find($request->client_id);
         $Model = (new BankingCarnet());
         return view('clients.carnets.form')->with('client', $client)->with('Model', $Model);
     }

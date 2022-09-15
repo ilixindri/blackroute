@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth'], function () {
         'tasks' => \App\Http\Controllers\TasksController::class,
         'users' => \App\Http\Controllers\UsersController::class,
         'bankings' => \App\Http\Controllers\Banking\Controller::class,
+        'plans' => \App\Http\Controllers\PlanController::class,
         // 'bankings.carnets' => \App\Http\Controllers\Banking\Carnet\Controller::class,
         // 'bankings.carnets.billets' => \App\Http\Controllers\Banking\Carnet\BilletController::class,
         // 'bankings.billets' => \App\Http\Controllers\Banking\BilletController::class,

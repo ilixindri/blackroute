@@ -11,6 +11,7 @@ class ClientsTableSeeder extends Seeder
     {
         $clients = [
             [
+                'id' => 1,
                 'name' => "Alexandro G Dos Santos",
                 'email' => "alexandrogonsan@outlook.com",
                 'rg' => "1456407953",
@@ -20,6 +21,8 @@ class ClientsTableSeeder extends Seeder
                 'birth_date' => "1993-07-18",
                 'sexo' => "Masculino",
                 'banking_id' => 1,
+                'plan_id' => 1,
+                'expire_at' => 1,
             ],
         ];
 

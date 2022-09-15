@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Plan;
 use Illuminate\Database\Seeder;
 use DB;
 use Hash;
@@ -30,6 +31,8 @@ class DatabaseSeeder extends Seeder
             RoleUserTableSeeder::class,
             BankingsTableSeeder::class,
             ClientsTableSeeder::class,
+            AddressTableSeeder::class,
+            PlanTableSeeder::class,
         ]);
     }
 }

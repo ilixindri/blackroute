@@ -18,7 +18,7 @@
                                 {{ __('Digite os dados do boleto.') }}
                             </p>
                         </div>
-                        <div id="title2" class="py-2 px-2" onclick="section2()" style=""
+                        <div id="title2" style="display: none" class="py-2 px-2" onclick="section2()" style=""
                                 onMouseOver="document.body.style.cursor = 'pointer';"
                                 onMouseOut="document.body.style.cursor = '';">
                             <h3 class="text-lg font-medium text-gray-900">{{ __('Produtos') }}</h3>
@@ -26,7 +26,7 @@
                                 {{ __('Digite os produtos para gerar o boleto para o cliente.') }}
                             </p>
                         </div>
-                        <div id="title3" class="py-2 px-2" onclick="section3()" style=""
+                        <div id="title3" style="display: none" class="py-2 px-2" onclick="section3()" style=""
                                 onMouseOver="document.body.style.cursor = 'pointer';"
                                 onMouseOut="document.body.style.cursor = '';">
                             <h3 class="text-lg font-medium text-gray-900">{{ __('Descontos') }}</h3>
@@ -71,13 +71,11 @@
                         @include('clients.billets.form1')
                     </div>
                     <div id="form2" style="display: none" class="mt-5 md:mt-0 md:col-span-2">
-                        {{-- <input type="hidden" id="client_id" name="client_id"
-                               @isset($client) value="{{ $client->id }}" @endisset> --}}
+                         <input type="hidden" id="client_id" name="client_id"
+                               @isset($client) value="{{ $client->id }}" @endisset>
                         @include('clients.billets.products')
                     </div>
                     <div id="form3" style="display: none" class="mt-5 md:mt-0 md:col-span-2">
-                        {{-- <input type="hidden" id="client_id" name="client_id"
-                               @isset($client) value="{{ $client->id }}" @endisset> --}}
                         @include('clients.billets.discount')
                     </div>
                 </form>

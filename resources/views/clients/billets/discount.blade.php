@@ -1,28 +1,31 @@
 <div class="px-4 py-5 bg-white sm:p-6 shadow {{ isset($actions1) ? 'sm:rounded-tl-md sm:rounded-tr-md' : 'sm:rounded-md' }}">
     <div id="" class="grid grid-cols-6 gap-6">
-            <div class="col-span-6 sm:col-span-4">
-                <x-jet-label for="discount_type" value="{{ __('Tipo de Desconto') }}" />
-                <x-jet-label style="float: left" class="px-2" for="discount_type" value="{{ __('Dinheiro') }}" />
-                <x-jet-input style="float: left" class="px-3" required id="discount_type" name="discount_type" value="currency" type="radio" class="mt-1 block w-12" />
-                <x-jet-label style="float: left" class="px-2" for="discount_type" value="{{ __('Porcentagem') }}" />
-                <x-jet-input required id="discount_type" class="py-3" name="discount_type" value="percentage" type="radio" class="mt-1 block w-12" />
-                <x-jet-input-error for="discount_type" class="mt-2" />
-            </div>
-            <div class="col-span-6 sm:col-span-4">
-                <x-jet-label for="discount_value" value="{{ __('Valor do Desconto') }}" />
-                <x-jet-input required id="discount_value" name="discount_value" value="" type="number" class="mt-1 block w-full" />
-                <x-jet-input-error for="discount_value" class="mt-2" />
-            </div>
-
+{{--            <div class="col-span-6 sm:col-span-4">--}}
+{{--                <x-jet-label for="discount_type" value="{{ __('Tipo de Desconto') }}" />--}}
+{{--                <div class="pt-3">--}}
+{{--                    <x-jet-label style="float: left" class="px-2" for="discount_type" value="{{ __('Dinheiro') }}" />--}}
+{{--                    <x-jet-input style="float: left" class="px-3" required id="discount_type" name="discount_type" value="currency" type="radio" class="mt-1 block w-12" />--}}
+{{--                    <x-jet-label style="float: left" class="px-2" for="discount_type" value="{{ __('Porcentagem') }}" />--}}
+{{--                    <x-jet-input required id="discount_type" class="" name="discount_type" value="percentage" type="radio" class="mt-1 block w-12" />--}}
+{{--                </div>--}}
+{{--                <x-jet-input-error for="discount_type" class="mt-2" />--}}
+{{--            </div>--}}
+{{--            <div class="col-span-6 sm:col-span-4">--}}
+{{--                <x-jet-label for="discount_value" value="{{ __('Valor do Desconto') }}" />--}}
+{{--                <x-jet-input required id="discount_value" name="discount_value" value="" type="number" class="mt-1 block w-full" />--}}
+{{--                <x-jet-input-error for="discount_value" class="mt-2" />--}}
+{{--            </div>--}}
             <div class="col-span-6 sm:col-span-4 pt-4">
-                <x-jet-label for="" title="Desconto por pagar antecipado" value="{{ __('Desconto Condicional') }}" />
+                <x-jet-label for="" class="italic" title="Desconto por pagar antecipado" value="{{ __('Desconto Condicional') }}" />
             </div>
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="conditional_discount_type" value="{{ __('Tipo de Desconto') }}" />
-                <x-jet-label for="conditional_discount_type" value="{{ __('Dinheiro') }}" />
-                <x-jet-input required id="conditional_discount_type" name="conditional_discount_type" value="currency" type="radio" class="mt-1 block w-full" />
-                <x-jet-label for="conditional_discount_type" value="{{ __('Porcentagem') }}" />
-                <x-jet-input required id="conditional_discount_type" name="conditional_discount_type" value="percentage" type="radio" class="mt-1 block w-full" />
+                <div class="pt-3">
+                    <x-jet-label style="float: left" class="px-2" for="conditional_discount_type" value="{{ __('Dinheiro') }}" />
+                    <x-jet-input style="float: left" class="px-3" required id="conditional_discount_type" name="conditional_discount_type" value="currency" type="radio" class="mt-1 block w-12" />
+                    <x-jet-label style="float: left" class="px-2" for="conditional_discount_type" value="{{ __('Porcentagem') }}" />
+                    <x-jet-input required class="" checked id="conditional_discount_type" name="conditional_discount_type" value="percentage" type="radio" class="mt-1 block w-12" />
+                </div>
                 <x-jet-input-error for="conditional_discount_type" class="mt-2" />
             </div>
             <div class="col-span-6 sm:col-span-4">

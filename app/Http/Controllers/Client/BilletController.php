@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Banking;
+use App\Models\Plan;
 
 class BilletController extends Controller
 {
@@ -27,7 +28,7 @@ class BilletController extends Controller
     public function create(Request $request, Client $client)
     {
         return view('clients.billets.form')->with('client', $client)
-            ->with('bankings', Banking::all());
+            ->with('bankings', Banking::all())->with('plans', Plan::all());
     }
 
     /**

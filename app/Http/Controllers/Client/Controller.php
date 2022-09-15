@@ -154,7 +154,7 @@ class Controller extends \App\Http\Controllers\Controller
             $client->update(['disabled' => True]);
             // return response()->json(new BaseResponse(null, true, 'Cliente removido'));
         }
-        // $endereco = Endereco::where('cliente_id', $cliente->id);
+    // $endereco = Endereco::where('cliente_id', $cliente->id);
         // if ($endereco) {
         //     $endereco->delete();
         // }

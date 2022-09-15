@@ -42,6 +42,7 @@ class BilletController extends \App\Http\Controllers\Controller
         $request->charge['banking_id'] = $request->client->banking->id;
         $request->charge['fine'] = strval($request->client->banking->fine);
         $request->charge['interest'] = strval($request->client->banking->interest);
+        $request->charge['sandbox'] = $request->client->banking->sandbox;
         try {
             $request->charge['carnet_id'] = $request->carnet['id'];
         } catch (\Throwable $th) { }

@@ -33,7 +33,7 @@ class CarnetController extends \App\Http\Controllers\Controller
         ];
         $item_1 = [
             'name' => 'Mensalidade Internet Lux',
-            'amount' => 6,
+            'amount' => 1,
             'value' => 10000,
         ];
         $items =  [
@@ -67,7 +67,7 @@ class CarnetController extends \App\Http\Controllers\Controller
             'items' => $items,
             'customer' => $customer,
             'expire_at' => $expire_at,
-            'repeats' => 5,
+            'repeats' => (int) $request->parcels,
             'split_items' => false,
             // 'metadata' => $metadata,
             'configurations' => $configurations,
@@ -78,11 +78,11 @@ class CarnetController extends \App\Http\Controllers\Controller
         //            print_r($carnet);
             return $carnet;
         } catch (GerencianetException $e) {
-//            print_r($e->code);
-//            print_r($e->error);
-//            print_r($e->errorDescription);
+            print_r($e->code);
+            print_r($e->error);
+            print_r($e->errorDescription);
         } catch (Exception $e) {
-//            print_r($e->getMessage());
+            print_r($e->getMessage());
         }
     }
 
@@ -96,6 +96,9 @@ class CarnetController extends \App\Http\Controllers\Controller
     {
         $request->carnet['client_id'] = $request->client->id;
         $request->carnet['banking_id'] = $request->client->banking->id;
+        $request->carnet['parcels'] = $request->parcels;
+        $request->carnet['fine'] = $request->client->banking->fine;
+        $request->carnet['interest'] = $request->client->banking->interest;
         $carnet = BankingCarnet::create($request->carnet);
         return $carnet;
     }

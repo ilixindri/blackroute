@@ -29,6 +29,11 @@ class Client extends Model
                 $client->adresses()->delete();
         });
     }
+    public function delete() {
+        $this->disabled = True;
+        $this->save();
+        return $this;
+    }
 
     public function adresses() {
         return $this->hasMany(Address::class);
@@ -43,6 +48,9 @@ class Client extends Model
     }
 
     public function banking() {
+        return $this->belongsTo(Banking::class);
+    }
+    public function plan() {
         return $this->belongsTo(Banking::class);
     }
 }
