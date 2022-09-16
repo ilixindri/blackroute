@@ -21,7 +21,7 @@ class Plan extends Model
         return $this;
     }
 
-    public function plans() {
-        return $this->hasMany(Plan::class);
+    public function clients() {
+        return $this->hasMany(Client::class);
     }
 }

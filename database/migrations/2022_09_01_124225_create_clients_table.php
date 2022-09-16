@@ -22,10 +22,12 @@ class CreateClientsTable extends Migration
             $table->string('phone');
             $table->string('whatsapp');
             $table->date('birth_date');
-            $table->string('expire_at',2);
+            $table->tinyInteger('expire_at')->comment('dia de vencimento');
+            $table->tinyInteger('until_days')->comment('dias para bloqueio apos vencimento');
             $table->string('sexo')->comment('masculino ou feminino');
             $table->foreignId('banking_id')->on('banking');
             $table->foreignId('plan_id')->on('plan');
+            $table->foreignId('contract_id')->on('contract');
             $table->boolean('disabled')->default(False);
             $table->timestamps();
         });

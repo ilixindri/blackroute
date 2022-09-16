@@ -103,67 +103,28 @@
             <x-jet-label class="py-4 px-2" style="float: right" for="interestc" value="{{ __('Usar Juros Default Da Conta:') }}" />
             <x-jet-input-error for="interest" class="mt-2" />
         </div>
+            @php
+//                dd($client);
+            @endphp
         <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="plan_id" value="{{ __('Plano') }}" />
-            <select required id="plan_id" name="plan_id" onchange="messagef(this)" class='w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm'>
-                <option value="None"></option>
-                @foreach($plans as $plan)
-                    @isset($billet)
-                        <option @if($plan->id == $billet->plan_id) selected @endif value="{{ $plan->id }}">{{ $plan->name }}</option>
-                    @else
-                        @isset($client->plan->id)
-                            <option @if($plan->id == $client->plan->id) selected @endif value="{{ $plan->id }}">{{ $plan->name }}</option>
-                        @else
-                            <script>
-                                document.getElementById('message_div').style.display = 'block';
-                                document.getElementById('message').innerHTML = 'Cadastre um plano para o cliente primeiro.';
-                            </script>
-                        @endisset
-                    @endisset
-                @endforeach
-            </select>
-            <x-jet-input-error for="plan_id" class="mt-2" />
-        </div>
-        <div style="display: none;" class="col-span-6 sm:col-span-4">
-            <x-jet-label for="plan_value" value="{{ __('Valor') }}" />
-            <select id="plan_value" name="plan_value" onchange="planf(this)" class='w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm'>
-                <option value="None"></option>
-                @isset($plans)
-                    @foreach($plans as $plan)
-                        @isset($billet)
-                            <option @if($plan->id == $billet->plan_id) selected @endif value="{{ $plan->id }}">{{ $plan->value }}</option>
-                        @else
-                            @isset($client->plan->id)
-                                <option @if($plan->id == $client->plan->id) selected @endif value="{{ $plan->id }}">{{ $plan->value }}</option>
-                            @endisset
-                        @endisset
-                    @endforeach
-                @endisset
-            </select>
-            <x-jet-input-error for="plan_value" class="mt-2" />
+            <x-jet-label for="plan" value="{{ __('Plano') }}" />
+            @isset($client->plan->name)<x-jet-input disabled id="plan" min="0" name="plan" value="{{$client->plan->name}}" type="text" class="mt-1 block w-full"  />
+            @else
+                <x-jet-input disabled id="plan" min="0" name="plan" value="{{$billet->interest}}" type="number" class="mt-1 block w-full"  />
+                <script>
+                    document.getElementById('message_div').style.display = 'block';
+                    document.getElementById('message').innerHTML = 'Cadastre um plano para o cliente primeiro.';
+                </script>
+            @endisset
+            <x-jet-input-error for="plan" class="mt-2" />
         </div>
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="value" value="{{ __('Valor') }}" />
-            <x-jet-input required id="value" name="value" value="" type="number" class="mt-1 block w-full" />
+            @isset($client->plan->value)<x-jet-input required id="value" name="value" value="{{$client->plan->value}}" type="number" class="mt-1 block w-full" />
+            @else
+                <x-jet-input required disable id="value" name="value" value="" type="number" class="mt-1 block w-full" />
+            @endisset
             <x-jet-input-error for="value" class="mt-2" />
-        </div>
-        <div style="display: none;" class="col-span-6 sm:col-span-4">
-            <x-jet-label for="plan_discount_value" value="{{ __('Valor do Desconto') }}" />
-            <select id="plan_discount_value" name="plan_discount_value" onchange="planf(this)" class='w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm'>
-                <option value="None"></option>
-                @isset($plans)
-                    @foreach($plans as $plan)
-                        @isset($billet)
-                            <option @if($plan->id == $billet->plan_id) selected @endif value="{{ $plan->id }}">{{ $plan->discount_value }}</option>
-                        @else
-                            @isset($client->plan->id)
-                                <option @if($plan->id == $client->plan->id) selected @endif value="{{ $plan->id }}">{{ $plan->discount_value }}</option>
-                            @endisset
-                        @endisset
-                    @endforeach
-                @endisset
-            </select>
-            <x-jet-input-error for="plan_discount_value" class="mt-2" />
         </div>
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="expire_at" value="{{ __('Data de Vencimento') }}" />
@@ -174,12 +135,14 @@
                 /* get date with input day next */
                 var date = new Date();
                 var day = date.getDate();
-                if (day == {{$client->expire_at}}) {
-                    var month = date.getMonth();
-                } else {
+                if (day <= {{$client->expire_at}}) {
                     var month = date.getMonth() + 1;
+                } else {
+                    var month = date.getMonth() + 2;
                 }
+                month = month.toString().length == 1 ? '0' + month : month;
                 day = {{$client->expire_at}};
+                day = day.toString().length == 1 ? '0' + day : day;
                 var year = date.getFullYear();
                 var nextDate = year + '-' + month + '-' + day;
                 var ee = document.getElementById('expire_at');
@@ -203,29 +166,18 @@
         </div>
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="message" value="{{ __('Mensagem a colocar no boleto') }}" />
-            @isset($billet)<x-jet-input required id="message" name="message" value="{{$billet->expire_at}}" type="date" class="mt-1 block w-full"  />
-            @else<x-jet-input required id="message" name="message" type="text" class="mt-1 block w-full"  />@endisset
+            @isset($billet)<x-jet-input required id="message" name="message" value="{{$billet->message}}" type="date" class="mt-1 block w-full"  />
+            @else
+                @isset($client->plan->name)
+                    @isset($client->plan->value)
+                        <x-jet-input required id="message" value="Plano {{$client->plan->name}} (R$ {{$client->plan->value}})" name="message" type="text" class="mt-1 block w-full"  />
+                    @endisset
+                @else
+                    <x-jet-input required id="message" value="" disable name="message" type="text" class="mt-1 block w-full"  />
+                @endisset
+            @endisset
             <x-jet-input-error for="message" class="mt-2" />
         </div>
-        <script>
-            function planf(e) {
-                var planve = document.getElementById('plan_value');
-                planve.selectedIndex = e.options[e.selectedIndex].value;
-                var plandv = document.getElementById('plan_discount_value');
-                plandv.selectedIndex = e.options[e.selectedIndex].value;
-                var planv = e.options[e.selectedIndex].text;
-                var planvv = planve.options[planve.selectedIndex].text;
-                planvv = parseInt(planvv);
-                planvv -= parseInt(planve);
-                var messagev = document.getElementById('message');
-                messagev.value = planv + "(R$ " + planvv + ")";
-                var dv = document.getElementById('conditional_discount_value');
-                dv.value = plandv.options[plandv.selectedIndex].text
-                var ve = document.getElementById('value');
-                ve.value = planvv;
-            }
-            planf(document.getElementById('plan_id'));
-        </script>
     </div>
 </div>
 

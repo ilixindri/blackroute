@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Models\Client;
 use App\Models\Address;
+use App\Models\Banking;
 use Illuminate\Http\Request;
 use App\Types\BaseResponse;
 use Session;
@@ -37,6 +38,11 @@ class Controller extends \App\Http\Controllers\Controller
         $clients = Client::where('disabled', False)->get();
         // dd($clients);
         return view('clients.list', ["clients" => $clients]);
+    }
+
+    public function create()
+    {
+        return view('clients.form')->with('Model', new Client());
     }
 
     public function store(Request $request)
@@ -88,13 +94,20 @@ class Controller extends \App\Http\Controllers\Controller
 
     public function show($id)
     {
-        // echo $id;
         // $cliente = Cliente::with('enderecos')->find($id);
         // if ($cliente) {
             // return response()->json(new BaseResponse($cliente));
         // }
         // return response()->json(new BaseResponse(null, false, 'Cliente nao encontrado'));
         return redirect()->route('clients.edit', ['client' => $id]);
+    }
+
+    public function edit($id)
+    {
+        $client = Client::with('adresses')->find($id);
+        // $client = Cliente::find($id);
+        // dd($client);
+        return view('clients.form', ['client' => $client])->with('Model', new Client());
     }
 
     public function update(Request $request, $id)
@@ -236,19 +249,5 @@ class Controller extends \App\Http\Controllers\Controller
             return response()->json(new BaseResponse(null, false, 'Endereço nao encontrado'));
         }
         return response()->json(new BaseResponse(null, false, 'Cliente nao encontrado'));
-    }
-
-    //NEW METHODS
-    public function create()
-    {
-        return view('clients.form');
-    }
-
-    public function edit($id)
-    {
-        $client = Client::with('adresses')->find($id);
-        // $client = Cliente::find($id);
-        // dd($client);
-        return view('clients.form', ['client' => $client]);
     }
 }

@@ -27,6 +27,8 @@ class BilletController extends Controller
      */
     public function create(Request $request, Client $client)
     {
+        $client = $client->with('plan', 'banking')->get()->first();
+//        dd($client);
         return view('clients.billets.form')->with('client', $client)
             ->with('bankings', Banking::all())->with('plans', Plan::all());
     }

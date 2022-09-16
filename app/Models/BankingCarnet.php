@@ -15,7 +15,7 @@ class BankingCarnet extends Model
         'link', 'carnet_link', 'pdf_carnet', 'pdf_cover',
         ];
         //'parcels', 'fine', 'interest',];
-    public $displayable = ['parcels', 'fine', 'interest',];
+//    public $displayable = ['parcels', 'fine', 'interest',];
     public $parcels__datas = ["type" => "number", "label" => "Parcelas"];
     public $fine__datas = ["type" => "number", "label" => "Multa"];
     public $interest__datas = ["type" => "number", "label" => "Juros"];
@@ -29,7 +29,7 @@ class BankingCarnet extends Model
     public function banking() {
         return $this->belongsTo(Banking::class);
     }
-    
+
     public function delete() {
         $this->disabled = True;
         $this->save();

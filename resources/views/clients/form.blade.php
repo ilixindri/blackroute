@@ -10,58 +10,57 @@
             <div class='md:grid md:grid-cols-3 md:gap-6'>
                 <div class="md:col-span-1 flex justify-between">
                     <div class="px-4 sm:px-0">
-                        <div id="title1" class="py-2 px-2" onclick="section1()" style="background-color: #eee"
-                            onMouseOver="document.body.style.cursor = 'pointer';"
-                            onMouseOut="document.body.style.cursor = '';">
-                            <h3 class="text-lg font-medium text-gray-900">{{ __('Dados Pessoais') }}</h3>
-                            <p class="mt-1 text-sm text-gray-600">
-                                {{ __('Digite os dados pessoais do cliente.') }}
-                            </p>
-                        </div>
-                    {{-- </div> --}}
-                    {{-- <div class="px-4 sm:px-0">
-                        {{ $aside ?? '' }}
-                    </div> --}}
-                {{-- </div> --}}
-                {{-- <div class="md:col-span-1 flex justify-between" onclick="section2()" style="float: left!important"> --}}
-                    {{-- <div class="px-4 sm:px-0"> --}}
-                        <div id="title2" class="py-2 px-2" onclick="section2()" style="" 
+                        @foreach($Model->forms as $key => $form)
+                            <div id="title{{$key}}" class="py-2 px-2" onclick="section{{$key}}()"
                                 onMouseOver="document.body.style.cursor = 'pointer';"
                                 onMouseOut="document.body.style.cursor = '';">
-                            <h3 class="text-lg font-medium text-gray-900">{{ __('Endereço') }}</h3>
-                            <p class="mt-1 text-sm text-gray-600">
-                                {{ __('Digite o endereço do cliente.') }}
-                            </p>
-                        </div>
+                                <h3 class="text-lg font-medium text-gray-900">{{ __($form['title']) }}</h3>
+                                <p class="mt-1 text-sm text-gray-600">
+                                    {{ __($form['text']) }}
+                                </p>
+                            </div>
+                            <script>
+                                function section{{$key}}() {
+                                    @foreach($Model->forms as $key2 => $form)
+                                        @if($key == $key2)
+                                            document.getElementById('form{{$key2}}').style.display = 'block';
+                                            document.getElementById('title{{$key2}}').style.backgroundColor = '#eee';
+                                        @else
+                                            document.getElementById('form{{$key2}}').style.display = 'none';
+                                            document.getElementById('title{{$key2}}').style.backgroundColor = 'transparent';
+                                        @endif
+                                    @endforeach
+                                    /* add text to url */
+                                    {{--window.location.href += '#{{$form['view']}}';--}}
+                                    if (window.location.hash.substring(0, 1) == '#') {
+                                        window.location.hash = '';
+                                        window.location.href += '{{$key}}';
+                                    } else {
+                                        window.location.href += '#{{$key}}';
+                                    }
+                                }
+                            </script>
+                        @endforeach
                     </div>
-                    {{-- <div class="px-4 sm:px-0">
-                        {{ $aside ?? '' }}
-                    </div> --}}
                 </div>
                 <script>
-                    function section1() {
-                        document.getElementById('form2').style.display = 'none';
-                        document.getElementById('form1').style.display = 'block';
-                        document.getElementById('title1').style.backgroundColor = '#eee';
-                        document.getElementById('title2').style.backgroundColor = 'transparent';
-                    }
-                    function section2() {
-                        document.getElementById('form2').style.display = 'block';
-                        document.getElementById('form1').style.display = 'none';
-                        document.getElementById('title1').style.backgroundColor = 'transparent';
-                        document.getElementById('title2').style.backgroundColor = '#eee';
-                    }
+                    document.getElementById('title0').style.backgroundColor = '#eee';
                 </script>
                 <form id="client" action="@isset($client){{ route('clients.update', ['client'=>$client->id]) }}@else{{ route('clients.store') }}@endisset" method="POST" class="mt-5 md:mt-0 md:col-span-2">
                     @csrf
                     @isset($client)@method('PUT')@endisset
-                    <div id="form1" class="mt-5 md:mt-0 md:col-span-2">
-                        @include('clients.personal-data')
-                    </div>
-                    <div id="form2" class="mt-5 md:mt-0 md:col-span-2" style="display: none">
-                        @include('clients.address')
-                    </div>
+                    @foreach($Model->forms as $key => $form)
+                        <div id="form{{$key}}" style="display: none" class="mt-5 md:mt-0 md:col-span-2">
+                            @include("clients." . $form['view'])
+                        </div>
+                    @endforeach
+                    <script>
+                        document.getElementById('form0').style.display = 'block';
+                    </script>
                 </form>
+                <script>
+                    window['section' + window.location.hash.substring(1)]();
+                </script>
             </div>
 
             <x-jet-section-border />
