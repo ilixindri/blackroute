@@ -19,10 +19,16 @@ class ClientsTableSeeder extends Seeder
                 'phone' => "+5595981042843",
                 'whatsapp' => "+5595981042843",
                 'birth_date' => "1993-07-18",
-                'sexo' => "Masculino",
+                'user' => 'alexandrogonsan',
+                'password' => '123456789',
+                'sex' => "male",
                 'banking_id' => 1,
                 'plan_id' => 1,
                 'expire_at' => 1,
+                'until_days' => 45,
+                'contract_id' => 1,
+                'splitter' => 1,
+                'cto_id' => 1,
             ],
         ];
 

@@ -29,10 +29,12 @@ class DatabaseSeeder extends Seeder
             PermissionRoleTableSeeder::class,
             UsersTableSeeder::class,
             RoleUserTableSeeder::class,
-            BankingsTableSeeder::class,
+            BankingTableSeeder::class,
             ClientsTableSeeder::class,
             AddressTableSeeder::class,
             PlanTableSeeder::class,
+            ContractTableSeeder::class,
+            CtoTableSeeder::class,
         ]);
     }
 }

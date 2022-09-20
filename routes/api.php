@@ -14,5 +14,4 @@ Route::post('/endereco/{id}', [Controller::class, 'storeAddress']);
 Route::put('/endereco/{idUser}/{idAddress}', [Controller::class, 'updateAddress']);
 Route::delete('/endereco/{idUser}/{idAddress}', [Controller::class, 'destroyAddress']);
 
-
-
+Route::get('/ctos/{cto}', [\App\Http\Controllers\CtoController::class, 'show']);

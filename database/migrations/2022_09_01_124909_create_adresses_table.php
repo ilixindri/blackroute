@@ -16,11 +16,11 @@ class CreateAdressesTable extends Migration
         Schema::create('adresses', function (Blueprint $table) {
             $table->id();
             $table->integer('client_id');
-            $table->text('tipo')->comment('Comercial ou Residencial');
-            $table->text('cep');
+            $table->enum('type', ['business', 'residential']);
+            $table->text('zip');
             $table->text('logradouro');
-            $table->text('numero');
-            $table->text('UF');
+            $table->text('number');
+            $table->text('state');
             $table->text('complemento')->nullable();
             $table->text('bairro')->nullable();
             // $table->point('coordinates');

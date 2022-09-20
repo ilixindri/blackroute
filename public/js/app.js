@@ -5038,73 +5038,6 @@ __webpack_require__.r(__webpack_exports__);
 
 window.Alpine = alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"];
 alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"].start();
-var lpc = 1;
-
-function product(param) {
-  /* get element by id */
-  var one = document.getElementById('one');
-  one = one.cloneNode(true);
-  one.id = '';
-  var two = document.getElementById('two');
-  two = two.cloneNode(true);
-  two.id = '';
-  var three = document.getElementById('three');
-  three = three.cloneNode(true);
-  three.id = '';
-  var four = document.getElementById('four');
-  four = four.cloneNode(true);
-  four.id = ''; // var five = document.getElementById('five');
-  // five = five.cloneNode(true);
-  // five.id = '';
-  // five.innerHTML = "Produto " + lpc;
-  // lpc++;
-
-  var div = document.createElement('div');
-  div.className = 'grid grid-cols-6 gap-6';
-
-  if (param == 1) {// div.appendChild(four);
-  } // var d = document.createElement('div');
-  // d.className = 'col-span-6 sm:col-span-4';
-  // d.appendChild(five);
-  // div.appendChild(d);
-  // var br = document.createElement('br');
-  // div.appendChild(br);
-
-
-  div.appendChild(one);
-  div.appendChild(two);
-  div.appendChild(three);
-  var link1v = document.getElementById('link1');
-  link1v.id = '';
-  link1v.style = '';
-  link1v.innerHTML = "Produto " + lpc;
-  link1v.id = "tabs-product" + lpc + "-tab";
-  link1v.setAttribute('data-bs-target', '#tabs-product' + lpc);
-  link1v.setAttribute('aria-controls', 'tabs-product' + lpc);
-  /* create element ul add class and role */
-
-  var li1v = document.createElement('li');
-  li1v.className = 'nav-item';
-  li1v.setAttribute('role', 'presentation');
-  li1v.appendChild(link1v);
-  var ul1v = document.getElementById('ul1');
-  ul1v.appendChild(li1);
-  var tab1v = document.createElement('div');
-  tab1v.className = 'tab-pane fade show active';
-  tab1v.id = "tabs-product" + lpc;
-  tab1v.setAttribute('role', 'tabpanel');
-  tab1v.setAttribute('aria-labelledby', 'tabs-home-tab');
-  tab1v.appendChild(div);
-
-  for (var i = 0; i < lpc - 1; i++) {
-    var idv = document.getElementById('tabs-product' + i);
-    idv.className = 'tab-pane fade';
-  }
-
-  lpc++;
-  var div1 = document.getElementById('div1');
-  div1.appendChild(tab1v);
-}
 
 /***/ }),
 
@@ -22364,6 +22297,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/fontawesome.scss":
+/*!*****************************************!*\
+  !*** ./resources/sass/fontawesome.scss ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/css/app.css":
 /*!*******************************!*\
   !*** ./resources/css/app.css ***!
@@ -22717,7 +22663,8 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
 /******/ 			"/js/app": 0,
-/******/ 			"css/app": 0
+/******/ 			"css/app": 0,
+/******/ 			"css/fontawesome": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -22767,9 +22714,10 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/sass/app.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/css/app.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/fontawesome"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/fontawesome"], () => (__webpack_require__("./resources/sass/app.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/fontawesome"], () => (__webpack_require__("./resources/sass/fontawesome.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","css/fontawesome"], () => (__webpack_require__("./resources/css/app.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

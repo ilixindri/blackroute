@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Contract;
+use App\Models\Cto;
 use Illuminate\Database\Seeder;
 
-class ContractTableSeeder extends Seeder
+class CtoTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,10 +17,11 @@ class ContractTableSeeder extends Seeder
         $lines = [
             [
                 'id' => 1,
-                'name' => 'Contrato 1',
+                'name' => 'Cto 1',
+                'splitter' => 16,
             ],
         ];
 
-        Contract::insert($lines);
+        Cto::insert($lines);
     }
 }

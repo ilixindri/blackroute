@@ -5,39 +5,23 @@ namespace App\Http\Controllers\Client;
 use App\Models\Client;
 use App\Models\Address;
 use App\Models\Banking;
+use App\Models\Cto;
 use Illuminate\Http\Request;
 use App\Types\BaseResponse;
 use Session;
 
 class Controller extends \App\Http\Controllers\Controller
 {
-    private $clientRequiredFields = [
-        'name',
-        'birth_date',
-        'sexo',
-        'email',
-        'rg',
-        'cpf',
-        'phone',
-        'whatsapp',
-    ];
+    private $clientRequiredFields = ['name', 'birth_date', 'sexo', 'email', 'rg', 'cpf', 'phone', 'whatsapp',];
 
-    private $addressRequiredFields = [
-        'zip',
-        'logradouro',
-        'number',
-        'uf',
-        'complemento',
-        'bairro',
-        'type',
-    ];
+    private $addressRequiredFields = ['zip', 'logradouro', 'number', 'uf', 'complemento', 'bairro', 'type',];
 
     public function index()
     {
         // return response()->json(new BaseResponse(Cliente::all()));
-        $clients = Client::where('disabled', False)->get();
-        // dd($clients);
-        return view('clients.list', ["clients" => $clients]);
+//        $clients = Client::where('disabled', False)->get();
+        $clients = Client::all();
+        return view('list', ["objects" => $clients, "Model" => new Client()]);
     }
 
     public function create()
@@ -47,45 +31,44 @@ class Controller extends \App\Http\Controllers\Controller
 
     public function store(Request $request)
     {
-        foreach ($this->clientRequiredFields as $key) {
-            if (!$request->get($key)) {
-                // echo $key;
-                // echo '<br>';
-                // return response()->json(new BaseResponse(['field' => $key, $request->all()], false, 'Campos requeridos'));
-                Session::flash('message', "Campo $key obrigatório.");
-                Session::flash('alert-class', 'alert-error');
-                return back()->withInput();
-            }
-        }
-        $client = Client::create([
-            'name' => $request->get('name'),
-            'birth_date' => $request->get('birth_date'),
-            'sexo' => $request->get('sexo'),
-            'email' => $request->get('email'),
-            'rg' => $request->get('rg'),
-            'cpf' => $request->get('cpf'),
-            'phone' => $request->get('phone'),
-            'whatsapp' => $request->get('whatsapp'),
-        ]);
-
-        foreach ($this->addressRequiredFields as $key) {
-            if (!$request->get($key)) {
-                return response()->json(new BaseResponse(['field' => $key, $request->all()], false, 'Campos requeridos'));
-            }
-        }
-
-        $address = Address::create([
-            'cep' => $request->get('zip'),
-            'logradouro' => $request->get('logradouro'),
-            'numero' => $request->get('number'),
-            'complemento' => $request->get('complemento'),
-            'bairro' => $request->get('bairro'),
-            'UF' => $request->get('uf'),
-            'client_id' => $client->id,
-            'tipo' => $request->get('type'),
-            'coordinates' => $request->get('coordinates'),
-        ]);
-
+//        foreach ($this->clientRequiredFields as $key) {
+//            if (!$request->get($key)) {
+//                // return response()->json(new BaseResponse(['field' => $key, $request->all()], false, 'Campos requeridos'));
+//                Session::flash('message', "Campo $key obrigatório.");
+//                Session::flash('alert-class', 'alert-error');
+//                return back()->withInput();
+//            }
+//        }
+        $insert = $request->request->all();
+        $client = Client::create($insert);
+//        $client = Client::create([
+//            'name' => $request->get('name'),
+//            'birth_date' => $request->get('birth_date'),
+//            'sexo' => $request->get('sexo'),
+//            'email' => $request->get('email'),
+//            'rg' => $request->get('rg'),
+//            'cpf' => $request->get('cpf'),
+//            'phone' => $request->get('phone'),
+//            'whatsapp' => $request->get('whatsapp'),
+//        ]);
+//        foreach ($this->addressRequiredFields as $key) {
+//            if (!$request->get($key)) {
+//                return response()->json(new BaseResponse(['field' => $key, $request->all()], false, 'Campos requeridos'));
+//            }
+//        }
+        $insert['client_id'] = $client->id;
+        $address = Address::create($insert);
+//        $address = Address::create([
+//            'cep' => $request->get('zip'),
+//            'logradouro' => $request->get('logradouro'),
+//            'numero' => $request->get('number'),
+//            'complemento' => $request->get('complemento'),
+//            'bairro' => $request->get('bairro'),
+//            'UF' => $request->get('uf'),
+//            'client_id' => $client->id,
+//            'tipo' => $request->get('type'),
+//            'coordinates' => $request->get('coordinates'),
+//        ]);
         // return response()->json(new BaseResponse(['id' => $cliente->id], true, 'Cliente criado com sucesso'));
         Session::flash('message', 'Cliente cadastrado com sucesso.');
         Session::flash('alert-class', 'alert-success');
@@ -107,48 +90,49 @@ class Controller extends \App\Http\Controllers\Controller
         $client = Client::with('adresses')->find($id);
         // $client = Cliente::find($id);
         // dd($client);
-        return view('clients.form', ['client' => $client])->with('Model', new Client());
+        return view('clients.form', ['object' => $client])->with('Model', new Client());
     }
 
     public function update(Request $request, $id)
     {
         $client = Client::find($id);
         if ($client) {
-            foreach ($this->clientRequiredFields as $key) {
-                if (!$request->get($key)) {
-                    return response()->json(new BaseResponse(['field' => $key], false, 'Campos requeridos'));
-                }
-            }
+//            foreach ($this->clientRequiredFields as $key) {
+//                if (!$request->get($key)) {
+//                    return response()->json(new BaseResponse(['field' => $key], false, 'Campos requeridos'));
+//                }
+//            }
+            $client = $client->update($request->request->all());
 
-            $client->update([
-                'name' => $request->get('name'),
-                'birth_date' => $request->get('birth_date'),
-                'sexo' => $request->get('sexo'),
-                'email' => $request->get('email'),
-                'rg' => $request->get('rg'),
-                'cpf' => $request->get('cpf'),
-                'phone' => $request->get('phone'),
-                'whatsapp' => $request->get('whatsapp'),
-            ]);
+//            $client->update([
+//                'name' => $request->get('name'),
+//                'birth_date' => $request->get('birth_date'),
+//                'sexo' => $request->get('sexo'),
+//                'email' => $request->get('email'),
+//                'rg' => $request->get('rg'),
+//                'cpf' => $request->get('cpf'),
+//                'phone' => $request->get('phone'),
+//                'whatsapp' => $request->get('whatsapp'),
+//            ]);
 
-            foreach ($this->addressRequiredFields as $key) {
-                if (!$request->get($key)) {
-                    return response()->json(new BaseResponse(['field' => $key, $request->all()], false, 'Campos requeridos'));
-                }
-            }
+//            foreach ($this->addressRequiredFields as $key) {
+//                if (!$request->get($key)) {
+//                    return response()->json(new BaseResponse(['field' => $key, $request->all()], false, 'Campos requeridos'));
+//                }
+//            }
             $address = Address::where('client_id', $client->id);
-
-            $address->update([
-                'cep' => $request->get('zip'),
-                'logradouro' => $request->get('logradouro'),
-                'numero' => $request->get('number'),
-                'complemento' => $request->get('complemento'),
-                'bairro' => $request->get('bairro'),
-                'UF' => $request->get('uf'),
-                'client_id' => $client->id,
-                'tipo' => $request->get('type'),
-                'coordinates' => $request->get('coordinates'),
-            ]);
+            $address->update($request->request->all());
+//            $address->update([
+//                'cep' => $request->get('zip'),
+//                'logradouro' => $request->get('logradouro'),
+//                'numero' => $request->get('number'),
+//                'complemento' => $request->get('complemento'),
+//                'bairro' => $request->get('bairro'),
+//                'UF' => $request->get('uf'),
+//                'client_id' => $client->id,
+//                'tipo' => $request->get('type'),
+//                'coordinates' => $request->get('coordinates'),
+//            ]);
 
             // return response()->json(new BaseResponse(null, true, 'Cliente atualizado com sucesso'));
         }
