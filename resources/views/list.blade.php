@@ -42,6 +42,7 @@
                                                 @php $params = []; @endphp
                                                 @foreach($routes2['fields'] as $key2 => $field5)
                                                     @php $params[$field5['key']] = $object->{$field5['value']}; @endphp
+                                                    @php $idv = $key . $object->{$field5['value']}; @endphp
                                                 @endforeach
                                                 @if($routes2['method'] == 'DELETE')
                                                     @php $method = 'POST' @endphp
@@ -52,7 +53,7 @@
                                                 @else
                                                     @php $method = $routes2['method'] @endphp
                                                 @endif
-                                                <form id="{{$key}}" class="inline-block" action="{{ route($routes2['route'], $params) }}"
+                                                <form id="{{$idv}}" class="inline-block" action="{{ route($routes2['route'], $params) }}"
                                                       method="{{$method}}" onsubmit="">
                                                     @if($routes2['method'] == 'DELETE')
                                                         <input type="hidden" name="_method" value="DELETE">

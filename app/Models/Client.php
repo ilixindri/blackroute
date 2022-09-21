@@ -16,13 +16,13 @@ class Client extends Model
             'create' => ['route' => 'clients.create', 'fields' => [['key' => '', 'value' => ''],], 'text' => 'Novo Cliente', 'icon' => ''],
             'financial' => ['route' => 'clients.carnets.index', 'fields' => [['key' => 'client', 'value' => 'id'],],
                 'text' => 'Financeiro', 'icon' => 'fa-regular fa-dollar-sign',
-                'method' => 'GET', 'onclick' => ['function' => 'formf', 'params' => [['type' => 'text', 'value' => ['raw' => 'financial', 'variables' => []]]]]],
+                'method' => 'GET', 'onclick' => ['function' => 'formf', 'params' => [['type' => 'text', 'value' => ['raw' => 'financial:id', 'variables' => ['id' => 'id']]]]]],
             'edit' => ['route' => 'clients.edit', 'fields' => [['key' => 'client', 'value' => 'id'],], 'text' => 'Editar',
                 'icon' => 'fa-regular fa-pen-to-square', 'method' => 'GET',
-                'onclick' => ['function' => 'formf', 'params' => [['type' => 'text', 'value' => ['raw' => 'edit', 'variables' => []]]]]],
+                'onclick' => ['function' => 'formf', 'params' => [['type' => 'text', 'value' => ['raw' => 'edit:id', 'variables' => ['id' => 'id']]]]]],
             'delete' => ['route' => 'clients.destroy', 'fields' => [['key' => 'client', 'value' => 'id'],],
                 'text' => 'Deletar', 'icon' => 'fa-regular fa-trash-can', 'method' => 'DELETE', 'onclick' => ['function' => 'formfc',
-                    'params' => [['type' => 'text', 'value' => ['raw' => 'delete', 'variables' => []]], ['type' => 'text',//text/variable -> variable: ['type'=>'variable', 'value' => 'name']
+                    'params' => [['type' => 'text', 'value' => ['raw' => 'delete:id', 'variables' => ['id' => 'id']]], ['type' => 'text',//text/variable -> variable: ['type'=>'variable', 'value' => 'name']
                         'value' => ['raw' => 'O cliente :client será excluído do sistema. Clique Ok para Deletar?', 'variables' => ['client' => 'name']]]]]],
         ]
     ];
@@ -73,11 +73,6 @@ class Client extends Model
         static::deleting(function ($client) {
                 $client->adresses()->delete();
         });
-    }
-    public function delete() {
-        $this->disabled = True;
-        $this->save();
-        return $this;
     }
 
     public function adresses() {

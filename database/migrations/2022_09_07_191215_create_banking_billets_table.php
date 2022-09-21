@@ -36,7 +36,6 @@ class CreateBankingBilletsTable extends Migration
             $table->unsignedSmallInteger('fine');
             $table->unsignedSmallInteger('interest');
             $table->boolean('sandbox');
-            $table->boolean('disabled')->default(False);
             $table->timestamps();
         });
     }

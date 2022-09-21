@@ -27,7 +27,6 @@ class CreateBankingCarnetsTable extends Migration
             $table->smallInteger('parcels');
             $table->unsignedSmallInteger('fine');
             $table->unsignedSmallInteger('interest');
-            $table->boolean('disabled')->default(False);
             $table->timestamps();
         });
     }

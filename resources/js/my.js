@@ -67,3 +67,21 @@ window.namef = function (e) {
         document.getElementById('message').innerHTML = 'Nome de cliente inválido. Deve ser preenchido nome e sobrenome.';
     }
 }
+/* create one observer to change page when change url ancor */
+var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+        if (mutation.type === 'childList') {
+            var url = window.location.href;
+            if (url.indexOf('#') > -1) {
+                var ancor = url.substring(url.indexOf('#') + 1);
+                if (ancor === 'hello') {
+                    alert("ok");
+                } else if (ancor === 'clear') {
+                    while (document.body.firstChild) {
+                        document.body.removeChild(document.body.firstChild);
+                    }
+                }
+            }
+        }
+    });
+});

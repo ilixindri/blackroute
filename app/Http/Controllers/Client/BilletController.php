@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\BankingBillet;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Banking;
@@ -29,8 +30,8 @@ class BilletController extends Controller
     {
         $client = $client->with('plan', 'banking')->get()->first();
 //        dd($client);
-        return view('clients.billets.form')->with('client', $client)
-            ->with('bankings', Banking::all())->with('plans', Plan::all());
+        return view('form')->with('object', $client)
+            ->with('bankings', Banking::all())->with('plans', Plan::all())->with('Model', new BankingBillet());
     }
 
     /**

@@ -48,6 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
         // 'tests.bankings.billets' => \App\Http\Controllers\Test\Banking\BilletController::class,
     ]);
 //    Route::get('/banking-carnets/create/test', \App\Http\Controllers\Banking\Carnet\Controller::class);
+    Route::get('/tests/laravel', [\App\Http\Controllers\Test\Controller::class, 'laravel'])->name('tests.laravel');
 });
 
 // JETSTREAM LIVEWIRE

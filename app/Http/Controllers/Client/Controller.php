@@ -19,7 +19,6 @@ class Controller extends \App\Http\Controllers\Controller
     public function index()
     {
         // return response()->json(new BaseResponse(Cliente::all()));
-//        $clients = Client::where('disabled', False)->get();
         $clients = Client::all();
         return view('list', ["objects" => $clients, "Model" => new Client()]);
     }
@@ -142,13 +141,11 @@ class Controller extends \App\Http\Controllers\Controller
         return redirect()->route('clients.edit', ['client' => $client->id]);
     }
 
-    public function destroy($id)
+    public function destroy(Client $client)
     {
-        $client = Client::find($id);
-        $name = $client->nome;
+        $name = $client->name;
         if ($client) {
-            // $cliente->delete();
-            $client->update(['disabled' => True]);
+             $client->delete();
             // return response()->json(new BaseResponse(null, true, 'Cliente removido'));
         }
     // $endereco = Endereco::where('cliente_id', $cliente->id);
@@ -157,7 +154,7 @@ class Controller extends \App\Http\Controllers\Controller
         // }
         // return response()->json(new BaseResponse(null, false, 'Cliente nao encontrado'));
         Session::flash('message', "Cliente $name arquivado com sucesso.");
-        Session::flash('alert-class', 'alert-error');
+        Session::flash('alert-class', 'alert-success');
         return redirect()->route('clients.index');
     }
 

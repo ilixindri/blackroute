@@ -26,10 +26,16 @@
         "phpunit/phpunit": "^9.5.10"
     },
     "autoload": {
+        "exclude-from-classmap": [
+            "vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php",
+            "vendor/laravel/framework/src/Illuminate/Database/Schema/Blueprint.php"
+        ],
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "Illuminate\\Database\\Eloquent\\": "app/Vendor/",
+            "Illuminate\\Database\\Schema\\": "app/Vendor/"
         }
     },
     "autoload-dev": {

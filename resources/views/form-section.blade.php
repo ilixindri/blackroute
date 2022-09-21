@@ -3,26 +3,36 @@
         @php $displayable = []; @endphp
         {{--        @foreach($Model->getFillable() as $field)--}}
         @foreach($form['fields'] as $field)
-            {{--        @foreach($Model->displayable() as $field)--}}
-            @php try { if ($Model2->{$field.'__datas'}["type"] == "text" or $Model2->{$field.'__datas'}["type"] == 'number'
-                or $Model2->{$field.'__datas'}["type"] == "email" or $Model2->{$field.'__datas'}["type"] == "date") { @endphp
+            @php $field__datas = $Model2->{$field.'__datas'}; @endphp
+            @php try { if ($field__datas["type"] == "text" or $field__datas["type"] == 'number'
+                or $field__datas["type"] == "email" or $field__datas["type"] == "date") { @endphp
             <div class="col-span-6 sm:col-span-4">
-                <x-jet-label for="{{ $field }}" value="{{ __($Model2->{$field.'__datas'}['label']) }}"/>
-                @php $type = $Model2->{$field.'__datas'}["type"]; @endphp
-                @php $oninput = $Model2->{$field.'__datas'}["oninput"]; @endphp
-                @php $onblur = $Model2->{$field.'__datas'}["onblur"]; @endphp
-                @php $max = $Model2->{$field.'__datas'}["max"]; @endphp
-                @php $min = $Model2->{$field.'__datas'}["min"]; @endphp
+                <x-jet-label for="{{ $field }}" value="{{ __($field__datas['label']) }}"/>
+                @php try { $type = $field__datas["type"]; } catch (exception $e) { } @endphp
+                @php try { $oninput = $field__datas["oninput"]; } catch (exception $e) { } @endphp
+                @php try { $onblur = $field__datas["onblur"]; } catch (exception $e) { } @endphp
+                @php try { $max = $field__datas["max"]; } catch (exception $e) { } @endphp
+                @php try { $min = $field__datas["min"]; } catch (exception $e) { } @endphp
+                @isset($field__datas['value']) @php $raw = $field__datas['value'] @endphp @endisset
+                @php try { $raw = $field__datas['value']; } catch (exception $e) { } @endphp
                 @isset($object)
                     @php $value = $object; @endphp
-                    @foreach($form["relations"] as $relation)
-                        @if(is_array($relation))
-                            @php $value = $value->{$relation['model']}[$relation['index']]; @endphp
-                        @elseif($relation != '')
-                            @php $value = $value->$relation; @endphp
-                        @endif
-                    @endforeach
-                    @php $value = $value->$field; @endphp
+                    @php function foreachf($relations) {
+                        if (isset($relations['raw'])) {
+
+                        }
+                        foreach($relations as $relation) {
+                            if(is_array($relation)) {
+                                $value = $value->{$relation['model']}[$relation['index']];
+                            } elseif($relation != '') {
+                                $value = $value->$relation;
+                            }
+                        }
+                        return $value;
+                    } @endphp
+                    @php $value = foreachf($form["relations"]) @endphp
+                    @php try { $value = foreachf($raw); } catch (exception $e) { } @endphp
+                    @if(!isset($raw)) $value = $value->$field; @endif
                     <x-jet-input required id="{{ $field }}" onblur="{{$onblur}}" oninput="{{$oninput}}" name="{{ $field }}"  value="{{ $value }}"
                                  type="{{$type}}" max="{{$max}}" min="{{$min}}" class="mt-1 block w-full" autocomplete="{{ $field }}"/>
                 @else

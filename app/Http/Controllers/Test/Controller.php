@@ -25,6 +25,14 @@ class Controller extends \App\Http\Controllers\Controller
         $test->comments = '';
         $test->route = route('tests.clients.carnets.create', ['test' => 1, 'client' => $client->id]);
         $tests[] = $test;
+        $test = (object) [];
+        $test->id = 2;
+        $test->functionality = 'Teste dos novos de campos de datas';
+        $test->action = 'Testar';
+        $test->version = 'v1';
+        $test->comments = 'teste completo, arquivar';
+        $test->route = route('tests.laravel', ['test' => 1, 'client' => $client->id]);
+        $tests[] = $test;
         return view('tests.list')->with('tests', $tests);
     }
 
@@ -92,5 +100,13 @@ class Controller extends \App\Http\Controllers\Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function laravel() {
+        $client = Client::find(1);
+        $client->seen_at = '2022-09-19 19:07:22';
+        $client->save();
+        $client = Client::find(1);
+        echo $client->seen_at;
     }
 }

@@ -34,6 +34,12 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
         Concerns\GuardsAttributes,
         ForwardsCalls;
 
+//    protected $dates = [
+//        'seen_at',
+//        'deleted_at',
+//        'archived_at'
+//    ];
+
     /**
      * The connection name for the model.
      *
@@ -564,7 +570,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
      */
     public static function all($columns = ['*'])
     {
-        return static::where('disabled', 0);
+        return static::where('disabled', 0)->get();
         return static::query()->get(
             is_array($columns) ? $columns : func_get_args()
         );
@@ -1238,8 +1244,10 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
      */
     public function delete()
     {
-        $this->mergeAttributesFromCachedCasts();
+        $this->update(['disabled' => True]);
+        return true;
 
+        $this->mergeAttributesFromCachedCasts();
         if (is_null($this->getKeyName())) {
             throw new LogicException('No primary key defined on model.');
         }
