@@ -5,6 +5,7 @@ var __webpack_exports__ = {};
   \****************************/
 window.zipf = function (e) {
   var c = e.value.replace(/[^0-9]/g, '');
+  e.value = c;
 
   if (c.length == 8) {
     document.getElementById('logradouro').value = "Carregando...";
@@ -96,5 +97,65 @@ window.namef = function (e) {
     document.getElementById('message').innerHTML = 'Nome de cliente inválido. Deve ser preenchido nome e sobrenome.';
   }
 };
+
+window.expire_atf = function (expire_atv) {
+  /* get date with input day next */
+  var date = new Date();
+  var day = date.getDate();
+
+  if (day <= expire_atv) {
+    var month = date.getMonth() + 1;
+  } else {
+    var month = date.getMonth() + 2;
+  }
+
+  month = month.toString().length == 1 ? '0' + month : month;
+  day = expire_atv;
+  day = day.toString().length == 1 ? '0' + day : day;
+  var year = date.getFullYear();
+  var nextDate = year + '-' + month + '-' + day;
+  var ee = document.getElementById('expire_at');
+  ee.value = nextDate;
+};
+
+window.valuef = function (e) {
+  var c = e.value.replace(/[^0-9]/g, '');
+
+  if (c % 100 < 10) {
+    var lastTwo = '0' + c % 100;
+  } else {
+    var lastTwo = c % 100;
+  }
+
+  e.value = 'R$ ' + Math.floor(c / 100) + "," + lastTwo;
+};
+
+window.value_onload = function (idv) {
+  var e = document.getElementById(idv);
+  e.value = e.value.replace('.', ',');
+};
+/* create one observer to change page when change url ancor */
+// para ao usar o botao de voltar selecionar o campo do form correto
+
+
+var observer = new MutationObserver(function (mutations) {
+  mutations.forEach(function (mutation) {
+    if (mutation.type === 'childList') {
+      var url = window.location.href;
+
+      if (url.indexOf('#') > -1) {
+        var ancor = url.substring(url.indexOf('#') + 1);
+
+        if (ancor === 'hello') {
+          alert("ok");
+        } else if (ancor === 'clear') {
+          while (document.body.firstChild) {
+            document.body.removeChild(document.body.firstChild);
+          }
+        }
+      }
+    }
+  });
+});
 /******/ })()
 ;

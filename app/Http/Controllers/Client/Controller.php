@@ -25,7 +25,7 @@ class Controller extends \App\Http\Controllers\Controller
 
     public function create()
     {
-        return view('clients.form')->with('Model', new Client());
+        return view('form')->with('Model', new Client());
     }
 
     public function store(Request $request)

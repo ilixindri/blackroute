@@ -26,7 +26,7 @@ class Client extends Model
                         'value' => ['raw' => 'O cliente :client será excluído do sistema. Clique Ok para Deletar?', 'variables' => ['client' => 'name']]]]]],
         ]
     ];
-    public $forms = [
+    public $forms = ['Client', 'routes' => [['clients.store'], ['clients.update', 'client' => 'id']],
         ['title' => 'Dados Pessoais', 'text' => 'Digite os dados pessoais do cliente.',
             'view' => 'personal-data', 'fields' => ['name', 'email', 'rg', 'cpf', 'birth_date', 'phone', 'whatsapp', 'sex'],
             'model' => '\App\Models\Client', 'relations' => ['']],

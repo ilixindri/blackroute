@@ -27,26 +27,27 @@ class BankingBillet extends Model
                         'value' => ['raw' => 'O cliente :client será excluído do sistema. Clique Ok para Deletar?', 'variables' => ['client' => 'name']]]]]],
         ]
     ];
-    public $forms = [
+    public $forms = ['Boleto', 'routes' => [['clients.billets.store', 'client' => 'id', 'id' => 123], ['clients.billets.update']],
         ['title' => 'Dados do Boleto', 'text' => 'Digite os dados do boleto.',
             'fields' => ['quantity', 'plan_name', 'value', 'expire_at', 'discount_value', 'msg'],
-            'model' => '\App\Models\Client', 'relations' => []],
+            'model' => '\App\Models\BankingBillet', 'relations' => []],
         ];
 
     public $quantity__datas = ['type' => 'number', 'label' => 'Quantidade', 'oninput' => '', 'onblur' => '',
-        'onchange' => '', 'min' => '', 'max' => '', 'attributes' => ''];
+        'onchange' => '', 'min' => '1', 'max' => '', 'attributes' => '', 'datalist' => [1, 24]];
     public $plan_name__datas = ['type' => 'text', 'label' => 'Plano', 'oninput' => '', 'onblur' => '', 'onchange' => '',
         'min' => '', 'max' => '', 'attributes' => 'disabled', 'value' => ['plan', 'name']];
     //'value' => ['raw' => ':name :plan', 'name' => 'name', 'plan' => ['plan', 'name']]
-    public $value__datas = ['type' => 'text', 'label' => 'Valor', 'oninput' => '', 'onblur' => '', 'onchange' => '',
-        'max' => '', 'min' => '', 'attributes' => ''];
-    public $expire_at__datas = ['type' => 'date', 'label' => 'Data de Vencimento', 'oninput' => '', 'onblur' => '', 'onchange' => '',
-        'min' => '', 'max' => '', 'attributes' => ''];
+    public $value__datas = ['type' => 'text', 'label' => 'Valor', 'oninput' => 'valuef(this)', 'onblur' => '', 'onchange' => '',
+        'onload' => "value_onload('value')",
+        'max' => '', 'min' => '', 'attributes' => '', 'value' => ['R$ :value', 'value' => ['plan', 'value']]];
+    public $expire_at__datas = ['type' => 'date', 'label' => 'Data de Vencimento', 'oninput' => '', 'onblur' => '',
+        'onchange' => '', 'onload' => ['expire_atf(:expire_at)', "expire_at" => "expire_at"], 'min' => '', 'max' => '', 'attributes' => ''];
     public $discount_value__datas = ['type' => 'text', 'label' => 'Valor do Desconto', 'oninput' => '', 'onblur' => '',
-        'onchange' => '', 'min' => '', 'max' => '', 'attributes' => ''];
+        'onchange' => '', 'min' => '', 'max' => '', 'attributes' => '', 'value' => ''];
     public $msg__datas = ['type' => 'text', 'label' => 'Mensagem a colocar no boleto', 'oninput' => '', 'onblur' => '',
-        'onchange' => '', 'min' => '', 'max' => '', 'attributes' => '',
-        'value' => ['text' => ['raw' => 'Plano :plan (R$ :value)', 'variables' => ['plan' => ['plan', 'name'], 'value' => ['plan', 'value']]]]];
+        'onchange' => '', 'min' => '', 'max' => '', 'attributes' => '', 'onload' => "value_onload('msg')",
+        'value' => ['Plano :plan (R$ :value)', 'plan' => ['plan', 'name'], 'value' => ['plan', 'value']]];
 
     public function client() {
         return $this->belongsTo(Client::class);

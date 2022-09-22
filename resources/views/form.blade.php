@@ -1,8 +1,7 @@
-{{--@php dd($object); @endphp--}}
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-{{--            {{ __('Cliente') }}--}}
+            {{ __($Model->forms[0]) }}
         </h2>
     </x-slot>
 
@@ -11,20 +10,20 @@
             <div class='md:grid md:grid-cols-3 md:gap-6'>
                 <div class="md:col-span-1 flex justify-between">
                     <div class="px-4 sm:px-0">
-                        @foreach($Model->forms as $key => $form)
-{{--                            <script> alert('{{count($Model->forms)}}');</script>@php exit(); @endphp--}}
+                        @php $forms = array_slice($Model->forms, 2); @endphp
+                        @foreach($forms as $key => $form)
+                            @if(!is_array($form)) @continue @endif
                             <div id="title{{$key}}" class="py-2 px-2" onclick="section{{$key}}()"
                                 onMouseOver="document.body.style.cursor = 'pointer';"
                                 onMouseOut="document.body.style.cursor = '';">
                                 <h3 class="text-lg font-medium text-gray-900">{{ __($form['title']) }}</h3>
-{{--                                @if($key == 3) @php exit(); @endphp @endif--}}
                                 <p class="mt-1 text-sm text-gray-600">
                                     {{ __($form['text']) }}
                                 </p>
                             </div>
                             <script>
                                 function section{{$key}}() {
-                                    @foreach($Model->forms as $key2 => $form)
+                                    @foreach($forms as $key2 => $form)
                                         @if($key == $key2)
                                             document.getElementById('form{{$key2}}').style.display = 'block';
                                             document.getElementById('title{{$key2}}').style.backgroundColor = '#eee';
@@ -47,13 +46,29 @@
                 <script>
                     document.getElementById('title0').style.backgroundColor = '#eee';
                 </script>
-                <form id="client" action="@isset($client){{ route('clients.update', ['client'=>$client->id]) }}@else{{ route('clients.store') }}@endisset" method="POST" class="mt-5 md:mt-0 md:col-span-2">
+                @php $route = Route::currentRouteName(); @endphp
+                @php $aux = explode(".", $route); @endphp
+                @if(end($aux) == 'create') @php $create = true; @endphp @endif
+                @if($create) @php $key3 = 0; @endphp @else @php $key3 = 1; @endphp @endif
+                @php $params4 = []; @endphp
+                @foreach(array_slice($Model->forms['routes'][$key3], 1) as $key7 => $variable)
+                    @php $params4[$key7] = $object->$variable; @endphp
+                @endforeach
+                <form id="form" action="@if($create){{ route($Model->forms['routes'][0][0], $params4) }}@else{{ route($Model->forms['routes'][1][0], $params4) }}@endisset" method="POST" class="mt-5 md:mt-0 md:col-span-2">
                     @csrf
-                    @isset($client)@method('PUT')@endisset
-                    @foreach($Model->forms as $key => $form)
-{{--                        <script> alert('{{$key}}');</script>--}}
-{{--                        @php exit(); @endphp--}}
-                        @php $Model2 = new $form['model']() @endphp
+                    @if(!$create)@method('PUT')@endisset
+                    @php function foreachf($relations, $value) {
+                        foreach($relations as $relation) {
+                            if(is_array($relation)) {
+                                $value = $value->{$relation['model']}[$relation['index']];
+                            } elseif($relation != '') {
+                                $value = $value->$relation;
+                            }
+                        }
+                        return $value;
+                    } @endphp
+                    @foreach($forms as $key => $form)
+                        @php $Model2 = new $form['model'](); @endphp
                         <div id="form{{$key}}" style="display: none" class="mt-5 md:mt-0 md:col-span-2">
 {{--                            @include("clients." . $form['view'])--}}
                             @include('form-section')
@@ -61,7 +76,6 @@
                                 <input id="submit" name="submit" value="{{ __('Salvar') }}" type="submit" class='inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition'>
                             </div>
                         </div>
-{{--                        @if($key == 3) @php exit(); @endphp @endif--}}
                     @endforeach
                 </form>
                 <script>
