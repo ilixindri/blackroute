@@ -13,6 +13,44 @@ class Banking extends Model
         'client_secret_homologation', 'notification_url', 'fine', 'interest', 'sandbox'];
     protected $table = 'bankings';
 
+    public $list = ['fields' => ['name', 'fine', 'interest', 'sandbox', 'type'], 'title' => 'API\'s',
+        'buttons' => [
+            'top' => [
+                'create' => ['route' => 'create', 'text' => 'Novo Cliente', 'icon' => ''],
+            ],
+            'inline' => [
+                'financial' => ['route' => 'index',
+                    'id' => [':action:id', 'action' => 'action', 'id' => ['id']],
+                    'text' => 'Financeiro', 'icon' => 'fa-regular fa-dollar-sign',
+                    'method' => 'GET', 'onclick' => ['formf(\':action:id\')', 'action' => 'action', 'id' => ['id']]],
+                'edit' => ['route' => 'edit', 'text' => 'Editar',
+                    'id' => [':action:id', 'action' => 'action', 'id' => ['id']],
+                    'icon' => 'fa-regular fa-pen-to-square', 'method' => 'GET',
+                    'onclick' => ['formf(\':action:id\')', 'action' => 'action', 'id' => ['id']]],
+                'delete' => ['route' => 'destroy',
+                    'id' => [':action:id', 'action' => 'action', 'id' => ['id']],
+                    'text' => 'Deletar', 'icon' => 'fa-regular fa-trash-can', 'method' => 'DELETE',
+                    'onclick' => ['formfc(\':id_form\',\'O cliente :client será excluído do sistema. Clique Ok para Deletar?\')',
+                        'id_form' => 'id_form', 'client' => ['name']]],
+            ],
+        ],
+    ];
+    public $forms = ['Client', 'routes' => [['clients.store'], ['clients.update', 'client' => 'id']],
+        ['title' => 'Dados Pessoais', 'text' => 'Digite os dados pessoais do cliente.',
+            'view' => 'personal-data', 'fields' => ['name', 'email', 'rg', 'cpf', 'birth_date', 'phone', 'whatsapp', 'sex'],
+            'model' => '\App\Models\Client', 'relations' => ['']],
+        ['title' => 'Endereço', 'text' => 'Digite o endereço do cliente.', 'view' => 'address', 'model' => '\App\Models\Address',
+            'fields' => ['type', 'zip', 'logradouro', 'number', 'complemento', 'bairro', 'state', 'coordinates',],
+            'relations' => [['model' => 'adresses', 'index' => 0]]],
+        ['title' => 'Circuito Primário', 'text' => 'Digite os dados do circuito primário do cliente', 'relations' => [''],
+            'view' => 'primary-circuit', 'fields' => ['plan_id', 'user', 'password'], 'model' => '\App\Models\Client'],
+        ['title' => 'Circuito Secundário', 'text' => 'Digite os dados do circuito secundário do cliente', 'relations' => [''],
+            'view' => '', 'fields' => ['cto_id', 'splitter'], 'model' => '\App\Models\Client'],
+        ['title' => 'Financeiro', 'text' => 'Digite os dados financeiros do cliente', 'view' => 'financial',
+            'fields' => ['banking_id', 'expire_at', 'until_days', 'contract_id'], 'model' => '\App\Models\Client',
+            'relations' => ['']],
+    ];
+
     public $name__datas = ["type" => "text", "label" => "Nome"];
     public $client_id_production__datas = ["type" => "text", "label" => "Client ID Produção"];
     public $client_secret_production__datas = ["type" => "text", "label" => "Client Secret Produção"];
@@ -60,7 +98,7 @@ class Banking extends Model
         return $this->hasMany(Client::class);
     }
     public function bankingCarnets() {
-        return $this->hasMany(BankingCarnet::class);
+        return $this->hasMany(Carnet::class);
     }
     public function bankingBillets() {
         return $this->hasMany(BankingBillet::class);

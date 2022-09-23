@@ -12,19 +12,26 @@ class Client extends Model
         'expire_at', 'until_days', 'splitter', 'cto_id', 'banking_id', 'plan_id', 'contract_id', 'disabled'];
 
     public $list = ['fields' => ['id', 'name', 'email', 'cpf'], 'title' => 'Clientes',
-        'routes' => [
-            'create' => ['route' => 'clients.create', 'fields' => [['key' => '', 'value' => ''],], 'text' => 'Novo Cliente', 'icon' => ''],
-            'financial' => ['route' => 'clients.carnets.index', 'fields' => [['key' => 'client', 'value' => 'id'],],
-                'text' => 'Financeiro', 'icon' => 'fa-regular fa-dollar-sign',
-                'method' => 'GET', 'onclick' => ['function' => 'formf', 'params' => [['type' => 'text', 'value' => ['raw' => 'financial:id', 'variables' => ['id' => 'id']]]]]],
-            'edit' => ['route' => 'clients.edit', 'fields' => [['key' => 'client', 'value' => 'id'],], 'text' => 'Editar',
-                'icon' => 'fa-regular fa-pen-to-square', 'method' => 'GET',
-                'onclick' => ['function' => 'formf', 'params' => [['type' => 'text', 'value' => ['raw' => 'edit:id', 'variables' => ['id' => 'id']]]]]],
-            'delete' => ['route' => 'clients.destroy', 'fields' => [['key' => 'client', 'value' => 'id'],],
-                'text' => 'Deletar', 'icon' => 'fa-regular fa-trash-can', 'method' => 'DELETE', 'onclick' => ['function' => 'formfc',
-                    'params' => [['type' => 'text', 'value' => ['raw' => 'delete:id', 'variables' => ['id' => 'id']]], ['type' => 'text',//text/variable -> variable: ['type'=>'variable', 'value' => 'name']
-                        'value' => ['raw' => 'O cliente :client será excluído do sistema. Clique Ok para Deletar?', 'variables' => ['client' => 'name']]]]]],
-        ]
+        'buttons' => [
+            'top' => [
+                'create' => ['route' => 'create', 'text' => 'Novo Cliente', 'icon' => ''],
+            ],
+            'inline' => [
+                'financial' => ['route' => 'index',
+                    'id' => [':action:id', 'action' => 'action', 'id' => ['id']],
+                    'text' => 'Financeiro', 'icon' => 'fa-regular fa-dollar-sign',
+                    'method' => 'GET', 'onclick' => ['formf(\':action:id\')', 'action' => 'action', 'id' => ['id']]],
+                'edit' => ['route' => 'edit', 'text' => 'Editar',
+                    'id' => [':action:id', 'action' => 'action', 'id' => ['id']],
+                    'icon' => 'fa-regular fa-pen-to-square', 'method' => 'GET',
+                    'onclick' => ['formf(\':action:id\')', 'action' => 'action', 'id' => ['id']]],
+                'delete' => ['route' => 'destroy',
+                    'id' => [':action:id', 'action' => 'action', 'id' => ['id']],
+                    'text' => 'Deletar', 'icon' => 'fa-regular fa-trash-can', 'method' => 'DELETE',
+                    'onclick' => ['formfc(\':id_form\',\'O cliente :client será excluído do sistema. Clique Ok para Deletar?\')',
+                        'id_form' => 'id_form', 'client' => ['name']]],
+            ],
+        ],
     ];
     public $forms = ['Client', 'routes' => [['clients.store'], ['clients.update', 'client' => 'id']],
         ['title' => 'Dados Pessoais', 'text' => 'Digite os dados pessoais do cliente.',
@@ -33,13 +40,13 @@ class Client extends Model
         ['title' => 'Endereço', 'text' => 'Digite o endereço do cliente.', 'view' => 'address', 'model' => '\App\Models\Address',
             'fields' => ['type', 'zip', 'logradouro', 'number', 'complemento', 'bairro', 'state', 'coordinates',],
             'relations' => [['model' => 'adresses', 'index' => 0]]],
-        ['title' => 'Financeiro', 'text' => 'Digite os dados financeiros do cliente', 'view' => 'financial',
-            'fields' => ['banking_id', 'expire_at', 'until_days', 'contract_id'], 'model' => '\App\Models\Client',
-            'relations' => ['']],
         ['title' => 'Circuito Primário', 'text' => 'Digite os dados do circuito primário do cliente', 'relations' => [''],
             'view' => 'primary-circuit', 'fields' => ['plan_id', 'user', 'password'], 'model' => '\App\Models\Client'],
         ['title' => 'Circuito Secundário', 'text' => 'Digite os dados do circuito secundário do cliente', 'relations' => [''],
             'view' => '', 'fields' => ['cto_id', 'splitter'], 'model' => '\App\Models\Client'],
+        ['title' => 'Financeiro', 'text' => 'Digite os dados financeiros do cliente', 'view' => 'financial',
+            'fields' => ['banking_id', 'expire_at', 'until_days', 'contract_id'], 'model' => '\App\Models\Client',
+            'relations' => ['']],
     ];
     public $id__datas = ['type' => 'number', 'label' => 'Id', 'oninput' => '', 'onblur' => '', 'onchange' => '', 'min' => '', 'max' => ''];
     public $name__datas = ['type' => 'text', 'label' => 'Nome', 'oninput' => '', 'onblur' => 'namef(this)', 'onchange' => '', 'min' => '', 'max' => ''];
@@ -62,7 +69,7 @@ class Client extends Model
         'options' => ['model' => '\App\Models\Cto', 'text' => ['name']]];
     public $contract_id__datas = ['type' => 'select', 'label' => 'Contrato', 'oninput' => '', 'onblur' => '', 'onchange' => '',
         'options' => ['model' => '\App\Models\Contract', 'text' => ['name']]];
-    public $banking_id__datas = ['type' => 'select', 'label' => 'Gateway', 'onchange' => '',
+    public $banking_id__datas = ['type' => 'select', 'label' => 'Gateway de Pagamento', 'onchange' => '',
         'options' => ['model' => '\App\Models\Banking', 'text' => ['name']], 'oninput' => '', 'onblur' => ''];
     public $plan_id__datas = ['type' => 'select', 'label' => 'Plano', 'oninput' => '', 'onblur' => '', 'onchange' => '',
         'options' => ['model' => '\App\Models\Plan', 'text' => ['raw' => ':plan - R$ :value', 'variables' => ['plan' => 'name', 'value' => 'value']]]];
@@ -84,7 +91,7 @@ class Client extends Model
     }
 
     public function bankingCarnets() {
-        return $this->hasMany(BankingCarnet::class);
+        return $this->hasMany(Carnet::class);
     }
 
     public function banking() {

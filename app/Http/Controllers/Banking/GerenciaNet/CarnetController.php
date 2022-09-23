@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Banking\GerenciaNet;
 use Illuminate\Http\Request;
 use Gerencianet\Exception\GerencianetException;
 use Gerencianet\Gerencianet;
-use App\Models\BankingCarnet;
+use App\Models\Carnet;
 
 class CarnetController extends \App\Http\Controllers\Controller
 {
@@ -14,7 +14,7 @@ class CarnetController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, $id=NULL)
     {
         //
     }
@@ -24,7 +24,7 @@ class CarnetController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, $id=NULL)
     {
         $options = [
             'client_id' => $request->client->banking->client_id,
@@ -92,14 +92,14 @@ class CarnetController extends \App\Http\Controllers\Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         $request->carnet['client_id'] = $request->client->id;
         $request->carnet['banking_id'] = $request->client->banking->id;
         $request->carnet['parcels'] = $request->parcels;
         $request->carnet['fine'] = $request->client->banking->fine;
         $request->carnet['interest'] = $request->client->banking->interest;
-        $carnet = BankingCarnet::create($request->carnet);
+        $carnet = Carnet::create($request->carnet);
         return $carnet;
     }
 
@@ -109,7 +109,7 @@ class CarnetController extends \App\Http\Controllers\Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(BankingCarnet $bankingCarnet)
+    public function show(Request $request, $id)
     {
         $client = $bankingCarnet->client;
         $options = [
@@ -141,7 +141,7 @@ class CarnetController extends \App\Http\Controllers\Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         //
     }
@@ -153,7 +153,7 @@ class CarnetController extends \App\Http\Controllers\Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BankingCarnet $bankingCarnet)
+    public function update(Request $request, $id)
     {
         if ($request->action == "finished") {
             $carnet = $this->show($bankingCarnet);
@@ -169,7 +169,7 @@ class CarnetController extends \App\Http\Controllers\Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BankingCarnet $bankingCarnet)
+    public function destroy(Request $request, $id)
     {
         $options = [
             'client_id' => $bankingCarnet->client->banking->client_id,

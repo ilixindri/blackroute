@@ -16,14 +16,14 @@ class Controller extends \App\Http\Controllers\Controller
 
     private $addressRequiredFields = ['zip', 'logradouro', 'number', 'uf', 'complemento', 'bairro', 'type',];
 
-    public function index()
+    public function index(Request $request)
     {
         // return response()->json(new BaseResponse(Cliente::all()));
         $clients = Client::all();
         return view('list', ["objects" => $clients, "Model" => new Client()]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
         return view('form')->with('Model', new Client());
     }
@@ -40,16 +40,6 @@ class Controller extends \App\Http\Controllers\Controller
 //        }
         $insert = $request->request->all();
         $client = Client::create($insert);
-//        $client = Client::create([
-//            'name' => $request->get('name'),
-//            'birth_date' => $request->get('birth_date'),
-//            'sexo' => $request->get('sexo'),
-//            'email' => $request->get('email'),
-//            'rg' => $request->get('rg'),
-//            'cpf' => $request->get('cpf'),
-//            'phone' => $request->get('phone'),
-//            'whatsapp' => $request->get('whatsapp'),
-//        ]);
 //        foreach ($this->addressRequiredFields as $key) {
 //            if (!$request->get($key)) {
 //                return response()->json(new BaseResponse(['field' => $key, $request->all()], false, 'Campos requeridos'));
@@ -57,24 +47,13 @@ class Controller extends \App\Http\Controllers\Controller
 //        }
         $insert['client_id'] = $client->id;
         $address = Address::create($insert);
-//        $address = Address::create([
-//            'cep' => $request->get('zip'),
-//            'logradouro' => $request->get('logradouro'),
-//            'numero' => $request->get('number'),
-//            'complemento' => $request->get('complemento'),
-//            'bairro' => $request->get('bairro'),
-//            'UF' => $request->get('uf'),
-//            'client_id' => $client->id,
-//            'tipo' => $request->get('type'),
-//            'coordinates' => $request->get('coordinates'),
-//        ]);
         // return response()->json(new BaseResponse(['id' => $cliente->id], true, 'Cliente criado com sucesso'));
         Session::flash('message', 'Cliente cadastrado com sucesso.');
         Session::flash('alert-class', 'alert-success');
         return redirect()->route('clients.edit', ['client' => $client->id]);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         // $cliente = Cliente::with('enderecos')->find($id);
         // if ($cliente) {
@@ -84,24 +63,24 @@ class Controller extends \App\Http\Controllers\Controller
         return redirect()->route('clients.edit', ['client' => $id]);
     }
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $client = Client::with('adresses')->find($id);
         // $client = Cliente::find($id);
         // dd($client);
-        return view('clients.form', ['object' => $client])->with('Model', new Client());
+        return view('form', ['object' => $client])->with('Model', new Client());
     }
 
     public function update(Request $request, $id)
     {
-        $client = Client::find($id);
+        $client = Client::find($id)->first();
         if ($client) {
 //            foreach ($this->clientRequiredFields as $key) {
 //                if (!$request->get($key)) {
 //                    return response()->json(new BaseResponse(['field' => $key], false, 'Campos requeridos'));
 //                }
 //            }
-            $client = $client->update($request->request->all());
+            $client->update($request->request->all());
 
 //            $client->update([
 //                'name' => $request->get('name'),
@@ -119,7 +98,7 @@ class Controller extends \App\Http\Controllers\Controller
 //                    return response()->json(new BaseResponse(['field' => $key, $request->all()], false, 'Campos requeridos'));
 //                }
 //            }
-            $address = Address::where('client_id', $client->id);
+            $address = Address::where('client_id', $client->id)->first();
             $address->update($request->request->all());
 //            $address->update([
 //                'cep' => $request->get('zip'),
@@ -141,8 +120,9 @@ class Controller extends \App\Http\Controllers\Controller
         return redirect()->route('clients.edit', ['client' => $client->id]);
     }
 
-    public function destroy(Client $client)
+    public function destroy(Request $request, $id)
     {
+        $client = Client::find($id)->first();
         $name = $client->name;
         if ($client) {
              $client->delete();

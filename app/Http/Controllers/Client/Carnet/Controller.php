@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Client\Carnet;
 
-use App\Models\BankingCarnet;
+use App\Models\Carnet;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Session;
@@ -15,9 +15,10 @@ class Controller extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Client $client)
+    public function index(Request $request, $client_id=NULL)
     {
-        $bankingCarnets = BankingCarnet::where('client_id', $client->id)->where('disabled', False)->get();;
+        $client = Client::find($client_id)->first();
+        $bankingCarnets = Carnet::where('client_id', $client->id)->where('disabled', False)->get();;
         return view('clients.carnets.list', ["bankingCarnets" => $bankingCarnets, 'client' => $client]);
     }
 
@@ -26,10 +27,10 @@ class Controller extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, Client $client)
+    public function create(Request $request, $id=NULL)
     {
-        $Model = (new BankingCarnet());
-        return view('clients.carnets.form')->with('client', $client)->with('Model', $Model);
+        $Model = (new Carnet());
+        return view('form')->with('object', $client)->with('Model', $Model);
     }
 
     /**
@@ -66,10 +67,10 @@ class Controller extends \App\Http\Controllers\Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\BankingCarnet  $bankingCarnet
+     * @param  \App\Models\Carnet  $bankingCarnet
      * @return \Illuminate\Http\Response
      */
-    public function show(BankingCarnet $bankingCarnet)
+    public function show(Carnet $bankingCarnet)
     {
         //
     }
@@ -77,10 +78,10 @@ class Controller extends \App\Http\Controllers\Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\BankingCarnet  $bankingCarnet
+     * @param  \App\Models\Carnet  $bankingCarnet
      * @return \Illuminate\Http\Response
      */
-    public function edit(BankingCarnet $bankingCarnet)
+    public function edit(Carnet $bankingCarnet)
     {
         //
     }
@@ -89,10 +90,10 @@ class Controller extends \App\Http\Controllers\Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\BankingCarnet  $bankingCarnet
+     * @param  \App\Models\Carnet  $bankingCarnet
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BankingCarnet $bankingCarnet)
+    public function update(Request $request, Carnet $bankingCarnet)
     {
         $client = $bankingCarnet->client;
         if ($bankingCarnet->client->banking->type == 'gerencianet') {
@@ -109,10 +110,10 @@ class Controller extends \App\Http\Controllers\Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\BankingCarnet  $bankingCarnet
+     * @param  \App\Models\Carnet  $bankingCarnet
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BankingCarnet $bankingCarnet)
+    public function destroy(Carnet $bankingCarnet)
     {
         $client = $bankingCarnet->client;
         if ($bankingCarnet->client->banking->type == 'gerencianet' && $bankingCarnet->status != 'finished') {

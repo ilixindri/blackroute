@@ -8,7 +8,32 @@
     <div>
         <div class="max-w-6xl mx-auto py-10 sm:px-6 lg:px-8">
             <div class="block mb-8">
-                <a href="{{ route($Model->list['routes']['create']['route'], []) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">{{ __($Model->list['routes']['create']['text']) }}</a>
+                @foreach($Model->list['buttons']['top'] as $action => $button)
+                    @php $params_route = []; @endphp
+{{--                    @isset($button['fields'])--}}
+{{--                        @foreach($button['fields'] as $key => $value)--}}
+{{--                            @if(is_array($value))--}}
+{{--                                @if($value[0] == 'object')--}}
+{{--                                    @php $aux = $object; array_shift($value); @endphp--}}
+{{--                                    @foreach($value as $_ => $field0)--}}
+{{--                                        @php $aux = $aux->$field0; @endphp--}}
+{{--                                    @endforeach--}}
+{{--                                    @php $params_route[$key] = $aux; @endphp--}}
+{{--                                @else--}}
+
+{{--                                @endif--}}
+{{--                            @else--}}
+
+{{--                            @endif--}}
+{{--                        @endforeach--}}
+{{--                    @endisset--}}
+                    @php $route = $Model->route . '.' . $button['route']; @endphp
+{{--                    @php dd($route) @endphp--}}
+                    @if(substr_count($route, '.') > 1)
+                        @php $params_route['id'] = $object->id @endphp
+                    @endif
+                    <a id="{{$action}}" href="{{ route($route, $params_route) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">{{ __($button['text']) }}</a>
+                @endforeach
             </div>
             <div class="flex flex-col">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -35,49 +60,62 @@
                                             </td>
                                         @endforeach
                                         <td class="px-6 py-2 whitespace-nowrap text-sm font-medium">
-                                            @foreach($Model->list['routes'] as $key => $routes2)
-                                                @if($key == 'create')
-                                                    @continue
+                                            @foreach($Model->list['buttons']['inline'] as $action => $button)
+                                                @php $params_route = []; @endphp
+{{--                                                @foreach($button['fields'] as $key => $value)--}}
+{{--                                                    @php $params_route[$key] = $object->$value; @endphp--}}
+{{--                                                @endforeach--}}
+                                                @php $route = $Model->route . '.' . $button['route']; @endphp
+                                                @if(substr_count($route, '.') > 1 || in_array($button['route'], ['show', 'edit', 'update', 'destroy']))
+                                                    @php $params_route['id'] = $object->id @endphp
                                                 @endif
-                                                @php $params = []; @endphp
-                                                @foreach($routes2['fields'] as $key2 => $field5)
-                                                    @php $params[$field5['key']] = $object->{$field5['value']}; @endphp
-                                                    @php $idv = $key . $object->{$field5['value']}; @endphp
-                                                @endforeach
-                                                @if($routes2['method'] == 'DELETE')
+                                                @php Log::debug($button['route']); Log::debug(route($route, $params_route)); @endphp
+                                                @if($button['method'] == 'DELETE')
                                                     @php $method = 'POST' @endphp
-                                                @elseif($routes2['method'] == 'PUT')
+                                                @elseif($button['method'] == 'PUT')
                                                     @php $method = 'POST' @endphp
-                                                @elseif($routes2['method'] == 'PATCH')
+                                                @elseif($button['method'] == 'PATCH')
                                                     @php $method = 'POST' @endphp
                                                 @else
-                                                    @php $method = $routes2['method'] @endphp
+                                                    @php $method = $button['method'] @endphp
                                                 @endif
-                                                <form id="{{$idv}}" class="inline-block" action="{{ route($routes2['route'], $params) }}"
+                                                @foreach(array_slice($button['id'], 1) as $key6 => $param3)
+                                                    @if(is_array($param3))
+                                                        @php $value = $object; @endphp
+                                                        @foreach($param3 as $key7 => $variable)
+                                                            @php $value = $value->$variable; @endphp
+                                                        @endforeach
+                                                    @else
+                                                        @php $value = $$param3; @endphp
+                                                    @endif
+                                                    @php $button['id'][0] = str_replace(":$key6", $value, $button['id'][0]); @endphp
+                                                @endforeach
+                                                @php $id_form = $button['id'][0] @endphp
+                                                @foreach(array_slice($button['onclick'], 1) as $key6 => $param3)
+                                                    @if(is_array($param3))
+                                                        @php $value = $object; @endphp
+                                                        @foreach($param3 as $key7 => $variable)
+                                                            @php $value = $value->$variable; @endphp
+                                                        @endforeach
+                                                    @else
+                                                        @php $value = $$param3; @endphp
+                                                    @endif
+                                                    @php $button['onclick'][0] = str_replace(":$key6", $value, $button['onclick'][0]); @endphp
+                                                @endforeach
+                                                @php $function_onclick_with_args = $button['onclick'][0]; @endphp
+                                                <form id="{{$id_form}}" class="inline-block" action="{{ route($route, $params_route) }}"
                                                       method="{{$method}}" onsubmit="">
-                                                    @if($routes2['method'] == 'DELETE')
+                                                    @if($button['method'] == 'DELETE')
                                                         <input type="hidden" name="_method" value="DELETE">
-                                                    @elseif($routes2['method'] == 'PUT')
+                                                    @elseif($button['method'] == 'PUT')
                                                         @method('PUT')
-                                                    @elseif($routes2['method'] == 'PATCH')
+                                                    @elseif($button['method'] == 'PATCH')
                                                         @method('PUT')
                                                     @endif
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                     <input style="cursor: pointer; display: none" type="submit" value="" class="text-red-600 hover:text-red-900 mb-2 mr-2">
-                                                    <i class="{{$routes2['icon']}} fa-lg pt-2 px-1" style="cursor: pointer"
-                                                       onclick="{{$routes2['onclick']['function']}}(
-                                                           @foreach($routes2['onclick']['params'] as $key6 => $param3)
-                                                                @if($param3['type'] == 'text')
-                                                                    @php $params4 = []; @endphp
-                                                                    @foreach($param3['value']['variables'] as $key7 => $variable)
-                                                                        @php $params4[$key7] = $object->$variable; @endphp
-                                                                    @endforeach
-                                                                    '{{__($param3['value']['raw'], $params4)}}',
-                                                                @elseif($param3['type'] == 'variable')
-                                                                    '{{ $object->{$param3['variable']} }}'
-                                                                @endif
-                                                           @endforeach
-                                                           )" title="{{__($routes2['text'])}}"></i>
+                                                    <i class="{{$button['icon']}} fa-lg pt-2 px-1" style="cursor: pointer"
+                                                       onclick="@php echo $function_onclick_with_args; @endphp" title="{{__($button['text'])}}"></i>
                                                 </form>
                                             @endforeach
                                         </td>

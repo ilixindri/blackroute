@@ -1,3 +1,4 @@
+@if(empty($object)) @php unset($object); @endphp @endif
 <div class="px-4 py-5 bg-white sm:p-6 shadow {{ isset($actions1) ? 'sm:rounded-tl-md sm:rounded-tr-md' : 'sm:rounded-md' }}">
     <div class="grid grid-cols-6 gap-6">
         @php $displayable = []; @endphp
@@ -15,6 +16,16 @@
                 @php try { $max = $field__datas["max"]; } catch (exception $e) { } @endphp
                 @php try { $min = $field__datas["min"]; } catch (exception $e) { } @endphp
                 @php try { $attributes = $field__datas["attributes"]; } catch (exception $e) { $attributes = ''; } @endphp
+                @isset($field__datas["required"])
+                    @if($field__datas["required"])
+                        @php $required = 'required' @endphp
+                    @else
+                        @php $required = '' @endphp
+                    @endif
+                @else
+                    @php $required = 'required' @endphp
+                @endisset
+                @php $onload = ''; @endphp
                 @php
                     $aux = json_encode($field__datas);
 //    echo "<script>console.log('$field'); console.log($aux);</script>";
@@ -28,7 +39,8 @@ if(is_array($field__datas["onload"])) {
 }
 }
                 @endphp
-                @php try { if(is_array($field__datas["onload"])) {
+                @php                             $params_onload = [];
+                    if(isset($field__datas["onload"])) { if(is_array($field__datas["onload"])) {
                     $aux = json_encode(array_keys(array_slice($field__datas["onload"], 1, 1, true))); echo "<script>console.log(123123); console.log($aux);</script>";
 //                        if(array_keys(array_slice($field__datas["onload"], 1, 1, true))[0] != 1) {
                             $onload = $field__datas["onload"][0];
@@ -40,13 +52,18 @@ if(is_array($field__datas["onload"])) {
 
 //                        }
                     } else {
-                        $aux = json_encode(array_keys(array_slice($field__datas["onload"], 1, 1, true))); echo "<script>console.log(123); console.log($aux);</script>";
+                        $aux = $field__datas["onload"]; echo "<script>console.log(123); console.log(\"$aux\");</script>";
                         $onload = $field__datas["onload"];
                         $onload_direct = true;
+                        if(isset($onload_direct)) {
+                            echo "<script>console.log('ok');</script>";
+                        }
                     }
-                } catch (exception $e) { $onload = ''; $params_onload = [];
-//                        echo $e->getTraceAsString(); echo $e->getMessage();
-                } @endphp
+                }
+                @endphp
+                @isset($onload_direct)
+                    <script>console.log('ok2');</script>
+                @endisset
                 @php try { $raw = $field__datas['value']; } catch (exception $e) { } @endphp
                 @isset($object)
                     @php $params5 = []; @endphp
@@ -72,19 +89,31 @@ if(is_array($field__datas["onload"])) {
                     @isset($field__datas["value"]) @if($field__datas["value"] == '') @php $value = ''; @endphp @endif @endisset
                     @if(!isset($field__datas['datalist']))
                         <input class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                               required id="{{ $field }}" onblur="{{$onblur}}" oninput="{{$oninput}}" name="{{ $field }}"
+                               {{$required}} id="{{ $field }}" onblur="{{$onblur}}" oninput="{{$oninput}}" name="{{ $field }}"
                                      value="{{ __($value, $params_value) }}" type="{{$type}}" max="{{$max}}" {{$attributes}}
                                      min="{{$min}}" class="mt-1 block w-full" autocomplete="{{ $field }}"/>
-                        <script>
-                            /* run code after document loaded */
-                            document.addEventListener('DOMContentLoaded', function() {
-                                @isset($onload_direct)
-                                    {{$onload}};
-                                @else
+                        @isset($field__datas["onload"])
+                            <script>
+                                /* run code after document loaded */
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    @isset($onload_direct)
+                                        @if($onload_direct == true)
+                                        console.log('ok4');
+                                        @php echo $onload; @endphp
+                                        @php $onload_direct = false; @endphp
+                                    @else
+                                        console.log('ok3');
                                     {{__($onload, $params_onload)}};
-                                @endisset
-                            });
-                        </script>
+
+                                @endif
+                                    @else
+                                console.log('ok3');
+                                    {{__($onload, $params_onload)}};
+
+                                    @endisset
+                                });
+                            </script>
+                        @endisset
                     @else
                         <x-jet-input required id="{{ $field }}" min="{{$min}}" name="{{ $field }}" list="{{ $field }}d" value="" type="search" class="mt-1 block w-full"  />
                         <datalist id="{{ $field }}d" class=" border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1  w-full">

@@ -48,7 +48,7 @@
                 </script>
                 @php $route = Route::currentRouteName(); @endphp
                 @php $aux = explode(".", $route); @endphp
-                @if(end($aux) == 'create') @php $create = true; @endphp @endif
+                @if(end($aux) == 'create') @php $create = true; @endphp @else @php $create = false; @endphp @endif
                 @if($create) @php $key3 = 0; @endphp @else @php $key3 = 1; @endphp @endif
                 @php $params4 = []; @endphp
                 @foreach(array_slice($Model->forms['routes'][$key3], 1) as $key7 => $variable)

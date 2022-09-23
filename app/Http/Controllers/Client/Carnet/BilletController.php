@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Client\Carnet;
 use App\Models\BankingBillet;
 use Illuminate\Http\Request;
 use App\Models\Client;
-use App\Models\BankingCarnet;
+use App\Models\Carnet;
 
 class BilletController extends \App\Http\Controllers\Controller
 {
@@ -14,7 +14,7 @@ class BilletController extends \App\Http\Controllers\Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, Client $client, BankingCarnet $carnet)
+    public function index(Request $request, Client $client, Carnet $carnet)
     {
         $bankingBillets = BankingBillet::where('carnet_id', $carnet->id)->get();
         $bankingBillets->carnet = $carnet;

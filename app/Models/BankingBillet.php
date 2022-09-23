@@ -23,11 +23,13 @@ class BankingBillet extends Model
                 'onclick' => ['function' => 'formf', 'params' => [['type' => 'text', 'value' => ['raw' => 'edit:id', 'variables' => ['id' => 'id']]]]]],
             'delete' => ['route' => 'clients.destroy', 'fields' => [['key' => 'client', 'value' => 'id'],],
                 'text' => 'Deletar', 'icon' => 'fa-regular fa-trash-can', 'method' => 'DELETE', 'onclick' => ['function' => 'formfc',
-                    'params' => [['type' => 'text', 'value' => ['raw' => 'delete:id', 'variables' => ['id' => 'id']]], ['type' => 'text',//text/variable -> variable: ['type'=>'variable', 'value' => 'name']
+                    'params' => [
+                        ['type' => 'text', 'value' => ['raw' => 'delete:id', 'variables' => ['id' => 'id']]],
+                        ['type' => 'text',//text/variable -> variable: ['type'=>'variable', 'value' => 'name']
                         'value' => ['raw' => 'O cliente :client será excluído do sistema. Clique Ok para Deletar?', 'variables' => ['client' => 'name']]]]]],
         ]
     ];
-    public $forms = ['Boleto', 'routes' => [['clients.billets.store', 'client' => 'id', 'id' => 123], ['clients.billets.update']],
+    public $forms = ['Boleto', 'routes' => [['clients.billets.store', 'client' => 'id'], ['clients.billets.update']],
         ['title' => 'Dados do Boleto', 'text' => 'Digite os dados do boleto.',
             'fields' => ['quantity', 'plan_name', 'value', 'expire_at', 'discount_value', 'msg'],
             'model' => '\App\Models\BankingBillet', 'relations' => []],
@@ -53,7 +55,7 @@ class BankingBillet extends Model
         return $this->belongsTo(Client::class);
     }
     public function bankingCarnet() {
-        return $this->belongsTo(BankingCarnet::class);
+        return $this->belongsTo(Carnet::class);
     }
     public function banking() {
         return $this->belongsTo(Banking::class);

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Test\Client;
 
-use App\Models\BankingCarnet;
+use App\Models\Carnet;
 use App\Models\Client;
 use Illuminate\Http\Request;
 
@@ -25,7 +25,7 @@ class CarnetController extends \App\Http\Controllers\Controller
      */
     public function create(Request $request, $test, Client $client)
     {
-        $Model = (new BankingCarnet());
+        $Model = (new Carnet());
         return view('tests.clients.carnets.form')->with('client', $client)->with('Model', $Model);
     }
 
