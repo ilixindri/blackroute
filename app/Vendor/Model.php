@@ -201,6 +201,24 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
      */
     const UPDATED_AT = 'updated_at';
 
+    public static function getAll($path=NULL){
+        if($path == NULL) $path = app_path() . "/Models";
+        $out = [];
+        $results = scandir($path);
+        foreach ($results as $result) {
+            if ($result === '.' or $result === '..') continue;
+            $filename = $path . '/' . $result;
+            if (is_dir($filename)) {
+                $out = array_merge($out, getModels($filename));
+            }else{
+                $aux = array_slice(explode('/', substr($filename,0,-4)), -1, 1)[0];
+                // if(!in_array($aux, ['Address', '', ''])) 
+                $out[] = $aux;
+            }
+        }
+        return $out;
+    }
+
     /**
      * Create a new Eloquent model instance.
      *

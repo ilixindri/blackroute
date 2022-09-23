@@ -10,7 +10,7 @@
             <div class='md:grid md:grid-cols-3 md:gap-6'>
                 <div class="md:col-span-1 flex justify-between">
                     <div class="px-4 sm:px-0">
-                        @php $forms = array_slice($Model->forms, 2); @endphp
+                        @php $forms = array_slice($Model->forms, 1); @endphp
                         @foreach($forms as $key => $form)
                             @if(!is_array($form)) @continue @endif
                             <div id="title{{$key}}" class="py-2 px-2" onclick="section{{$key}}()"
@@ -50,11 +50,12 @@
                 @php $aux = explode(".", $route); @endphp
                 @if(end($aux) == 'create') @php $create = true; @endphp @else @php $create = false; @endphp @endif
                 @if($create) @php $key3 = 0; @endphp @else @php $key3 = 1; @endphp @endif
-                @php $params4 = []; @endphp
-                @foreach(array_slice($Model->forms['routes'][$key3], 1) as $key7 => $variable)
-                    @php $params4[$key7] = $object->$variable; @endphp
-                @endforeach
-                <form id="form" action="@if($create){{ route($Model->forms['routes'][0][0], $params4) }}@else{{ route($Model->forms['routes'][1][0], $params4) }}@endisset" method="POST" class="mt-5 md:mt-0 md:col-span-2">
+                @php $params_route = []; @endphp
+                @php $route2 = explode('.', $Model->route); @endphp
+                @if(substr_count($route, '.') > 1 || !$create)
+                    @php $params_route[substr(end($route2), 0, -1)] = $object->id @endphp
+                @endif
+                <form id="form" action="@if($create){{ route($route, $params_route) }}@else{{ route($route, $params_route) }}@endisset" method="POST" class="mt-5 md:mt-0 md:col-span-2">
                     @csrf
                     @if(!$create)@method('PUT')@endisset
                     @php function foreachf($relations, $value) {

@@ -59,6 +59,8 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    const menu = ['Usu&aacute;rios', 'o', 'Usu&aacute;rio'];
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);

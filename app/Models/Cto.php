@@ -9,7 +9,8 @@ class Cto extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'splitter',];
-    public $list = ['fields' => [], 'title' => 'Contratos',
+    const menu = ['Ctos', 'a'];
+    public $list = ['fields' => ['name', 'splitter'], 'title' => 'Contratos',
         'routes' => [
             'create' => ['route' => 'contracts.create', 'fields' => [['key' => '', 'value' => ''],], 'text' => 'Novo Contrato', 'icon' => ''],
             'financial' => ['route' => 'clients.carnets.index', 'fields' => [['key' => 'client', 'value' => 'id'],],

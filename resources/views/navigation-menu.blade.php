@@ -16,36 +16,45 @@
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
                 </div>
-                <div class="ml-3 relative hidden space-x-8 sm:-my-px sm:ml-10 sm:flex pt-4">
-                    <x-jet-dropdown align="false" width="48">
-                        <x-slot name="trigger">
-                                <span class="inline-flex rounded-md">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
-                                        <a href="{{ route('clients.index') }}">Clientes</a>
+                @foreach (Illuminate\Database\Eloquent\Model::getAll() as $key => $Model)
+                    @php $route = strtolower($Model) . 's'@endphp
+                    @php $name_singular = $Model @endphp
+                    @php $Model = "\\App\\Models\\".$Model @endphp
+                    @php try { $menu = $Model::menu; } catch (Error $e) { @endphp @continue @php } @endphp
+                    @php $name_plural = $Model::menu[0] @endphp
+                    @php $gender = $Model::menu[1] @endphp
+                    @php try { $name_singular = $Model::menu[2]; } catch (exception $e) { } @endphp
+                    @php $gender = $Model::menu[1] @endphp
+                    <div class="ml-3 relative hidden space-x-8 sm:-my-px sm:ml-10 sm:flex pt-4">
+                        <x-jet-dropdown align="false" width="48">
+                            <x-slot name="trigger">
+                                    <span class="inline-flex rounded-md">
+                                        <button id="@php echo "$route"; @endphp" type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
+                                            <a href="{{ route("$route.index") }}">@php echo __($name_plural); @endphp</a>
 
-                                        <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
-                                </span>
-                        </x-slot>
+                                            <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
+                                    </span>
+                            </x-slot>
 
-                        <x-slot name="content">
-                            <!-- Account Management -->
-                            <!-- <div class="block px-4 py-2 text-xs text-gray-400">
-                                {{ __('Manage Account') }}
-                            </div> -->
+                            <x-slot name="content">
+                                <!-- Account Management -->
+                                <!-- <div class="block px-4 py-2 text-xs text-gray-400">
+                                    {{ __('Manage Account') }}
+                                </div> -->
 
-                            <x-jet-dropdown-link href="{{ route('clients.create') }}">
-                                {{ __('Novo Cliente') }}
-                            </x-jet-dropdown-link>
-
-                            <x-jet-dropdown-link href="{{ route('clients.index') }}">
-                                {{ __('Listar Clientes') }}
-                            </x-jet-dropdown-link>
-                        </x-slot>
-                    </x-jet-dropdown>
-                </div>
+                                <a id="@php echo "$route-create"; @endphp" href="{{route("$route.create")}}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition">
+                                    @php echo __("Nov$gender $name_singular") @endphp
+                                </a>
+                                <a id="@php echo "$route-index"; @endphp" href="{{"$route.index"}}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition">
+                                    @php echo __("Listar $name_plural") @endphp
+                                </a>
+                            </x-slot>
+                        </x-jet-dropdown>
+                    </div>
+                @endforeach
                 {{-- <div class="ml-3 relative hidden space-x-8 sm:-my-px sm:ml-10 sm:flex pt-4">
                     <x-jet-dropdown align="false" width="48">
                         <x-slot name="trigger">
@@ -76,10 +85,10 @@
                         </x-slot>
                     </x-jet-dropdown>
                 </div> --}}
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('bankings.index') }}" :active="request()->routeIs('banking-carnets.*')">
+                {{-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('bankings.index') }}" :active="request()->routeIs('banking-carnets.*')"> --}}
 {{--                        {{ __('Financeiro') }}--}}
-                        {{ __('Gateway') }}
+                        {{-- {{ __('Gateway') }}
                     </x-jet-nav-link>
                 </div>
                 @can('task_access')
@@ -185,9 +194,9 @@
                             </x-jet-dropdown-link>
                         </x-slot>
                     </x-jet-dropdown>
-                </div>
+                </div> --}}
                 @if(Auth::user()->email == 'alexandrogonsan@outlook.com')
-                    <div class="ml-3 relative hidden space-x-8 sm:-my-px sm:ml-10 sm:flex pt-4">
+                    {{-- <div class="ml-3 relative hidden space-x-8 sm:-my-px sm:ml-10 sm:flex pt-4">
                         <x-jet-dropdown align="false" width="48">
                             <x-slot name="trigger">
                                 <span class="inline-flex rounded-md">
@@ -201,13 +210,13 @@
                                 </span>
                             </x-slot>
 
-                            <x-slot name="content">
+                            <x-slot name="content"> --}}
                                 <!-- Account Management -->
                                 <!-- <div class="block px-4 py-2 text-xs text-gray-400">
 {{--                                {{ __('Manage Account') }}--}}
                                 </div> -->
 
-                                <x-jet-dropdown-link href="{{ route('tests.create') }}">
+                                {{-- <x-jet-dropdown-link href="{{ route('tests.create') }}">
                                     {{ __('Novo Teste') }}
                                 </x-jet-dropdown-link>
 
@@ -216,7 +225,7 @@
                                 </x-jet-dropdown-link>
                             </x-slot>
                         </x-jet-dropdown>
-                    </div>
+                    </div> --}}
                 @endif
 
             </div>

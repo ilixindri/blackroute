@@ -66,10 +66,10 @@
 {{--                                                    @php $params_route[$key] = $object->$value; @endphp--}}
 {{--                                                @endforeach--}}
                                                 @php $route = $Model->route . '.' . $button['route']; @endphp
+                                                @php $route2 = explode('.', $Model->route); @endphp
                                                 @if(substr_count($route, '.') > 1 || in_array($button['route'], ['show', 'edit', 'update', 'destroy']))
-                                                    @php $params_route['id'] = $object->id @endphp
+                                                    @php $params_route[substr(end($route2), 0, -1)] = $object->id @endphp
                                                 @endif
-                                                @php Log::debug($button['route']); Log::debug(route($route, $params_route)); @endphp
                                                 @if($button['method'] == 'DELETE')
                                                     @php $method = 'POST' @endphp
                                                 @elseif($button['method'] == 'PUT')

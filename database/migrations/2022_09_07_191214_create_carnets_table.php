@@ -38,6 +38,6 @@ class CreateCarnetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('banking_carnets');
+        Schema::dropIfExists('carnets');
     }
 }

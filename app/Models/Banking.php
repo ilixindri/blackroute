@@ -12,17 +12,14 @@ class Banking extends Model
     protected $fillable =['name', 'client_id_production', 'client_secret_production', 'client_id_homologation',
         'client_secret_homologation', 'notification_url', 'fine', 'interest', 'sandbox'];
     protected $table = 'bankings';
+    const menu = ['Gateways de Pagamento', 'o', 'Gateway de Pagamento'];
 
-    public $list = ['fields' => ['name', 'fine', 'interest', 'sandbox', 'type'], 'title' => 'API\'s',
+    public $list = ['fields' => ['name', 'fine', 'interest', 'sandbox', 'type'], 'title' => 'Gateways de Pagamento',
         'buttons' => [
             'top' => [
-                'create' => ['route' => 'create', 'text' => 'Novo Cliente', 'icon' => ''],
+                'create' => ['route' => 'create', 'text' => 'Novo Gateway de Pagamento', 'icon' => ''],
             ],
             'inline' => [
-                'financial' => ['route' => 'index',
-                    'id' => [':action:id', 'action' => 'action', 'id' => ['id']],
-                    'text' => 'Financeiro', 'icon' => 'fa-regular fa-dollar-sign',
-                    'method' => 'GET', 'onclick' => ['formf(\':action:id\')', 'action' => 'action', 'id' => ['id']]],
                 'edit' => ['route' => 'edit', 'text' => 'Editar',
                     'id' => [':action:id', 'action' => 'action', 'id' => ['id']],
                     'icon' => 'fa-regular fa-pen-to-square', 'method' => 'GET',
@@ -35,22 +32,12 @@ class Banking extends Model
             ],
         ],
     ];
-    public $forms = ['Client', 'routes' => [['clients.store'], ['clients.update', 'client' => 'id']],
-        ['title' => 'Dados Pessoais', 'text' => 'Digite os dados pessoais do cliente.',
-            'view' => 'personal-data', 'fields' => ['name', 'email', 'rg', 'cpf', 'birth_date', 'phone', 'whatsapp', 'sex'],
-            'model' => '\App\Models\Client', 'relations' => ['']],
-        ['title' => 'Endereço', 'text' => 'Digite o endereço do cliente.', 'view' => 'address', 'model' => '\App\Models\Address',
-            'fields' => ['type', 'zip', 'logradouro', 'number', 'complemento', 'bairro', 'state', 'coordinates',],
-            'relations' => [['model' => 'adresses', 'index' => 0]]],
-        ['title' => 'Circuito Primário', 'text' => 'Digite os dados do circuito primário do cliente', 'relations' => [''],
-            'view' => 'primary-circuit', 'fields' => ['plan_id', 'user', 'password'], 'model' => '\App\Models\Client'],
-        ['title' => 'Circuito Secundário', 'text' => 'Digite os dados do circuito secundário do cliente', 'relations' => [''],
-            'view' => '', 'fields' => ['cto_id', 'splitter'], 'model' => '\App\Models\Client'],
-        ['title' => 'Financeiro', 'text' => 'Digite os dados financeiros do cliente', 'view' => 'financial',
-            'fields' => ['banking_id', 'expire_at', 'until_days', 'contract_id'], 'model' => '\App\Models\Client',
-            'relations' => ['']],
+    public $forms = ['Gateway de Pagamento',
+        ['title' => 'Dados do GerenciaNet', 'text' => 'Digite os dados da sua api do Gerencia Net.',
+            'fields' => ['name', 'client_id_production', 'client_secret_production', 'client_id_homologation',
+                'client_secret_homologation', 'notification_url', 'fine', 'interest', 'sandbox'],
+            'model' => '\App\Models\Banking', 'relations' => ['']],
     ];
-
     public $name__datas = ["type" => "text", "label" => "Nome"];
     public $client_id_production__datas = ["type" => "text", "label" => "Client ID Produção"];
     public $client_secret_production__datas = ["type" => "text", "label" => "Client Secret Produção"];

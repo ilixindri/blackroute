@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Contract extends Model
 {
     use HasFactory;
+    protected $fillable = ['name'];
+    const menu = ['Contratos', 'o', 'Contrato'];
 
     public $list = ['fields' => [], 'title' => 'Contratos',
         'routes' => [

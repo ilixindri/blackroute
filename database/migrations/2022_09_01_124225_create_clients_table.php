@@ -32,6 +32,9 @@ class CreateClientsTable extends Migration
             $table->foreignId('contract_id')->on('contract');
             $table->unsignedTinyInteger('expire_at')->comment('dia de vencimento');
             $table->unsignedSmallInteger('until_days')->comment('dias para bloqueio apos vencimento');
+            $table->enum('mode', ['ipoe', 'pppoe']);
+            $table->string('ip', 30);
+            $table->string('mac');
             $table->timestamps();
         });
     }

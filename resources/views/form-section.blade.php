@@ -6,15 +6,15 @@
 
         @foreach($form['fields'] as $field)
             @php $field__datas = $Model2->{$field.'__datas'}; @endphp
+            @php try { $type = $field__datas["type"]; } catch (exception $e) { $type = 'text'; } @endphp
             @php try { if ($field__datas["type"] == "text" or $field__datas["type"] == 'number'
                 or $field__datas["type"] == "email" or $field__datas["type"] == "date") { @endphp
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="{{ $field }}" value="{{ __($field__datas['label']) }}"/>
-                @php try { $type = $field__datas["type"]; } catch (exception $e) { } @endphp
-                @php try { $oninput = $field__datas["oninput"]; } catch (exception $e) { } @endphp
-                @php try { $onblur = $field__datas["onblur"]; } catch (exception $e) { } @endphp
-                @php try { $max = $field__datas["max"]; } catch (exception $e) { } @endphp
-                @php try { $min = $field__datas["min"]; } catch (exception $e) { } @endphp
+                @php try { $oninput = $field__datas["oninput"]; } catch (exception $e) { $oninput = ''; } @endphp
+                @php try { $onblur = $field__datas["onblur"]; } catch (exception $e) { $onblur = ''; } @endphp
+                @php try { $max = $field__datas["max"]; } catch (exception $e) { $max = '';} @endphp
+                @php try { $min = $field__datas["min"]; } catch (exception $e) { $min = ''; } @endphp
                 @php try { $attributes = $field__datas["attributes"]; } catch (exception $e) { $attributes = ''; } @endphp
                 @isset($field__datas["required"])
                     @if($field__datas["required"])
@@ -26,22 +26,8 @@
                     @php $required = 'required' @endphp
                 @endisset
                 @php $onload = ''; @endphp
-                @php
-                    $aux = json_encode($field__datas);
-//    echo "<script>console.log('$field'); console.log($aux);</script>";
-if(isset($field__datas["onload"])) {
-if(is_array($field__datas["onload"])) {
-    $aux = json_encode(array_keys(array_slice($field__datas["onload"], 1, 1, true)));
-    echo "<script>console.log('$field'); console.log($aux);</script>";
-} else {
-    $aux = $field__datas["onload"];
-    echo "<script>console.log('$field'); console.log(\"$aux\");</script>";
-}
-}
-                @endphp
-                @php                             $params_onload = [];
+                @php $params_onload = [];
                     if(isset($field__datas["onload"])) { if(is_array($field__datas["onload"])) {
-                    $aux = json_encode(array_keys(array_slice($field__datas["onload"], 1, 1, true))); echo "<script>console.log(123123); console.log($aux);</script>";
 //                        if(array_keys(array_slice($field__datas["onload"], 1, 1, true))[0] != 1) {
                             $onload = $field__datas["onload"][0];
                             $params_onload = [];
@@ -51,39 +37,24 @@ if(is_array($field__datas["onload"])) {
 //                        } else {
 
 //                        }
-                    } else {
-                        $aux = $field__datas["onload"]; echo "<script>console.log(123); console.log(\"$aux\");</script>";
-                        $onload = $field__datas["onload"];
-                        $onload_direct = true;
-                        if(isset($onload_direct)) {
-                            echo "<script>console.log('ok');</script>";
+                        } else {
+                            $aux = $field__datas["onload"];
+                            $onload = $field__datas["onload"];
+                            $onload_direct = true;
                         }
                     }
-                }
                 @endphp
-                @isset($onload_direct)
-                    <script>console.log('ok2');</script>
-                @endisset
                 @php try { $raw = $field__datas['value']; } catch (exception $e) { } @endphp
                 @isset($object)
                     @php $params5 = []; @endphp
                     @php $value = $object; @endphp
                     @php $value = foreachf($form["relations"], $value) @endphp
-                    <script>
-                        /* clear body */
-                        // document.body.innerHTML = '';
-                    </script>
                     @php $params_value = []; @endphp
                     @php try { if(array_keys(array_slice($raw, 1, 2, true))[0] == 1) { $value = foreachf($raw, $value); }
                     else { foreach(array_slice($raw, 1) as $key7 => $variable) { if(is_array($variable)) {
                         $value2 = foreachf($variable, $object); } else { $value2 = $object->$variable; }
                         $params_value[$key7] = $value2; } $value = $raw[0]; } } catch (exception $e) { } @endphp
                     @if(!isset($raw)) @php $value = $value->$field; @endphp @endif
-                    @if($field == 'expire_at')
-{{--                        @php dd($value); @endphp--}}
-{{--                        <script>alert('{{$field}}');</script>--}}
-{{--                        <script>alert('{{var_dump($value)}}');</script>--}}
-                    @endif
                     {{-- esta apresentando o mesmo valor value para os que nao tem variavel depois de um que tem valor --}}
                     {{-- por isso a linha abaixo para concertar isso enquanto descobre-se o porque --}}
                     @isset($field__datas["value"]) @if($field__datas["value"] == '') @php $value = ''; @endphp @endif @endisset
@@ -98,18 +69,13 @@ if(is_array($field__datas["onload"])) {
                                 document.addEventListener('DOMContentLoaded', function() {
                                     @isset($onload_direct)
                                         @if($onload_direct == true)
-                                        console.log('ok4');
                                         @php echo $onload; @endphp
                                         @php $onload_direct = false; @endphp
                                     @else
-                                        console.log('ok3');
                                     {{__($onload, $params_onload)}};
-
                                 @endif
                                     @else
-                                console.log('ok3');
                                     {{__($onload, $params_onload)}};
-
                                     @endisset
                                 });
                             </script>
@@ -139,12 +105,12 @@ if(is_array($field__datas["onload"])) {
             </div>
             @php } else if ($Model2->{$field.'__datas'}["type"] == "select") { @endphp
             <div class="col-span-6 sm:col-span-4">
-                @php $onchange = $Model2->{$field.'__datas'}['onchange']; @endphp
+                @php try { $onchange = $Model2->{$field.'__datas'}['onchange']; } catch (exception $e) { $onchange = ''; } @endphp
                 <x-jet-label for="{{ $field }}" value="{{ __($Model2->{$field.'__datas'}['label']) }}"/>
                 <select required id="{{ $field }}" name="{{ $field }}" onchange="{{ $onchange }}"
                         class='w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm'>
                     <option value="None"></option>
-                    @foreach($Model2->{$field.'__datas'}['options'] as $option)
+                    @foreach($Model2->{$field.'__datas'}['options'] as $key => $option)
                         @if(is_array($option))
                             @isset($object)
                                 @php $value = $object; @endphp
@@ -187,30 +153,35 @@ if(is_array($field__datas["onload"])) {
                                     @endif
                                 @endif
                             @else
-                                @foreach($Model2->{$field.'__datas'}['options']['model']::all() as $line)
-                                    @if(!isset($Model2->{$field.'__datas'}['options']['text']['raw']))
-                                        @php $text = ''; @endphp
-                                        @foreach($Model2->{$field.'__datas'}['options']['text'] as $key3 => $field2)
-                                            @if($key3 == 0)
-                                                @php $text .= $line->$field2; @endphp
-                                            @else
-                                                @php $text .= ' - ' . $line->$field2; @endphp
-                                            @endif
-                                        @endforeach
-                                        <option @isset($object) @if($line->id == $object->$field) selected
-                                                @endif @endisset value="{{ $line->id }}">{{ $text }}</option>
-                                    @else
-                                        @php $text = $Model2->{$field.'__datas'}['options']['text']; @endphp
-                                        @php $params4 = []; @endphp
-                                        @foreach($text['variables'] as $key7 => $variable)
-                                            @php $params4[$key7] = $line->$variable; @endphp
-                                        @endforeach
-                                        <option @isset($object) @if($line->id == $object->$field) selected
-                                                @endif @endisset value="{{ $line->id }}">{{ __($text['raw'], $params4) }}</option>
-                                    @endisset
-                                @endforeach
+                                @isset($Model2->{$field.'__datas'}['options']['model'])
+                                    @foreach($Model2->{$field.'__datas'}['options']['model']::all() as $line)
+                                        @if(!isset($Model2->{$field.'__datas'}['options']['text']['raw']))
+                                            @php $text = ''; @endphp
+                                            @foreach($Model2->{$field.'__datas'}['options']['text'] as $key3 => $field2)
+                                                @if($key3 == 0)
+                                                    @php $text .= $line->$field2; @endphp
+                                                @else
+                                                    @php $text .= ' - ' . $line->$field2; @endphp
+                                                @endif
+                                            @endforeach
+                                            <option @isset($object) @if($line->id == $object->$field) selected
+                                                    @endif @endisset value="{{ $line->id }}">{{ $text }}</option>
+                                        @else
+                                            @php $text = $Model2->{$field.'__datas'}['options']['text']; @endphp
+                                            @php $params4 = []; @endphp
+                                            @foreach($text['variables'] as $key7 => $variable)
+                                                @php $params4[$key7] = $line->$variable; @endphp
+                                            @endforeach
+                                            <option @isset($object) @if($line->id == $object->$field) selected
+                                                    @endif @endisset value="{{ $line->id }}">{{ __($text['raw'], $params4) }}</option>
+                                        @endisset
+                                    @endforeach
+                                    @break
+                                @else
+                                    <option @isset($object) @if($key == $object->$field) selected
+                                        @endif @endisset value="{{ $key }}">{{ __($option) }}</option>
+                                @endisset
                             @endisset
-                            @break
                         @endif
                     @endforeach
                 </select>

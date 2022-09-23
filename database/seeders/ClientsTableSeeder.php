@@ -29,6 +29,9 @@ class ClientsTableSeeder extends Seeder
                 'contract_id' => 1,
                 'splitter' => 1,
                 'cto_id' => 1,
+                'mode' => 'ipoe',
+                'ip' => '192.0.0.1',
+                'mac' => '12:12:12:12:12:12',
             ],
         ];
 
