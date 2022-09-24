@@ -27,12 +27,12 @@
 {{--                            @endif--}}
 {{--                        @endforeach--}}
 {{--                    @endisset--}}
-                    @php $route = $Model->route . '.' . $button['route']; @endphp
+                    @php $route3 = $route . '.' . $button['route']; @endphp
 {{--                    @php dd($route) @endphp--}}
-                    @if(substr_count($route, '.') > 1)
+                    @if(substr_count($route3, '.') > 1)
                         @php $params_route['id'] = $object->id @endphp
                     @endif
-                    <a id="{{$action}}" href="{{ route($route, $params_route) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">{{ __($button['text']) }}</a>
+                    <a id="{{$action}}" href="{{ route($route3, $params_route) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">{{ __($button['text']) }}</a>
                 @endforeach
             </div>
             <div class="flex flex-col">
@@ -65,9 +65,10 @@
 {{--                                                @foreach($button['fields'] as $key => $value)--}}
 {{--                                                    @php $params_route[$key] = $object->$value; @endphp--}}
 {{--                                                @endforeach--}}
-                                                @php $route = $Model->route . '.' . $button['route']; @endphp
-                                                @php $route2 = explode('.', $Model->route); @endphp
-                                                @if(substr_count($route, '.') > 1 || in_array($button['route'], ['show', 'edit', 'update', 'destroy']))
+                                                {{-- @php dd($route) @endphp --}}
+                                                @php $route3 = $route . '.' . $button['route']; @endphp
+                                                @php $route2 = explode('.', $route); @endphp
+                                                @if(substr_count($route3, '.') > 1 || in_array($button['route'], ['show', 'edit', 'update', 'destroy']))
                                                     @php $params_route[substr(end($route2), 0, -1)] = $object->id @endphp
                                                 @endif
                                                 @if($button['method'] == 'DELETE')
@@ -103,7 +104,7 @@
                                                     @php $button['onclick'][0] = str_replace(":$key6", $value, $button['onclick'][0]); @endphp
                                                 @endforeach
                                                 @php $function_onclick_with_args = $button['onclick'][0]; @endphp
-                                                <form id="{{$id_form}}" class="inline-block" action="{{ route($route, $params_route) }}"
+                                                <form id="{{$id_form}}" class="inline-block" action="{{ route($route3, $params_route) }}"
                                                       method="{{$method}}" onsubmit="">
                                                     @if($button['method'] == 'DELETE')
                                                         <input type="hidden" name="_method" value="DELETE">

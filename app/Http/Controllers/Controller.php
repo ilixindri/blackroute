@@ -47,7 +47,22 @@ class Controller extends BaseController
         $route = implode('.', $aux);
         return $route;
     }
-
+    public function loading(Request $request, $id=NULL){
+        $this->object = [];
+        $this->Models = $this->getModels($request);
+        if(count($this->Models) == 1) {
+            $this->objects = $this->Models[0]::all();
+            $this->Model = new $this->Models[0]();
+            if($id!=NULL) $this->object = $this->Models[0]::find($id)->first();
+        } else {
+            $last_index = count($this->Models) - 1;
+            $this->objects = $this->Models[$last_index]::where($this->Models[0].'_id', $id)->get();
+            $this->Model = new $this->Models[$last_index]();
+            $this->object = "\\App\\Models\\" . ucfirst($this->Models[0]);
+            $this->object = $this->object::find($id)->first();
+        }
+        $this->route = $this->getRoute($request);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -56,21 +71,8 @@ class Controller extends BaseController
      */
     public function index(Request $request, $id=NULL)
     {
-        $object = [];
-        $Models = $this->getModels($request);
-        if(count($Models) == 1) {
-            $objects = $Models[0]::all();
-            $Model = new $Models[0]();
-        } else {
-            $last_index = count($Models) - 1;
-            $objects = $Models[$last_index]::where($Models[0].'_id', $id)->get();
-            $Model = new $Models[$last_index]();
-            $object = "\\App\\Models\\" . ucfirst($Models[0]);
-            $object = $object::find($id)->first();
-        }
-        $route = $this->getRoute($request);
-        $Model->route = $route;
-        return view('list')->with('objects', $objects)->with('Model', $Model)->with('object', $object);
+        $load = $this->loading($request, $id);
+        return view('list')->with('objects', $this->objects)->with('Model', $this->Model)->with('object', $this->object)->with('route', $this->route);
     }
     /**
      * Show the form for creating a new resource.
@@ -80,21 +82,8 @@ class Controller extends BaseController
      */
     public function create(Request $request, $id=NULL)
     {
-        $object = [];
-        $Models = $this->getModels($request);
-        if(count($Models) == 1) {
-            $objects = $Models[0]::all();
-            $Model = new $Models[0]();
-        } else {
-            $last_index = count($Models) - 1;
-            $objects = $Models[$last_index]::where($Models[0].'_id', $id)->get();
-            $Model = new $Models[$last_index]();
-            $object = "\\App\\Models\\" . ucfirst($Models[0]);
-            $object = $object::find($id)->first();
-        }
-        $route = $this->getRoute($request);
-        $Model->route = $route;
-        return view('form')->with('Model', new $Model())->with('object', $object);
+        $load = $this->loading($request, $id);
+        return view('form')->with('objects', $this->objects)->with('Model', $this->Model)->with('object', $this->object)->with('route', $this->route);
     }
     /**
      * Store a newly created resource in storage.
@@ -104,31 +93,19 @@ class Controller extends BaseController
      */
     public function store(Request $request, $id)
     {
-        $object = [];
-        $Models = $this->getModels($request);
-        if(count($Models) == 1) {
-            $objects = $Models[0]::all();
-            $Model = new $Models[0]();
-        } else {
-            $last_index = count($Models) - 1;
-            $objects = $Models[$last_index]::where($Models[0].'_id', $id)->get();
-            $Model = new $Models[$last_index]();
-            $object = "\\App\\Models\\" . ucfirst($Models[0]);
-            $object = $object::find($id)->first();
-        }
-        $route = $this->getRoute($request);
-        if ($route == 'clients.carnets') { $request->client = $object;
-            $object = (new Banking\GerenciaNet\CarnetController())->create($request);
-            $request->carnet = $object['data'];
+        $load = $this->loading($request, $id);
+        if ($load[3] == 'clients.carnets') { $request->client = $this->object;
+            $this->object = (new Banking\GerenciaNet\CarnetController())->create($request);
+            $request->carnet = $this->object['data'];
             $aux = (new GerenciaNet\CarnetController())->store($request);
             foreach ($request->carnet['charges'] as $key => $charge) {
                 $request->charge = $charge;
                 (new GerenciaNet\BilletController())->store($request);
             }
         }
-        else { $object = $Model::create($request->request->all()); }
-        $Model->route = $route;
-        return redirect()->route("$route.edit", ['object' => $object->id]);
+        else { $this->object = $Model::create($request->request->all()); }
+        return redirect()->route($load[3]."edit", ['object' => $object->id])->with('objects', $this->objects)
+            ->with('Model', $this->Model)->with('object', $this->object)->with('route', $this->route);
     }
     /**
      * Display the specified resource.
@@ -139,22 +116,8 @@ class Controller extends BaseController
      */
     public function show(Request $request, $id)
     {
-        $object = [];
-        $Models = $this->getModels($request);
-        if(count($Models) == 1) {
-            $objects = $Models[0]::all();
-            $Model = new $Models[0]();
-        } else {
-            $last_index = count($Models) - 1;
-            $objects = $Models[$last_index]::where($Models[0].'_id', $id)->get();
-            $Model = new $Models[$last_index]();
-            $object = "\\App\\Models\\" . ucfirst($Models[0]);
-            $object = $object::find($id)->first();
-        }
-        $route = $this->getRoute($request);
-        $object = $Model::find($id)->first();
-        $Model->route = $route;
-        return view('form')->with('object', $object)->with('Model', new $Model());
+        $load = $this->loading($request, $id);
+        return view('form')->with('objects', $this->objects)->with('Model', $this->Model)->with('object', $this->object)->with('route', $this->route);
     }
     /**
      * Show the form for editing the specified resource.
@@ -165,22 +128,8 @@ class Controller extends BaseController
      */
     public function edit(Request $request, $id)
     {
-        $object = [];
-        $Models = $this->getModels($request);
-        if(count($Models) == 1) {
-            $objects = $Models[0]::all();
-            $Model = new $Models[0]();
-        } else {
-            $last_index = count($Models) - 1;
-            $objects = $Models[$last_index]::where($Models[0].'_id', $id)->get();
-            $Model = new $Models[$last_index]();
-            $object = "\\App\\Models\\" . ucfirst($Models[0]);
-            $object = $object::find($id)->first();
-        }
-        $route = $this->getRoute($request);
-        $object = $Model::find($id)->first();
-        $Model->route = $route;
-        return view('form')->with('object', $object)->with('Model', new $Model());
+        $load = $this->loading($request, $id);
+        return view('form')->with('objects', $this->objects)->with('Model', $this->Model)->with('object', $this->object)->with('route', $this->route);
     }
     /**
      * Update the specified resource in storage.
@@ -191,23 +140,9 @@ class Controller extends BaseController
      */
     public function update(Request $request, $id)
     {
-        $object = [];
-        $Models = $this->getModels($request);
-        if(count($Models) == 1) {
-            $objects = $Models[0]::all();
-            $Model = new $Models[0]();
-        } else {
-            $last_index = count($Models) - 1;
-            $objects = $Models[$last_index]::where($Models[0].'_id', $id)->get();
-            $Model = new $Models[$last_index]();
-            $object = "\\App\\Models\\" . ucfirst($Models[0]);
-            $object = $object::find($id)->first();
-        }
-        $route = $this->getRoute($request);
-        $object = $Model::find($id)->first();
-        $object->update($request->request->all());
-        $Model->route = $route;
-        return view('form')->with('object', $object)->with('Model', new $Model());
+        $load = $this->loading($request, $id);
+        $this->object->update($request->request->all());
+        return view('form')->with('objects', $this->objects)->with('Model', $this->Model)->with('object', $this->object)->with('route', $this->route);
     }
     /**
      * Remove the specified resource from storage.
@@ -218,22 +153,13 @@ class Controller extends BaseController
      */
     public function destroy(Request $request, $id)
     {
-        $object = [];
-        $Models = $this->getModels($request);
-        if(count($Models) == 1) {
-            $objects = $Models[0]::all();
-            $Model = new $Models[0]();
-        } else {
-            $last_index = count($Models) - 1;
-            $objects = $Models[$last_index]::where($Models[0].'_id', $id)->get();
-            $Model = new $Models[$last_index]();
-            $object = "\\App\\Models\\" . ucfirst($Models[0]);
-            $object = $object::find($id)->first();
-        }
-        $route = $this->getRoute($request);
-        $object = $Model::find($id)->first();
-        $object->delete();
-        $Model->route = $route;
-        return redirect()->route("$route.index");
+        $load = $this->loading($request, $id);
+        $this->object->delete();
+        return redirect()->route($load[3]."index")->with('objects', $this->objects)->with('Model', $this->Model)->with('object', $this->object)->with('route', $this->route);
+    }
+    public function tests(Request $request, $var=NULL)
+    {
+        $this->loading($request);
+        return json_encode($this->Model::$var);
     }
 }

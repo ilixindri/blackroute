@@ -16,6 +16,7 @@ class CreateOltsTable extends Migration
         Schema::create('olts', function (Blueprint $table) {
             $table->id();
             $table->string('name', 256);
+            $table->tinyInteger('ports');
             $table->timestamps();
         });
     }

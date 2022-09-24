@@ -34,6 +34,9 @@ class BankingBillet extends Model
             'fields' => ['quantity', 'plan_name', 'value', 'expire_at', 'discount_value', 'msg'],
             'model' => '\App\Models\BankingBillet', 'relations' => []],
         ];
+    const tests = [
+        ['quantity' => 3, 'plan_name' => 'None', 'value' => 'None', 'expire_at' => 'None', 'discount_value' => '10,00', 'msg' => 'None'],
+    ];
 
     public $quantity__datas = ['type' => 'number', 'label' => 'Quantidade', 'oninput' => '', 'onblur' => '',
         'onchange' => '', 'min' => '1', 'max' => '', 'attributes' => '', 'datalist' => [1, 24]];

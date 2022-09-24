@@ -28,8 +28,13 @@ class Olt extends Model
     ];
     public static $forms = ['Olts',
         ['title' => 'Dados da Olt', 'text' => 'Digite os dados da Olt.',
-            'view' => '', 'fields' => ['name'],
+            'view' => '', 'fields' => ['name', 'ports'],
             'model' => '\App\Models\Olt', 'relations' => []],
+    ];
+    public $tests = [
+        [
+            ['name' => 'Olt 2', 'ports' => 'random.randint(1, 32)']
+        ]
     ];
     public static $name__datas = ['type' => 'text', 'label' => 'Nome'];
 }

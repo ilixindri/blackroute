@@ -59,7 +59,11 @@ Route::group(['middleware' => 'auth'], function () {
 //    Route::get('/banking-carnets/create/test', \App\Http\Controllers\Banking\Carnet\Controller::class);
     Route::get('/tests/laravel', [\App\Http\Controllers\Test\Controller::class, 'laravel'])->name('tests.laravel');
 });
-
+foreach (Illuminate\Database\Eloquent\Model::getAll() as $key => $Model) {
+    $route = strtolower($Model) . 's';
+    Route::get("/$route/form", [\App\Http\Controllers\Controller::class, 'form'])->name("$route.form");
+    Route::get("/$route/tests", [\App\Http\Controllers\Controller::class, 'tests'])->name("$route.tests");
+}
 // JETSTREAM LIVEWIRE
 // Route::get('/clientes/', [\App\Http\Livewire\Clientes\Listar::class, '__invoke'])->name('clientes.index');
 // Route::get('/clientes/', [\App\Http\Controllers\ClienteController::class, 'index'])->name('clientes.index');

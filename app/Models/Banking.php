@@ -12,7 +12,7 @@ class Banking extends Model
     protected $fillable =['name', 'client_id_production', 'client_secret_production', 'client_id_homologation',
         'client_secret_homologation', 'notification_url', 'fine', 'interest', 'sandbox'];
     protected $table = 'bankings';
-    const menu = ['Gateways de Pagamento', 'o', 'Gateway de Pagamento'];
+    const menu = ['Gateways', 'o', 'Gateway de Pagamento'];
 
     public $list = ['fields' => ['name', 'fine', 'interest', 'sandbox', 'type'], 'title' => 'Gateways de Pagamento',
         'buttons' => [
@@ -34,10 +34,18 @@ class Banking extends Model
     ];
     public $forms = ['Gateway de Pagamento',
         ['title' => 'Dados do GerenciaNet', 'text' => 'Digite os dados da sua api do Gerencia Net.',
-            'fields' => ['name', 'client_id_production', 'client_secret_production', 'client_id_homologation',
-                'client_secret_homologation', 'notification_url', 'fine', 'interest', 'sandbox'],
-            'model' => '\App\Models\Banking', 'relations' => ['']],
+            'fields' => ['name', 'client_id_production', 'client_secret_production',
+                'client_id_homologation', 'client_secret_homologation', 'notification_url', 'fine', 'interest', 'sandbox'],
+            'model' => '\App\Models\Banking', 'relations' => []],
     ];
+    public $tests = [
+        ['name' => 'Gateway 1', 'client_id_production' => 'Client_Id_20e76e030a3e1205b2809decf93bffc037f50433',
+            'client_secret_production' => 'Client_Secret_61d98106b240fb26e7e77f2c33139d1f72a06ca9',
+            'client_id_homologation' => 'Client_Id_5f7bab7a270542b3cc47f987b2a518273d20ddc9',
+            'client_secret_homologation' => 'Client_Secret_a9aba34e50a8f9f320072e2b8eb03d257eac169c',
+            'notification_url' => 'domain.com', 'fine' => '0', 'interest' => '0', 'sandbox' => '1'],
+    ];
+
     public $name__datas = ["type" => "text", "label" => "Nome"];
     public $client_id_production__datas = ["type" => "text", "label" => "Client ID Produção"];
     public $client_secret_production__datas = ["type" => "text", "label" => "Client Secret Produção"];

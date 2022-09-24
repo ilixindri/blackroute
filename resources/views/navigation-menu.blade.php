@@ -44,11 +44,12 @@
                                 <!-- <div class="block px-4 py-2 text-xs text-gray-400">
                                     {{ __('Manage Account') }}
                                 </div> -->
-
+                                @php \Illuminate\Support\Facades\Log::debug($route); @endphp
                                 <a id="@php echo "$route-create"; @endphp" href="{{route("$route.create")}}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition">
                                     @php echo __("Nov$gender $name_singular") @endphp
                                 </a>
-                                <a id="@php echo "$route-index"; @endphp" href="{{"$route.index"}}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition">
+                                @php \Illuminate\Support\Facades\Log::debug($route); @endphp
+                                <a id="@php echo "$route-index"; @endphp" href="{{route("$route.index")}}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition">
                                     @php echo __("Listar $name_plural") @endphp
                                 </a>
                             </x-slot>
