@@ -30,6 +30,11 @@ class Cto extends Model
             'view' => '', 'fields' => ['name', 'splitter'],
             'model' => '\App\Models\Cto', 'relations' => ['']],
     ];
+    public $tests = [
+        [
+            ['name' => 'Cto 2', 'splitter' => 'random.choice([8, 16])']
+        ]
+    ];
     public $name__datas = ['type' => 'text', 'label' => 'Nome', 'oninput' => '', 'onblur' => ''];
     public $splitter__datas = ['type' => 'number', 'label' => 'Quantidade de Splitter', 'oninput' => '', 'onblur' => ''];
     public $EXAMPLE_SELECT_DEFAULT__datas = ['type' => 'select', 'label' => 'Cto', 'oninput' => '', 'onblur' => '',

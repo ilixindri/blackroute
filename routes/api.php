@@ -15,3 +15,8 @@ Route::put('/endereco/{idUser}/{idAddress}', [Controller::class, 'updateAddress'
 Route::delete('/endereco/{idUser}/{idAddress}', [Controller::class, 'destroyAddress']);
 
 Route::get('/ctos/{cto}', [\App\Http\Controllers\CtoController::class, 'show']);
+
+foreach (Illuminate\Database\Eloquent\Model::getAll() as $key => $Model) {
+    $route = strtolower($Model) . 's';
+    Route::get("/$route/{var}", [\App\Http\Controllers\Controller::class, 'tests']);
+}

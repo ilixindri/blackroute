@@ -4,11 +4,17 @@
         @php $displayable = []; @endphp
         {{--        @foreach($Model->getFillable() as $field)--}}
 
+        @php Log::debug('-3: '.json_encode($object)); @endphp
+        @php Log::debug('-3: '.json_encode($form['fields'])); @endphp
         @foreach($form['fields'] as $field)
+            @php Log::debug('-2: '.json_encode($object)); @endphp
+            @php Log::debug('-2: '. $field); @endphp
             @php $field__datas = $Model2->{$field.'__datas'}; @endphp
+            @php Log::debug('-2: '. json_encode($field__datas)); @endphp
             @php try { $type = $field__datas["type"]; } catch (exception $e) { $type = 'text'; } @endphp
             @php try { if ($field__datas["type"] == "text" or $field__datas["type"] == 'number'
                 or $field__datas["type"] == "email" or $field__datas["type"] == "date") { @endphp
+            @php Log::debug('-1: '.json_encode($object)); @endphp
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for="{{ $field }}" value="{{ __($field__datas['label']) }}"/>
                 @php try { $oninput = $field__datas["oninput"]; } catch (exception $e) { $oninput = ''; } @endphp
@@ -45,7 +51,9 @@
                     }
                 @endphp
                 @php try { $raw = $field__datas['value']; } catch (exception $e) { } @endphp
+                @php Log::debug('0: '.json_encode($object)); @endphp
                 @isset($object)
+                    @php Log::debug($object); @endphp
                     @php $params5 = []; @endphp
                     @php $value = $object; @endphp
                     @php $value = foreachf($form["relations"], $value) @endphp
@@ -59,6 +67,9 @@
                     {{-- por isso a linha abaixo para concertar isso enquanto descobre-se o porque --}}
                     @isset($field__datas["value"]) @if($field__datas["value"] == '') @php $value = ''; @endphp @endif @endisset
                     @if(!isset($field__datas['datalist']))
+                        @php Log::debug('2: '. json_encode($object)); @endphp
+                        @php Log::debug('2: '. json_encode($field__datas)); @endphp
+                        @php Log::debug('2: '. $field); @endphp
                         <input class="w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                                {{$required}} id="{{ $field }}" onblur="{{$onblur}}" oninput="{{$oninput}}" name="{{ $field }}"
                                      value="{{ __($value, $params_value) }}" type="{{$type}}" max="{{$max}}" {{$attributes}}

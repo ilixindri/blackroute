@@ -46,16 +46,16 @@
                 <script>
                     document.getElementById('title0').style.backgroundColor = '#eee';
                 </script>
-                @php $route = Route::currentRouteName(); @endphp
-                @php $aux = explode(".", $route); @endphp
+                @php $route3 = Route::currentRouteName(); @endphp
+                @php $aux = explode(".", $route3); @endphp
                 @if(end($aux) == 'create') @php $create = true; @endphp @else @php $create = false; @endphp @endif
                 @if($create) @php $key3 = 0; @endphp @else @php $key3 = 1; @endphp @endif
                 @php $params_route = []; @endphp
-                @php $route2 = explode('.', $Model->route); @endphp
-                @if(substr_count($route, '.') > 1 || !$create)
+                @php $route2 = explode('.', $route); @endphp
+                @if(substr_count($route3, '.') > 1 || !$create)
                     @php $params_route[substr(end($route2), 0, -1)] = $object->id @endphp
                 @endif
-                <form id="form" action="@if($create){{ route($route, $params_route) }}@else{{ route($route, $params_route) }}@endisset" method="POST" class="mt-5 md:mt-0 md:col-span-2">
+                <form id="form" action="@if($create){{ route($route . '.store', $params_route) }}@else{{ route($route.'.update', $params_route) }}@endisset" method="POST" class="mt-5 md:mt-0 md:col-span-2">
                     @csrf
                     @if(!$create)@method('PUT')@endisset
                     @php function foreachf($relations, $value) {

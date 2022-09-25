@@ -28,7 +28,9 @@ class Contract extends Model
     ];
     public $forms = ['Boleto', 'routes' => [['contracts.store'], ['clients.billets.update']],
         ['title' => 'Dados do Boleto', 'text' => 'Digite os dados do boleto.',
-            'fields' => ['quantity', 'plan_name', 'value', 'expire_at', 'discount_value', 'msg'],
+            'fields' => ['' => 'quantity', '' => 'plan_name', '' => 'value', '' => 'expire_at', '' => 'discount_value', '' => 'msg'],
             'model' => '\App\Models\BankingBillet', 'relations' => []],
+    ];
+    public $tests = [
     ];
 }

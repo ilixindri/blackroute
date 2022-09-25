@@ -42,6 +42,10 @@ class Carnet extends Model
             'model' => '\App\Models\Carnet', 'relations' => []],
     ];
 
+    const tests = [
+        ['repeats' => '6', 'plan_name' => 'None', 'value' => 'None', 'expire_at' => 'None', 'discount_value' => '10,00', 'msg' => 'None'],
+    ];
+
     public $banking_id__datas = ["type" => "number", "label" => "Banco"];
     public $carnet_id__datas = ["type" => "number", "label" => "Carnê no Gerencia Net"];
     public $status__datas = ["type" => "number", "label" => "Status"];
