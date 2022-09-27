@@ -11425,6 +11425,10 @@ video {
   margin-bottom: 0.5rem;
 }.-mt-px {
   margin-top: -1px;
+}.ml-0\.5 {
+  margin-left: 0.125rem;
+}.ml-0 {
+  margin-left: 0px;
 }.block {
   display: block;
 }.inline-block {
@@ -11499,6 +11503,14 @@ video {
   width: 16rem;
 }.w-9\/12 {
   width: 75%;
+}.w-max {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}.w-fit {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }.min-w-0 {
   min-width: 0px;
 }.min-w-full {

@@ -135,65 +135,120 @@ window.value_onload = function (idv) {
   e.value = e.value.replace('.', ',');
 };
 
-var selectc = {};
+var selects = {};
 
 window.selectf = function (field) {
-  if (selectc.hasOwnProperty(field)) {
+  console.log('start function selectf');
+  var idv = '';
+
+  if (selects.hasOwnProperty(field)) {
     console.log(-1);
-    var aux = selectc[field];
+    var aux = Math.max.apply(Math, selects[field]);
   } else {
     console.log(1);
     var aux = 0;
-    selectc[field] = 0;
+    selects[field] = [0];
   }
 
   var divv = document.createElement("div");
   divv.className = "col-span-6 sm:col-span-4";
   divv.id = 'div' + field + (aux + 1);
-  var labelv = document.getElementById('label' + field + '0');
-  labelv = labelv.cloneNode(true);
-  labelv.id = 'label' + field + (aux + 1);
-  divv.appendChild(labelv);
-  var selectv = document.getElementById('div' + field + '0');
-  selectv = selectv.cloneNode(true);
-  divv.appendChild(selectv);
-  var button_exclude_select = document.getElementById('button_exclude_select' + field + '0');
-  button_exclude_select = button_exclude_select.cloneNode(true);
-  button_exclude_select.id = 'exclude_select' + field + (aux + 1);
-  divv.appendChild(button_exclude_select);
-  var button_add_select = document.getElementById('button_add_select' + field + '0');
-  button_add_select = button_add_select.cloneNode(true);
-  button_add_select.id = 'add_select' + field + (aux + 1);
-  divv.appendChild(button_add_select);
-  newSelect.id = selectv.id.substring(0, selectv.id.length - 1) + (aux + 1);
-  console.log(newSelect.id);
-  var selectl = document.getElementById('div' + field + aux);
+  idv = 'label' + field + aux;
+  var e = document.getElementById(idv); // if (e) { console.log(idv); console.log(e); }
 
-  if (selectl) {
+  e = e.cloneNode(false);
+  e.id = 'label' + field + (aux + 1); // if (e) { console.log(e.id); console.log(e); }
+
+  divv.appendChild(e);
+  idv = field;
+  var e = document.getElementById(idv); // if (e) { console.log(idv); console.log(e); }
+
+  e = e.cloneNode(true); // if (e) { console.log(e.id); console.log(e); }
+
+  divv.appendChild(e);
+  idv = 'exclude_select' + field + aux;
+  var e = document.getElementById(idv); // if (e) { console.log(idv); console.log(e); }
+
+  e = e.cloneNode(true);
+
+  e.onclick = function () {
+    exclude_selectf(field, aux + 1);
+  };
+
+  e.id = 'exclude_select' + field + (aux + 1); // if (e) { console.log(e.id); console.log(e); }
+
+  e.className = "ml-1 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-3 rounded";
+  divv.appendChild(e);
+  idv = 'add_select' + field + aux;
+  var e = document.getElementById(idv); // if (e) { console.log(idv); console.log(e); }
+
+  e = e.cloneNode(true);
+  e.id = 'add_select' + field + (aux + 1);
+  e.className = "ml-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"; // if (e) { console.log(e.id); console.log(e); }
+
+  divv.appendChild(e);
+  var last_select_div = document.getElementById('div' + field + aux);
+
+  if (last_select_div) {
     console.log('ok');
     console.log('div' + field + aux);
-    console.log(selectl);
+    console.log(last_select_div);
   }
 
   document.getElementById('add_select' + field + aux).style.display = 'none';
-  selectl.parentNode.insertBefore(newSelect, selectl.nextSibling);
-  selectc[field] += 1;
-  console.log('done');
+  last_select_div.parentNode.insertBefore(divv, last_select_div.nextSibling);
+  selects[field].push(aux + 1);
 };
 
-window.exclude_selectf = function (fieldKey) {
-  var lastTwoChar = fieldKey.substr(fieldKey.length - 2);
+window.exclude_selectf = function (field, key) {
+  console.log('start function exclude_selectf');
+  console.log('field: ' + field);
+  console.log('key: ' + key);
+  console.log('selects', selects[field]);
 
-  if (isNaN(lastTwoChar)) {
-    var lastChar = fieldKey.substr(fieldKey.length - 1);
-  }
+  if (selects.hasOwnProperty(field)) {
+    var aux = selects[field].length;
+    var maxv = selects[field].sort()[selects[field].length - 1];
 
-  if (lastChar == 0) {
-    document.getElementById('div' + fieldKey).value = "None";
+    if (maxv == key) {
+      maxv = selects[field][selects[field].length - 2];
+    }
+
+    console.log('maxv: ' + maxv);
   } else {
-    var div_select = document.getElementById('div' + fieldKey);
-    div_select.parentNode.removeChild(div_select);
+    var aux = 1;
   }
+
+  console.log('aux: ' + aux);
+
+  if (aux == 1) {
+    document.getElementById('div' + field + key).value = "None";
+  } else {
+    // idv = 'add_select'+field+key;
+    // var e = document.getElementById(idv);
+    // e = e.cloneNode(true);
+    // e.id = 'add_select' + field + (key-1)
+    // console.log('add_select_button', e)
+    //
+    // idv = 'div' + field + maxv
+    // console.log('idv: ' + idv);
+    // var divv = document.getElementById(idv)
+    // console.log('div_select', divv)
+    // if (divv) { console.log(divv.id); console.log(divv); }
+    // divv.appendChild(e);
+    document.getElementById('add_select' + field + maxv).style.display = '';
+    var div_select = document.getElementById('div' + field + key);
+    div_select.parentNode.removeChild(div_select);
+    var index = selects[field].indexOf(key);
+
+    if (index > -1) {
+      selects[field].splice(index, 1);
+    }
+
+    console.log('selects', selects[field]);
+  }
+
+  console.log('ending function exclude_selectf');
 };
 /* create one observer to change page when change url ancor */
 // para ao usar o botao de voltar selecionar o campo do form correto
