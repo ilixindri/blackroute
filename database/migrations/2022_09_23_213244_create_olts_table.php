@@ -17,6 +17,10 @@ class CreateOltsTable extends Migration
             $table->id();
             $table->string('name', 256);
             $table->tinyInteger('ports');
+            $table->string('ip', 256);
+            $table->unsignedSmallInteger('ssh_port');
+            $table->string('ssh_user', 4096);
+            $table->string('ssh_pass', 16384);
             $table->timestamps();
         });
     }

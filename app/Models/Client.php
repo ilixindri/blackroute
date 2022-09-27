@@ -9,7 +9,7 @@ class Client extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'email', 'rg', 'cpf', 'phone', 'whatsapp', 'birth_date', 'sex', 'user', 'password',
-        'expire_at', 'until_days', 'splitter', 'cto_id', 'banking_id', 'plan_id', 'contract_id', 'mac','ip','mode','disabled'];
+        'expire_at', 'until_days', 'splitter', 'cto_id', 'banking_id', 'plan_id', 'mac','ip','mode','disabled'];
     const menu = ['Clientes', 'o'];
 
     public $list = ['fields' => ['id', 'name', 'email', 'cpf'], 'title' => 'Clientes',
@@ -84,8 +84,8 @@ class Client extends Model
             'max' => ['model' => '\App\Models\Cto', 'id' => 'cto_id', 'field' => 'splitter']]];
     public $cto_id__datas = ['type' => 'select', 'label' => 'Cto', 'oninput' => '', 'onblur' => '', 'onchange' => 'ctof(this)',
         'options' => ['model' => '\App\Models\Cto', 'text' => ['name']]];
-    public $contract_id__datas = ['type' => 'select', 'label' => 'Contrato', 'oninput' => '', 'onblur' => '', 'onchange' => '',
-        'options' => ['model' => '\App\Models\Contract', 'text' => ['name']]];
+    public $contract_id__datas = ['type' => 'select', 'label' => 'Contrato', 'multiple', 'oninput' => '', 'onblur' => '', 'onchange' => '',
+        'options' => ['model' => '\App\Models\Contract', 'text' => ['name'], 'value' => ['agreements', 'contract']]];
     public $banking_id__datas = ['type' => 'select', 'label' => 'Gateway de Pagamento', 'onchange' => '',
         'options' => ['model' => '\App\Models\Banking', 'text' => ['name']], 'oninput' => '', 'onblur' => ''];
     public $plan_id__datas = ['type' => 'select', 'label' => 'Plano', 'oninput' => '', 'onblur' => '', 'onchange' => '',
@@ -102,13 +102,14 @@ class Client extends Model
     public function adresses() {
         return $this->hasMany(Address::class);
     }
-
     public function bankingBillets() {
         return $this->hasMany(BankingBillet::class);
     }
-
     public function bankingCarnets() {
         return $this->hasMany(Carnet::class);
+    }
+    public function agreements() {
+        return $this->hasMany(Agreement::class);
     }
 
     public function banking() {
@@ -116,5 +117,8 @@ class Client extends Model
     }
     public function plan() {
         return $this->belongsTo(Plan::class);
+    }
+    public function cto() {
+        return $this->belongsTo(Cto::class);
     }
 }

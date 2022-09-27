@@ -26,11 +26,19 @@ class Contract extends Model
                         'value' => ['raw' => 'O cliente :client será excluído do sistema. Clique Ok para Deletar?', 'variables' => ['client' => 'name']]]]]],
         ]
     ];
-    public $forms = ['Boleto', 'routes' => [['contracts.store'], ['clients.billets.update']],
-        ['title' => 'Dados do Boleto', 'text' => 'Digite os dados do boleto.',
-            'fields' => ['' => 'quantity', '' => 'plan_name', '' => 'value', '' => 'expire_at', '' => 'discount_value', '' => 'msg'],
-            'model' => '\App\Models\BankingBillet', 'relations' => []],
+    public $forms = ['Contrato',
+        ['title' => 'Dados do Contrato', 'text' => 'Digite os dados do contrato.',
+            'fields' => ['name'],
+            'model' => '\App\Models\Contract', 'relations' => []],
     ];
     public $tests = [
+        [
+            ['name' => "contract()"]
+        ]
     ];
+    public $name__datas = ['text', 'Nome'];
+
+    public function agreements() {
+        return $this->hasMany(Agreement::class);
+    }
 }

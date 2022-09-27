@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Olt extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'ports', 'ip', 'ssh_port', 'ssh_user', 'ssh_pass'];
     const menu = ['Olts', 'a'];
-    public static $list = ['Olts', 'fields' => ['name'],
+    public $list = ['Olts', 'fields' => ['name'],
         'routes' => [
             'top' => [
                 'create' => ['route' => 'create', 'fields' => [['key' => '', 'value' => ''],], 'text' => 'Novo Contrato', 'icon' => ''],
@@ -26,15 +26,20 @@ class Olt extends Model
             ],
         ]
     ];
-    public static $forms = ['Olts',
+    public $forms = ['Olts',
         ['title' => 'Dados da Olt', 'text' => 'Digite os dados da Olt.',
-            'view' => '', 'fields' => ['name', 'ports'],
+            'fields' => ['name', 'ports', 'ip', 'ssh_port', 'ssh_user', 'ssh_pass'],
             'model' => '\App\Models\Olt', 'relations' => []],
     ];
     public $tests = [
         [
-            ['name' => 'Olt 2', 'ports' => 'random.randint(1, 32)']
+            ['name' => "olt()", 'ports' => 'olt_ports()', 'ip' => 'create_ip()', 'ssh_port' => 'random.randint(1, 63000)', 'ssh_user' => 'admin', 'ssh_pass' => 'admin']
         ]
     ];
-    public static $name__datas = ['type' => 'text', 'label' => 'Nome'];
+    public $name__datas = ['type' => 'text', 'label' => 'Nome'];
+    public $ports__datas = ['text', 'Portas'];
+    public $ip__datas = ['text', 'IP'];
+    public $ssh_port__datas = ['number', 'Porta SSH'];
+    public $ssh_user__datas = ['text', 'Usu&aacute;rio SSH'];
+    public $ssh_pass__datas = ['text', 'Senhah SSH'];
 }

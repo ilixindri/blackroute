@@ -25,14 +25,14 @@ class Cto extends Model
                         'value' => ['raw' => 'O cliente :client será excluído do sistema. Clique Ok para Deletar?', 'variables' => ['client' => 'name']]]]]],
         ]
     ];
-    public $forms = ['Boleto', 'routes' => [['contracts.store'], ['clients.billets.update']],
+    public $forms = ['Cto',
         ['title' => 'Dados da Cto', 'text' => 'Digite os dados da cto.',
             'view' => '', 'fields' => ['name', 'splitter'],
             'model' => '\App\Models\Cto', 'relations' => ['']],
     ];
     public $tests = [
         [
-            ['name' => 'Cto 2', 'splitter' => 'random.choice([8, 16])']
+            ['name' => "'Cto ' + random.randint(1,100)", 'splitter' => 'random.choice([8, 16])']
         ]
     ];
     public $name__datas = ['type' => 'text', 'label' => 'Nome', 'oninput' => '', 'onblur' => ''];
@@ -43,4 +43,7 @@ class Cto extends Model
         'options' => ['type' => 'range', 'min' => '1',
             'max' => ['model' => '\App\Model\Cto', 'id' => 'cto_id', 'field' => 'splitter']]];
 
+    public function clients() {
+        return $this->hasMany(Client::class);
+    }
 }

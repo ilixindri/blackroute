@@ -14,9 +14,16 @@ Route::post('/endereco/{id}', [Controller::class, 'storeAddress']);
 Route::put('/endereco/{idUser}/{idAddress}', [Controller::class, 'updateAddress']);
 Route::delete('/endereco/{idUser}/{idAddress}', [Controller::class, 'destroyAddress']);
 
-Route::get('/ctos/{cto}', [\App\Http\Controllers\CtoController::class, 'show']);
+Route::get('/ctos/{cto}', [\App\Http\Controllers\Controller::class, 'show']);
 
-foreach (Illuminate\Database\Eloquent\Model::getAll() as $key => $Model) {
-    $route = strtolower($Model) . 's';
-    Route::get("/$route/{var}", [\App\Http\Controllers\Controller::class, 'tests']);
-}
+Route::group(['middleware' => 'throttle:240,1'], function () {
+    foreach (Illuminate\Database\Eloquent\Model::getAll() as $key => $Model) {
+        $aux = strtolower($Model);
+        if (substr($aux, -1, 1) == 's') {
+            $route = $aux . 'es';
+        } else {
+            $route = $aux . 's';
+        }
+        Route::get("/tests/$route/{var}", [\App\Http\Controllers\Controller::class, 'tests']);
+    }
+});
