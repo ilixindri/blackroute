@@ -98,6 +98,56 @@ window.value_onload = function (idv) {
     var e = document.getElementById(idv);
     e.value = e.value.replace('.', ',');
 }
+var selectc = {};
+window.selectf = function (field) {
+    if(selectc.hasOwnProperty(field)) {
+        console.log(-1);
+        var aux = selectc[field];
+    } else {
+        console.log(1);
+        var aux = 0;
+        selectc[field] = 0;
+    }
+    var divv = document.createElement("div");
+    divv.className = "col-span-6 sm:col-span-4";
+    divv.id = 'div' + field + (aux+1)
+    var labelv = document.getElementById('label'+field+'0');
+    labelv = labelv.cloneNode(true);
+    labelv.id = 'label' + field + (aux+1)
+    divv.appendChild(labelv);
+    var selectv = document.getElementById('div'+field+'0');
+    selectv = selectv.cloneNode(true);
+    divv.appendChild(selectv);
+    var button_exclude_select = document.getElementById('button_exclude_select'+field+'0');
+    button_exclude_select = button_exclude_select.cloneNode(true);
+    button_exclude_select.id = 'exclude_select' + field + (aux+1)
+    divv.appendChild(button_exclude_select);
+    var button_add_select = document.getElementById('button_add_select'+field+'0');
+    button_add_select = button_add_select.cloneNode(true);
+    button_add_select.id = 'add_select' + field + (aux+1)
+    divv.appendChild(button_add_select);
+
+    newSelect.id = selectv.id.substring(0, selectv.id.length - 1) + (aux+1);
+    console.log(newSelect.id);
+    var selectl = document.getElementById('div'+field+aux);
+    if (selectl) { console.log('ok'); console.log('div'+field+aux); console.log(selectl); }
+    document.getElementById('add_select'+field+aux).style.display = 'none';
+    selectl.parentNode.insertBefore(newSelect, selectl.nextSibling);
+    selectc[field] += 1;
+    console.log('done')
+}
+window.exclude_selectf = function (fieldKey) {
+    var lastTwoChar = fieldKey.substr(fieldKey.length - 2);
+    if (isNaN(lastTwoChar)) {
+        var lastChar = fieldKey.substr(fieldKey.length - 1);
+    }
+    if (lastChar == 0) {
+        document.getElementById('div'+fieldKey).value = "None";
+    } else {
+        var div_select = document.getElementById('div'+fieldKey)
+        div_select.parentNode.removeChild(div_select);
+    }
+}
 /* create one observer to change page when change url ancor */
 // para ao usar o botao de voltar selecionar o campo do form correto
 var observer = new MutationObserver(function(mutations) {

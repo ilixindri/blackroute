@@ -32,6 +32,7 @@
                                             document.getElementById('title{{$key2}}').style.backgroundColor = 'transparent';
                                         @endif
                                     @endforeach
+                                    @php unset($key2); unset($form); @endphp
                                     if (window.location.hash.substring(0, 1) == '#') {
                                         window.location.hash = '';
                                         window.location.href += '{{$key}}';

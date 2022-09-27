@@ -84,8 +84,8 @@ class Client extends Model
             'max' => ['model' => '\App\Models\Cto', 'id' => 'cto_id', 'field' => 'splitter']]];
     public $cto_id__datas = ['type' => 'select', 'label' => 'Cto', 'oninput' => '', 'onblur' => '', 'onchange' => 'ctof(this)',
         'options' => ['model' => '\App\Models\Cto', 'text' => ['name']]];
-    public $contract_id__datas = ['type' => 'select', 'label' => 'Contrato', 'multiple', 'oninput' => '', 'onblur' => '', 'onchange' => '',
-        'options' => ['model' => '\App\Models\Contract', 'text' => ['name'], 'value' => ['agreements', 'contract']]];
+    public $contract_id__datas = ['type' => 'select', 'label' => 'Contrato', 'multiple' => 'Agreement', 'oninput' => '', 'onblur' => '', 'onchange' => '',
+        'options' => ['model' => '\App\Models\Contract', 'text' => ['name'], 'value' => ['contract']]];
     public $banking_id__datas = ['type' => 'select', 'label' => 'Gateway de Pagamento', 'onchange' => '',
         'options' => ['model' => '\App\Models\Banking', 'text' => ['name']], 'oninput' => '', 'onblur' => ''];
     public $plan_id__datas = ['type' => 'select', 'label' => 'Plano', 'oninput' => '', 'onblur' => '', 'onchange' => '',
