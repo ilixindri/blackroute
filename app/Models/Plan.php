@@ -31,20 +31,20 @@ class Plan extends Model
     ];
     public $forms = ['Gateway de Pagamento',
         ['title' => 'Dados do GerenciaNet', 'text' => 'Digite os dados da sua api do Gerencia Net.',
-            'fields' => ['name', 'value', 'until_days', 'discount_value'],
+            'fields' => ['name', 'value', 'until_days', 'conditional_discount_value'],
             'model' => '\App\Models\Plan', 'relations' => []],
     ];
     public $tests = [
         [
-            ['name' => '"Plan 1GB" + random_jewelry()', 'value' => 'random.randint(99, 120)', 'until_days' => '5', 'discount_value' => '10,00']
+            ['name' => '"Plan 1GB" + random_jewelry()', 'value' => 'random.randint(99, 120)', 'until_days' => '5', 'conditional_discount_value' => '10,00']
         ]
     ];
 
     public $name__datas = ['type' => 'text', 'label' => 'Nome'];
     public $value__datas = ['type' => 'number', 'label' => 'Valor'];
     public $until_days__datas = ['type' => 'number', 'label' => 'Dias Antes Para Desconto Para Pagamento Antecipado'];
-    public $discount_type__datas = ['type' => 'number', 'label' => 'Tipo de Desconto'];
-    public $discount_value__datas = ['type' => 'number', 'label' => 'Valor do Desconto'];
+    public $conditional_discount_type__datas = ['type' => 'number', 'label' => 'Tipo de Desconto'];
+    public $conditional_discount_value__datas = ['type' => 'number', 'label' => 'Valor do Desconto'];
 
     public function delete() {
         $this->disabled = True;

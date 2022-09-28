@@ -98,6 +98,75 @@ window.value_onload = function (idv) {
     var e = document.getElementById(idv);
     e.value = e.value.replace('.', ',');
 }
+var selects = {};
+window.selectf = function (field) {
+    var idv = '';
+    if(selects.hasOwnProperty(field)) {
+        var aux = Math.max.apply(Math, selects[field]);
+    } else {
+        var aux = 0;
+        selects[field] = [0];
+    }
+    var divv = document.createElement("div");
+    divv.className = "col-span-6 sm:col-span-4";
+    divv.id = 'div' + field + (aux+1)
+
+    idv = 'label'+field+aux;
+    var e = document.getElementById(idv);
+    e = e.cloneNode(false);
+    e.id = 'label' + field + (aux+1)
+    divv.appendChild(e);
+
+    idv = field;
+    var e = document.getElementById(idv);
+    e = e.cloneNode(true);
+    divv.appendChild(e);
+
+    idv = 'exclude_select'+field+aux;
+    var e = document.getElementById(idv);
+    e = e.cloneNode(true);
+    e.onclick = function() {
+        exclude_selectf(field, (aux+1));
+    };
+    e.id = 'exclude_select' + field + (aux+1)
+    e.className = "ml-1 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-3 rounded";
+    divv.appendChild(e);
+
+    idv = 'add_select'+field+aux;
+    var e = document.getElementById(idv);
+    e = e.cloneNode(true);
+    e.id = 'add_select' + field + (aux+1)
+    e.className = "ml-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded";
+    divv.appendChild(e);
+
+    var last_select_div = document.getElementById('div'+field+aux);
+    document.getElementById('add_select'+field+aux).style.display = 'none';
+    last_select_div.parentNode.insertBefore(divv, last_select_div.nextSibling);
+    selects[field].push(aux+1);
+}
+window.exclude_selectf = function (field, key) {
+    if(selects.hasOwnProperty(field)) {
+        var aux = selects[field].length;
+        var maxv = selects[field].sort()[selects[field].length - 1];
+        if (maxv == key) {
+            maxv = selects[field][selects[field].length - 2]
+        }
+    } else {
+        var aux = 1;
+    }
+    if (aux == 1) {
+        document.getElementById('div'+field + key).value = "None";
+    } else {
+        document.getElementById('add_select'+field+maxv).style.display = '';
+
+        var div_select = document.getElementById('div'+field + key)
+        div_select.parentNode.removeChild(div_select);
+        var index = selects[field].indexOf(key);
+        if (index > -1) {
+            selects[field].splice(index, 1);
+        }
+    }
+}
 /* create one observer to change page when change url ancor */
 // para ao usar o botao de voltar selecionar o campo do form correto
 var observer = new MutationObserver(function(mutations) {

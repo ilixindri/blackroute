@@ -32,6 +32,7 @@
                                             document.getElementById('title{{$key2}}').style.backgroundColor = 'transparent';
                                         @endif
                                     @endforeach
+                                    @php unset($key2); unset($form); @endphp
                                     if (window.location.hash.substring(0, 1) == '#') {
                                         window.location.hash = '';
                                         window.location.href += '{{$key}}';
@@ -73,11 +74,11 @@
                         <div id="form{{$key}}" style="display: none" class="mt-5 md:mt-0 md:col-span-2">
 {{--                            @include("clients." . $form['view'])--}}
                             @include('form-section')
-                            <div class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6 shadow sm:rounded-bl-md sm:rounded-br-md">
-                                <input id="submit" name="submit" value="{{ __('Salvar') }}" type="submit" class='inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition'>
-                            </div>
                         </div>
                     @endforeach
+                    <div class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6 shadow sm:rounded-bl-md sm:rounded-br-md">
+                        <input id="submit" name="submit" value="{{ __('Salvar') }}" type="submit" class='inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition'>
+                    </div>
                 </form>
                 <script>
                     document.getElementById('form0').style.display = 'block';

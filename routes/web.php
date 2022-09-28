@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
         'clients.carnets' => \App\Http\Controllers\Controller::class,
         'clients.carnets.billets' => \App\Http\Controllers\Controller::class,
         'clients.billets' => \App\Http\Controllers\Controller::class,
+//        'address' => \App\Http\Controllers\Controller::class,
         'tasks' => \App\Http\Controllers\Controller::class,
         'users' => \App\Http\Controllers\Controller::class,
         'bankings' => \App\Http\Controllers\Controller::class,
