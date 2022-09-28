@@ -11,8 +11,6 @@ def login_screen(a9, wait):
     element = WebDriverWait(a9, wait).until(EC.presence_of_element_located((By.ID, "password")))
     element.send_keys("123")
     element.send_keys(Keys.RETURN)
-    element = WebDriverWait(a9, wait).until(EC.presence_of_element_located((By.ID, "submit")))
-    element.click()
 def get_files_paths(folder):
     """
     return a list of completes paths of files of a folder with subfolders
@@ -56,7 +54,15 @@ def create_ip():
     ip_list = []
     for i in range(0, 10):
         ip_list.append(str(random.randint(0, 255)) + "." + str(random.randint(0, 255)) + "." + str(random.randint(0, 255)) + "." + str(random.randint(0, 255)))
-    return ip_list
+    return random.choice(ip_list)
 def random_jewelry():
     jewelry = ['diamante', 'esmeralda', 'rubi', 'safira', 'topázio', 'opala', 'pérola', 'ametista', 'água-marinha', 'citrino', 'granada', 'jade', 'ônix ', 'peridoto', 'turquesa', 'zircão']
     return random.choice(jewelry)
+def e(f, i):
+    try:
+        return f()
+    except:
+        input(f'Error on {i}...')
+def contract(): return 'Contrato ' + str(random.randint(1,100))
+def olt(): return 'Olt ' + str(random.randint(1,100))
+def olt_ports(): return random.randint(1, 32)
