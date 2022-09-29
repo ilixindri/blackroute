@@ -15,5 +15,5 @@ php artisan make:model Agreement
 php artisan make:migration create_agreement_table
 ```
 ### Develop
- - Install Docker to Qodana
+ - Install Docker Engine to Qodana
  - Install Qodana (JetBrains)
