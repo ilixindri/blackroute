@@ -8,6 +8,7 @@ php artisan migrate:refresh --seed
 php artisan clear-compiled && composer dump-autoload && php artisan optimize
 npm run watch
 npm install && npm run dev
+qodana scan -l jetbrains/qodana-php:2022.2-eap --show-report
 ```
 ### Others
 ```
