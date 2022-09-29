@@ -1,3 +1,5 @@
+import traceback
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -62,6 +64,7 @@ def e(f, i):
     try:
         return f()
     except:
+        traceback.print_exc()
         input(f'Error on {i}...')
 def contract(): return 'Contrato ' + str(random.randint(1,100))
 def olt(): return 'Olt ' + str(random.randint(1,100))
