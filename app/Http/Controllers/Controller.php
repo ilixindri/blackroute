@@ -121,7 +121,15 @@ class Controller extends BaseController
         elseif ($this->route == 'clients') {
             $this->object = $this->Model::create($request->request->all());
             $request->request->set('client_id', $this->object->id);
-            Agreement::create($request->request->all());
+            if(is_array($request->request->all()['contract_id'])) {
+                $contract_ids = $request->request->all()['contract_id'];
+                foreach ($contract_ids as $key => $contract_id) {
+                    $request->request->set('contract_id', $contract_id);
+                    Agreement::create($request->request->all());
+                }
+            } else {
+                Agreement::create($request->request->all());
+            }
         }
         else { $this->object = $this->Model::create($request->request->all()); }
         return redirect()->route($this->route.".edit", [substr($this->route, 0, -1) => $this->object->id])->with('objects', $this->objects)

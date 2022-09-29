@@ -61,6 +61,17 @@ class Client extends Model
             ['cto_id' => '1', 'splitter' => '2'],
             ['banking_id' => '1', 'expire_at' => '1', 'until_days' => '45', 'contract_id' => '1'],
         ],
+        [
+            ['name' => 'name_generator()', 'email' => 'alexandrogonsan@outlook.com', 'rg' => 'random.randint(10000000, 99999999)',
+                'cpf' => 'random.randint(1000000000, 9999999999)', 'birth_date' => 'generate_birth_date()', 'phone' => 'random.randint(10000000000, 99999999999)',
+                'whatsapp' => 'random.randint(10000000000, 99999999999)', 'sex' => 'random.choice([\'male\', \'female\'])'],
+            ['type' => 'random.choice([\'business\', \'residential\'])', 'zip' => '69312214',
+                'logradouro' => 'None', 'number' => 'random.randint(1, 2000)', 'complemento' => 'None', 'bairro' => 'None', 'state' => 'None', 'coordinates' => '-1,-1'],
+            ['mode' => 'random.choice([\'pppoe\', \'ipoe\'])', 'user' => 'name.lower()', 'password' => '123', 'mac' => 'create_mac()',
+                'ip' => 'create_ip()', 'plan_id' => '1'],
+            ['cto_id' => '1', 'splitter' => '2'],
+            ['banking_id' => '1', 'expire_at' => '1', 'until_days' => '45', 'contract_id' => ['1','2']],
+        ],
     ];
     public $id__datas = ['type' => 'number', 'label' => 'Id', 'oninput' => '', 'onblur' => '', 'onchange' => '', 'min' => '', 'max' => ''];
     public $name__datas = ['type' => 'text', 'label' => 'Nome', 'oninput' => '', 'onblur' => 'namef(this)', 'onchange' => '', 'min' => '', 'max' => ''];

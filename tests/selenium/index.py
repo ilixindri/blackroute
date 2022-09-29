@@ -87,7 +87,7 @@ with webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()), opti
                                     if r == False: return m(i, menus)
                                     if i != len(value_received):
                                         elemen = e(
-                                            lambda: WebDriverWait(a9, wait).until(getattr(EC, flexion)((By.ID, field))),
+                                            lambda: WebDriverWait(a9, wait).until(EC.presence_of_element_located((By.ID, field))),
                                             field)
 
                             else:
