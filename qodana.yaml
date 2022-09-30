@@ -4,3 +4,9 @@ profile:
 include:
   - name: CheckDependencyLicenses
 failThreshold: 0
+exclude:
+  - name: All
+    paths:
+      - app/Http/Controllers/Banking
+      - app/Http/Controllers/Client
+      - app/Http/Controllers/Test
