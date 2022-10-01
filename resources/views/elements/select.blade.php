@@ -5,6 +5,11 @@
 <div id="{{'div' . $idv}}" class="col-span-6 sm:col-span-4">
     @php try { $onchange = $Model2->{$field.'__datas'}['onchange']; } catch (exception $e) { $onchange = ''; } @endphp
     <x-jet-label id="{{'label' . $idv}}" for="{{ $field }}" value="{{ __($Model2->{$field.'__datas'}['label']) }}"/>
+    <a onclick="exclude_selectf('{{$field}}', '{{$idv}}')" id="exclude_select{{$idv}}" style="cursor: pointer" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+        <i class="fa-regular fa-square-minus fa-lg pt-2 px-1" style="cursor: pointer"
+           title="Adicionar novo campo."></i>
+    </a>
+@isset($field__datas['multiple'])
     <select required id="{{ $field }}" name="{{ $field }}" onchange="{{ $onchange }}" style="@isset($field__datas['multiple']) width: 74%; @endisset"
             class='@isset($field__datas['multiple'])  @else w-full @endisset border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm'>
         <option value="None"></option>
@@ -105,11 +110,6 @@
             @endif
         @endforeach
     </select>
-    @isset($field__datas['multiple'])
-        <a onclick="exclude_selectf('{{$field}}', '{{$idv}}')" id="exclude_select{{$idv}}" style="cursor: pointer" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-            <i class="fa-regular fa-square-minus fa-lg pt-2 px-1" style="cursor: pointer"
-                title="Adicionar novo campo."></i>
-        </a>
         @isset($object)
 {{--            @if($key2 != 0)--}}
 {{--            @endif--}}
