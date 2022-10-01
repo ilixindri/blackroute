@@ -27,7 +27,7 @@ class Cto extends Model
     ];
     public $forms = ['Cto',
         ['title' => 'Dados da Cto', 'text' => 'Digite os dados da cto.',
-            'view' => '', 'fields' => ['name', 'splitter'],
+            'fields' => ['name', 'splitter'],
             'model' => '\App\Models\Cto', 'relations' => ['']],
     ];
     public $tests = [
