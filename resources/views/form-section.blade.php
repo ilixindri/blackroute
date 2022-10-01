@@ -7,7 +7,6 @@
     <div class="grid grid-cols-6 gap-6">
         @php $displayable = []; @endphp
         @foreach($form['fields'] as $field)
-
             {{-- O ERRO OCORRE NESSE BLOCO DE CODIGO DO FOREACH SE TU TIRAR ESTE BLOCO O CODIGO PARA ? VEJA VOU MOSTRAR --}}
         {{--  PRIMEIRO VOU TIRAR SO O INCLUDE E DEPOIS EXCLUIR O BLOCO, EU TAMBEM JA TENTEI EXCLUIR TRECHOS DO BLOCO SO QUE NAO RESOLVE MAS NAO FOI EXTENSIVO  --}}
         {{-- PERCEBEU? SIM. --}}
@@ -22,11 +21,32 @@
             @isset($field__datas['type']){{-- pode testar 'type' tem em todos--}}
                     @isset($object)
                         @php Log::debug('line 37 in form-section') @endphp
-                        @include('elements.input_element') // aqui
+                        @include('elements.input_element')
                     @endisset
             @endisset
         {{-- Como quando comentou o input e o select a pagina voltou a funcionar --}}
         {{-- eu nao tinha feito esse teste entao provavelmente o erro esta nos arquivos input_element.blade.php e select.blade.php --}}
+
+
+
+
+
+
+
+
+
+        {{-- ENCONTREI UM DEBUG, TEM O OUTRO ARQUIVO AINDA PARA TESTAR, VAMOS TENTAR CONFIGURAR.....???!!!!!
+
+
+        --}}
+
+
+
+
+
+
+
+
 
 
             @php } else if ($Model2->{$field.'__datas'}["type"] == "select") { @endphp
