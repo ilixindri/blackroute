@@ -26,7 +26,6 @@ class ClientsTableSeeder extends Seeder
                 'plan_id' => 1,
                 'expire_at' => 1,
                 'until_days' => 45,
-                'contract_id' => 1,
                 'splitter' => 1,
                 'cto_id' => 1,
                 'mode' => 'ipoe',

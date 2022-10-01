@@ -29,7 +29,6 @@ class CreateClientsTable extends Migration
             $table->foreignId('cto_id')->on('cto');
             $table->foreignId('banking_id')->on('banking');
             $table->foreignId('plan_id')->on('plan');
-            $table->foreignId('contract_id')->on('contract');
             $table->unsignedTinyInteger('expire_at')->comment('dia de vencimento');
             $table->unsignedSmallInteger('until_days')->comment('dias para bloqueio apos vencimento');
             $table->enum('mode', ['ipoe', 'pppoe']);
