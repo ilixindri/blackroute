@@ -72,7 +72,7 @@
                     @foreach($forms as $key => $form)
                         @php $Model2 = new $form['model'](); @endphp
                         <div id="form{{$key}}" style="display: none" class="mt-5 md:mt-0 md:col-span-2">
-                            @include('form-section')
+                           @include('form-section')
                         </div>
                     @endforeach
                     <div class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6 shadow sm:rounded-bl-md sm:rounded-br-md">
