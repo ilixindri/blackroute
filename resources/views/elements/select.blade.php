@@ -5,11 +5,6 @@
 <div id="{{'div' . $idv}}" class="col-span-6 sm:col-span-4">
     @php try { $onchange = $Model2->{$field.'__datas'}['onchange']; } catch (exception $e) { $onchange = ''; } @endphp
     <x-jet-label id="{{'label' . $idv}}" for="{{ $field }}" value="{{ __($Model2->{$field.'__datas'}['label']) }}"/>
-    <a onclick="exclude_selectf('{{$field}}', '{{$idv}}')" id="exclude_select{{$idv}}" style="cursor: pointer" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-        <i class="fa-regular fa-square-minus fa-lg pt-2 px-1" style="cursor: pointer"
-           title="Adicionar novo campo."></i>
-    </a>
-@isset($field__datas['multiple'])
     <select required id="{{ $field }}" name="{{ $field }}" onchange="{{ $onchange }}" style="@isset($field__datas['multiple']) width: 74%; @endisset"
             class='@isset($field__datas['multiple'])  @else w-full @endisset border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm'>
         <option value="None"></option>
@@ -86,10 +81,10 @@
                                 @endforeach
                                 @isset($field__datas['multiple'])
                                     <option @isset($object) @if($line->id == $aux->id) selected
-                                        @endif @endisset value="{{ $line->id }}">{{ $text }}</option>
+                                            @endif @endisset value="{{ $line->id }}">{{ $text }}</option>
                                 @else
                                     <option @isset($object) @if($line->id == $object->$field) selected
-                                        @endif @endisset value="{{ $line->id }}">{{ $text }}</option>
+                                            @endif @endisset value="{{ $line->id }}">{{ $text }}</option>
                                 @endisset
                             @else
                                 @php $text = $Model2->{$field.'__datas'}['options']['text']; @endphp
@@ -110,14 +105,19 @@
             @endif
         @endforeach
     </select>
+    @isset($field__datas['multiple'])
+        <a onclick="exclude_selectf('{{$field}}', '{{$idv}}')" id="exclude_select{{$idv}}" style="cursor: pointer" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            <i class="fa-regular fa-square-minus fa-lg pt-2 px-1" style="cursor: pointer"
+               title="Adicionar novo campo."></i>
+        </a>
         @isset($object)
-{{--            @if($key2 != 0)--}}
-{{--            @endif--}}
+            {{--            @if($key2 != 0)--}}
+            {{--            @endif--}}
             @if($selects->count() != 0)
                 @if($selects->count()-1 == $key2)
                     <a onclick="selectf('{{$field}}')" id="add_select{{$idv}}" style="cursor: pointer" class="ml-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         <i class="fa-regular fa-plus fa-lg pt-2 px-1"
-                            title="Adicionar novo campo."></i>
+                           title="Adicionar novo campo."></i>
                     </a>
                 @endif
             @else
@@ -131,7 +131,7 @@
                 <i class="fa-regular fa-plus fa-lg pt-2 px-1"
                    title="Adicionar novo campo."></i>
             </a>
-       @endisset
+        @endisset
     @endisset
     <x-jet-input-error for="{{ $field }}" class="mt-2"/>
 </div>
