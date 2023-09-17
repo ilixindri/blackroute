@@ -1,5 +1,7 @@
 # blackroute
 Internet Provider System
+## Business
+Projeto arquivado pois não tem como concorrer com o MK-Auth com preços tão baixos e ambições tão altas.
 ## Codes
 ### Principais
 ```
